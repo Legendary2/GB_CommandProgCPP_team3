@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug> //
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,79 +18,57 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::createAction(QAction** action, const QString& actionTitle,
+                    const QString& statusTitle, void (MainWindow::*funcSlot)())
+{
+   *action = new QAction(actionTitle, this);
+
+   (*action)->setStatusTip(statusTitle);
+
+   connect(*action, &QAction::triggered, this, funcSlot);
+}
+
 void MainWindow::createActions()
 {
     // 'File'
-
-    openAction = new QAction(tr("Open"), this);
-    openAction->setStatusTip(tr("Open a file"));
-    connect(openAction, &QAction::triggered, this, &MainWindow::onOpen);
-
-    closeAction = new QAction(tr("Close"), this);
-    closeAction->setStatusTip(tr("Close a file"));
-    connect(closeAction, &QAction::triggered, this, &MainWindow::onClose);
-
-    saveAction = new QAction(tr("Save"), this);
-    saveAction->setStatusTip(tr("Save a file"));
-    connect(saveAction, &QAction::triggered, this, &MainWindow::onSave);
-
-    saveAsAction = new QAction(tr("Save as"), this);
-    saveAsAction->setStatusTip(tr("Save file as"));
-    connect(saveAsAction, &QAction::triggered, this, &MainWindow::onSaveAs);
-
-    printAction = new QAction(tr("Print"), this);
-    printAction->setStatusTip(tr("Print a file"));
-    connect(printAction, &QAction::triggered, this, &MainWindow::onPrint);
-
-    exitAction = new QAction(tr("Exit"), this);
-    exitAction->setStatusTip(tr("Exit application"));
-    connect(exitAction, &QAction::triggered, this, &MainWindow::onExit);
+    createAction(&openAction, QString(tr("Open")),
+        QString(tr("Open a file")), &MainWindow::onOpen);
+    createAction(&closeAction, QString(tr("Close")),
+        QString(tr("Close a file")), &MainWindow::onClose);
+    createAction(&saveAction, QString(tr("Save")),
+        QString(tr("Save a file")), &MainWindow::onSave);
+    createAction(&saveAsAction, QString(tr("Save as")),
+        QString(tr("Save file as")), &MainWindow::onSaveAs);
+    createAction(&printAction, QString(tr("Print")),
+        QString(tr("Print a file")), &MainWindow::onPrint);
+    createAction(&exitAction, QString(tr("Exit")),
+        QString(tr("Exit application")), &MainWindow::onExit);
 
     // 'Edit'
-
-    copyTextFormatAction = new QAction(tr("Copy text format"), this);
-    copyTextFormatAction->setStatusTip(tr("Copy text format"));
-    connect(copyTextFormatAction, &QAction::triggered, this, &MainWindow::onCopyTextFormat);
-
-    applyTextFormatAction = new QAction(tr("Apply text format"), this);
-    applyTextFormatAction->setStatusTip(tr("Apply text format"));
-    connect(applyTextFormatAction, &QAction::triggered, this, &MainWindow::onApplyTextFormat);
-
-    alignTextRightAction = new QAction(tr("Align text right"), this);
-    alignTextRightAction->setStatusTip(tr("Align text right"));
-    connect(alignTextRightAction, &QAction::triggered, this, &MainWindow::onAlignTextRight);
-
-    alignTextLeftAction = new QAction(tr("Align text left"), this);
-    alignTextLeftAction->setStatusTip(tr("Align text left"));
-    connect(alignTextLeftAction, &QAction::triggered, this, &MainWindow::onAlignTextLeft);
-
-    switchFontAction = new QAction(tr("Switch font"), this);
-    switchFontAction->setStatusTip(tr("Swith font to other"));
-    connect(switchFontAction, &QAction::triggered, this, &MainWindow::onSwitchFont);
+    createAction(&copyTextFormatAction, QString(tr("Copy text format")),
+        QString(tr("Copy text format")), &MainWindow::onCopyTextFormat);
+    createAction(&applyTextFormatAction, QString(tr("Apply text format")),
+        QString(tr("Apply text format")), &MainWindow::onApplyTextFormat);
+    createAction(&alignTextRightAction, QString(tr("Align text right")),
+        QString(tr("Align text right")), &MainWindow::onAlignTextRight);
+    createAction(&alignTextLeftAction, QString(tr("Align text left")),
+        QString(tr("Align text left")), &MainWindow::onAlignTextLeft);
+    createAction(&switchFontAction, QString(tr("Switch font")),
+        QString(tr("Switch font to other")), &MainWindow::onSwitchFont);
 
     // 'Settings'
-
-    changeLangAction = new QAction(tr("Language"), this);
-    changeLangAction->setStatusTip(tr("Change application language"));
-    connect(changeLangAction, &QAction::triggered, this, &MainWindow::onChangeLang);
-
-    changeKeyBindAction = new QAction(tr("Key bindings"), this);
-    changeKeyBindAction->setStatusTip(tr("Edit key bindings settings"));
-    connect(changeKeyBindAction, &QAction::triggered, this, &MainWindow::onChangeKeyBind);
-
-    changeStyleAction = new QAction(tr("Change style"), this);
-    changeStyleAction->setStatusTip(tr("Change application style"));
-    connect(changeStyleAction, &QAction::triggered, this, &MainWindow::onChangeStyle);
+    createAction(&changeLangAction, QString(tr("Language")),
+        QString(tr("Change application language")), &MainWindow::onChangeLang);
+    createAction(&changeKeyBindAction, QString(tr("Key bindings")),
+        QString(tr("Edit key bindings settings")), &MainWindow::onChangeKeyBind);
+    createAction(&changeStyleAction, QString(tr("Change style")),
+        QString(tr("Change application style")), &MainWindow::onChangeStyle);
 
     // '?'
-
-    helpAction = new QAction(tr("Help"), this);
-    helpAction->setStatusTip(tr("Show application manual"));
-    connect(helpAction, &QAction::triggered, this, &MainWindow::onHelp);
-
-    aboutAction = new QAction(tr("About"), this);
-    aboutAction->setStatusTip(tr("Short info about application"));
-    connect(aboutAction, &QAction::triggered, this, &MainWindow::onAbout);
+    createAction(&helpAction, QString(tr("Help")),
+        QString(tr("Show application manual")), &MainWindow::onHelp);
+    createAction(&aboutAction, QString(tr("About")),
+        QString(tr("Short info about application")), &MainWindow::onAbout);
 }
 
 void MainWindow::createMenus()
@@ -129,7 +108,6 @@ void MainWindow::createMenus()
     questionMenu->addAction(helpAction);
     questionMenu->addSeparator();
     questionMenu->addAction(aboutAction);
-
 }
 
 void MainWindow::onOpen()

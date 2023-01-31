@@ -29,6 +29,8 @@ private:
     QMenu *questionMenu;
 
     //Вспомогательные методы для читабельности конструктора
+    void createAction(QAction**, const QString&,
+        const QString&, void (MainWindow::*)());
     void createActions();
     void createMenus();
 
