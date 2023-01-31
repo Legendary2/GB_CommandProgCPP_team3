@@ -31,44 +31,44 @@ void MainWindow::createAction(QAction** action, const QString& actionTitle,
 void MainWindow::createActions()
 {
     // 'File'
-    createAction(&openAction, QString(tr("Open")),
-        QString(tr("Open a file")), &MainWindow::onOpen);
-    createAction(&closeAction, QString(tr("Close")),
-        QString(tr("Close a file")), &MainWindow::onClose);
-    createAction(&saveAction, QString(tr("Save")),
-        QString(tr("Save a file")), &MainWindow::onSave);
-    createAction(&saveAsAction, QString(tr("Save as")),
-        QString(tr("Save file as")), &MainWindow::onSaveAs);
-    createAction(&printAction, QString(tr("Print")),
-        QString(tr("Print a file")), &MainWindow::onPrint);
-    createAction(&exitAction, QString(tr("Exit")),
-        QString(tr("Exit application")), &MainWindow::onExit);
+    createAction(&openAction, tr("Open"),
+        tr("Open a file"), &MainWindow::onOpen);
+    createAction(&closeAction, tr("Close"),
+        tr("Close a file"), &MainWindow::onClose);
+    createAction(&saveAction, tr("Save"),
+        tr("Save a file"), &MainWindow::onSave);
+    createAction(&saveAsAction, tr("Save as"),
+        tr("Save file as"), &MainWindow::onSaveAs);
+    createAction(&printAction, tr("Print"),
+        tr("Print a file"), &MainWindow::onPrint);
+    createAction(&exitAction, tr("Exit"),
+        tr("Exit application"), &MainWindow::onExit);
 
     // 'Edit'
-    createAction(&copyTextFormatAction, QString(tr("Copy text format")),
-        QString(tr("Copy text format")), &MainWindow::onCopyTextFormat);
-    createAction(&applyTextFormatAction, QString(tr("Apply text format")),
-        QString(tr("Apply text format")), &MainWindow::onApplyTextFormat);
-    createAction(&alignTextRightAction, QString(tr("Align text right")),
-        QString(tr("Align text right")), &MainWindow::onAlignTextRight);
-    createAction(&alignTextLeftAction, QString(tr("Align text left")),
-        QString(tr("Align text left")), &MainWindow::onAlignTextLeft);
-    createAction(&switchFontAction, QString(tr("Switch font")),
-        QString(tr("Switch font to other")), &MainWindow::onSwitchFont);
+    createAction(&copyTextFormatAction, tr("Copy text format"),
+        tr("Copy text format"), &MainWindow::onCopyTextFormat);
+    createAction(&applyTextFormatAction, tr("Apply text format"),
+        tr("Apply text format"), &MainWindow::onApplyTextFormat);
+    createAction(&alignTextRightAction, tr("Align text right"),
+        tr("Align text right"), &MainWindow::onAlignTextRight);
+    createAction(&alignTextLeftAction, tr("Align text left"),
+        tr("Align text left"), &MainWindow::onAlignTextLeft);
+    createAction(&switchFontAction, tr("Switch font"),
+        tr("Switch font to other"), &MainWindow::onSwitchFont);
 
     // 'Settings'
-    createAction(&changeLangAction, QString(tr("Language")),
-        QString(tr("Change application language")), &MainWindow::onChangeLang);
-    createAction(&changeKeyBindAction, QString(tr("Key bindings")),
-        QString(tr("Edit key bindings settings")), &MainWindow::onChangeKeyBind);
-    createAction(&changeStyleAction, QString(tr("Change style")),
-        QString(tr("Change application style")), &MainWindow::onChangeStyle);
+    createAction(&changeLangAction, tr("Language"),
+        tr("Change application language"), &MainWindow::onChangeLang);
+    createAction(&changeKeyBindAction, tr("Key bindings"),
+        tr("Edit key bindings settings"), &MainWindow::onChangeKeyBind);
+    createAction(&changeStyleAction, tr("Change style"),
+        tr("Change application style"), &MainWindow::onChangeStyle);
 
     // '?'
-    createAction(&helpAction, QString(tr("Help")),
-        QString(tr("Show application manual")), &MainWindow::onHelp);
-    createAction(&aboutAction, QString(tr("About")),
-        QString(tr("Short info about application")), &MainWindow::onAbout);
+    createAction(&helpAction, tr("Help"),
+        tr("Show application manual"), &MainWindow::onHelp);
+    createAction(&aboutAction, tr("About"),
+        tr("Short info about application"), &MainWindow::onAbout);
 }
 
 void MainWindow::createMenus()
