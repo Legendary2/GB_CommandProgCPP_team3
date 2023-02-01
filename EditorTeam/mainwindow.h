@@ -36,6 +36,7 @@ private:
     void createMenus();
 
     //Элементы подменю 'File'
+    QAction *newAction;
     QAction *openAction;
     QAction *closeAction;
     QAction *saveAction;
@@ -65,6 +66,7 @@ private:
 
 private slots:
     //Основные функции приложения
+    void onNew();
     void onOpen();
     void onClose();
     void onSave();
