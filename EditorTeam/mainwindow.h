@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFile>
+#include <QTextEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -47,6 +48,7 @@ private:
     QAction *applyTextFormatAction;
     QAction *alignTextRightAction;
     QAction *alignTextLeftAction;
+    QAction *alignTextCenterAction;
     QAction *switchFontAction;
 
     //Элементы подменю 'Settings'
@@ -57,6 +59,9 @@ private:
     //Элементы подменю '?'
     QAction *helpAction;
     QAction *aboutAction;
+
+    //Поле для размещения редактируемого текста
+    QTextEdit *textEdit;
 
 private slots:
     //Основные функции приложения
@@ -70,6 +75,7 @@ private slots:
     void onApplyTextFormat();
     void onAlignTextRight();
     void onAlignTextLeft();
+    void onAlignTextCenter();
     void onSwitchFont();
     void onChangeLang();
     void onChangeKeyBind();

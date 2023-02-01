@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug> //
+#include <QBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,6 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
     // Заполнение главного меню
     createActions();
     createMenus();
+
+    //Добавление поля для размещения редактируемого текста
+    QBoxLayout * boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+    textEdit = new QTextEdit(this);
+    boxLayout->addWidget(textEdit, 0);
+    ui->centralwidget->setLayout(boxLayout);
 }
 
 MainWindow::~MainWindow()
@@ -19,7 +25,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::createAction(QAction** action, const QString& actionTitle,
-                    const QString& statusTitle, void (MainWindow::*funcSlot)())
+    const QString& statusTitle, void (MainWindow::*funcSlot)())
 {
    *action = new QAction(actionTitle, this);
 
@@ -53,6 +59,8 @@ void MainWindow::createActions()
         tr("Align text right"), &MainWindow::onAlignTextRight);
     createAction(&alignTextLeftAction, tr("Align text left"),
         tr("Align text left"), &MainWindow::onAlignTextLeft);
+    createAction(&alignTextCenterAction, tr("Align text center"),
+        tr("Align text center"), &MainWindow::onAlignTextCenter);
     createAction(&switchFontAction, tr("Switch font"),
         tr("Switch font to other"), &MainWindow::onSwitchFont);
 
@@ -92,6 +100,7 @@ void MainWindow::createMenus()
     editMenu->addSeparator();
     editMenu->addAction(alignTextRightAction);
     editMenu->addAction(alignTextLeftAction);
+    editMenu->addAction(alignTextCenterAction);
     editMenu->addSeparator();
     editMenu->addAction(switchFontAction);
 
@@ -137,7 +146,7 @@ void MainWindow::onPrint()
 
 void MainWindow::onExit()
 {
-
+    QApplication::exit(0);
 }
 
 void MainWindow::onCopyTextFormat()
@@ -156,6 +165,11 @@ void MainWindow::onAlignTextRight()
 }
 
 void MainWindow::onAlignTextLeft()
+{
+
+}
+
+void MainWindow::onAlignTextCenter()
 {
 
 }
