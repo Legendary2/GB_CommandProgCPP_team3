@@ -37,6 +37,8 @@ void MainWindow::createAction(QAction** action, const QString& actionTitle,
 void MainWindow::createActions()
 {
     // 'File'
+    createAction(&newAction, tr("New"),
+        tr("Create new file"), &MainWindow::onNew);
     createAction(&openAction, tr("Open"),
         tr("Open a file"), &MainWindow::onOpen);
     createAction(&closeAction, tr("Close"),
@@ -83,6 +85,7 @@ void MainWindow::createMenus()
 {
     // 'File'
     fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(closeAction);
     fileMenu->addSeparator();
@@ -117,6 +120,11 @@ void MainWindow::createMenus()
     questionMenu->addAction(helpAction);
     questionMenu->addSeparator();
     questionMenu->addAction(aboutAction);
+}
+
+void MainWindow::onNew()
+{
+
 }
 
 void MainWindow::onOpen()
