@@ -1,10 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
+#include <QFileDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    file( new QFile),
+    isModified(false)
 {
     ui->setupUi(this);
 
@@ -17,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     textEdit = new QTextEdit(this);
     boxLayout->addWidget(textEdit, 0);
     ui->centralwidget->setLayout(boxLayout);
+
+    connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 }
 
 MainWindow::~MainWindow()
@@ -88,8 +94,10 @@ void MainWindow::createMenus()
     fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(closeAction);
+    closeAction->setEnabled(false); //На старте нам нечего закрывать
     fileMenu->addSeparator();
     fileMenu->addAction(saveAction);
+    saveAction->setEnabled(false); //На старте нам некуда сохранять
     fileMenu->addAction(saveAsAction);
     fileMenu->addSeparator();
     fileMenu->addAction(printAction);
@@ -129,22 +137,88 @@ void MainWindow::onNew()
 
 void MainWindow::onOpen()
 {
-
+    closeAction->setEnabled(true);
+    //saveAction->setEnabled(true); //перенёс в onTextModified()
 }
 
 void MainWindow::onClose()
 {
+    //Здесь нужна проверка, изменено ли
+    //содержимое textEdit
+    //if(isModified)
+    //Если true, то спросить у юзера, хочет
+    //ли он сохранить текст. Если хочет,
+    //то вызвать onSave().
 
+    closeAction->setEnabled(false);
+    saveAction->setEnabled(false);
 }
 
 void MainWindow::onSave()
 {
+    if (file->isOpen())
+    {
+        //Проверим режим открытого файла на возможность записи,
+        //если нет, то дадим эту возможность
+        if(!(file->openMode() & QFile::WriteOnly))
+        {
+            file->close();
+            if(!file->open(QIODevice::ReadWrite | QIODevice::Text))
+            {
+                ui->statusbar->showMessage(tr("Can't open "));
+                return;
+            }
+        }
 
+        QTextStream stream(file);
+        stream.seek(0);
+        stream << textEdit->toPlainText();
+
+        ui->statusbar->showMessage(file->fileName() +
+            " " + tr("сохранён."));
+
+        isModified = false;
+    }
+    else
+        //На случай, если никакой файл в textEdit не загружен,
+        //но юзер хочет сохранить содержимое textEdit в файл,
+    {
+        onSaveAs();
+    }
+
+    saveAction->setEnabled(false);
 }
 
 void MainWindow::onSaveAs()
 {
+    QString filePath { QFileDialog::getSaveFileName(this,
+        tr("Сохранить файл как"), QDir::current().path(),
+            tr("Текстовый файл(*.txt)")) };
 
+    if (filePath.length())
+    {
+        if (file->isOpen()) file->close();
+
+        QString ext { QString { &(filePath.data()
+                        [ filePath.length() - 4 ])}};
+
+        file->setFileName(filePath);
+        if (file->open(QFile::WriteOnly | QFile::NewOnly))
+        {
+            QTextStream stream(file);
+
+            stream << textEdit->toPlainText();
+
+            ui->statusbar->showMessage(tr("Файл сохранён как ") + file->fileName() + '.');
+
+            isModified = false;
+        }
+        else //!open
+        {
+            QMessageBox::warning(this, tr("Файл не найден"),
+                tr("Не могу открыть файл ") + filePath);
+        }
+    }
 }
 
 void MainWindow::onPrint()
@@ -154,6 +228,8 @@ void MainWindow::onPrint()
 
 void MainWindow::onExit()
 {
+    onClose(); //здесь есть проверка на сохранение текста
+
     QApplication::exit(0);
 }
 
@@ -210,6 +286,12 @@ void MainWindow::onHelp()
 void MainWindow::onAbout()
 {
 
+}
+
+void MainWindow::onTextModified()
+{
+    isModified = true;
+    saveAction->setEnabled(true);
 }
 
 

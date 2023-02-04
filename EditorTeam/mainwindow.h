@@ -23,6 +23,9 @@ private:
     //Указатель на текущий редактируемый файл
     QFile *file;
 
+    //Флаг проверки, изменён ли текст в textEdit
+    bool isModified;
+
     //Пункты меню
     QMenu *fileMenu;
     QMenu *editMenu;
@@ -84,6 +87,10 @@ private slots:
     void onChangeStyle();
     void onHelp();
     void onAbout();
+
+    //Для установления флага об изменении
+    //текста в textEdit
+    void onTextModified();
 
 };
 #endif // MAINWINDOW_H
