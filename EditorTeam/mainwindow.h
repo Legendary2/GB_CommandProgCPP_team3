@@ -23,7 +23,7 @@ private:
     //Указатель на текущий редактируемый файл
     QFile *file;
 
-    //Флаг проверки, изменён ли текст в textEdit
+    //Флаг "Содержимое textEdit изменено?"
     bool isModified;
 
     //Пункты меню
@@ -32,7 +32,8 @@ private:
     QMenu *settingsMenu;
     QMenu *questionMenu;
 
-    //Вспомогательные методы для читабельности конструктора
+    //Вспомогательные методы для выноса части
+    //кода за пределы конструктора
     void createAction(QAction**, const QString&,
         const QString&, void (MainWindow::*)());
     void createActions();
@@ -88,8 +89,8 @@ private slots:
     void onHelp();
     void onAbout();
 
-    //Для установления флага об изменении
-    //текста в textEdit
+    //Слот действий на случай изменения
+    //содержимого textEdit
     void onTextModified();
 
 };

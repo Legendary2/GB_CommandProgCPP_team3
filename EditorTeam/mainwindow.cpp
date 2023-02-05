@@ -7,7 +7,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    file( new QFile),
+    file( new QFile(this)),
     isModified(false)
 {
     ui->setupUi(this);
@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     boxLayout->addWidget(textEdit, 0);
     ui->centralwidget->setLayout(boxLayout);
 
+    //Привязка события изменения содержимого textEdit к вызову
+    //слота onTextModified()
     connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 }
 
@@ -228,7 +230,9 @@ void MainWindow::onPrint()
 
 void MainWindow::onExit()
 {
-    onClose(); //здесь есть проверка на сохранение текста
+    //Проверку на сохранение текста удобно
+    //разместить в  onClose()
+    onClose();
 
     QApplication::exit(0);
 }
