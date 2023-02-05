@@ -152,7 +152,7 @@ void MainWindow::onChangeStyle() {
   if (currentStyle == newStyle) {
     newStyle = "grey";
   }
-  QFile qss("./themes/" + newStyle + ".qss");
+  QFile qss(":/themes/" + newStyle + ".qss");
   if (!qss.open(QIODevice::ReadOnly))
     return;
   qApp->setStyleSheet(qss.readAll());
