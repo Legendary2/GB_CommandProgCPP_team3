@@ -1,97 +1,99 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QFile>
+#include <QMainWindow>
 #include <QTextEdit>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+  MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+  Ui::MainWindow *ui;
 
-    //Указатель на текущий редактируемый файл
-    QFile *file;
+  // Указатель на текущий редактируемый файл
+  QFile *file;
 
-    //Флаг "Содержимое textEdit изменено?"
-    bool isModified;
+  /*! GubaydullinRG
+                Флаг "Содержимое textEdit изменено?" */
+  bool isModified;
 
-    //Пункты меню
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *settingsMenu;
-    QMenu *questionMenu;
+  // Пункты меню
+  QMenu *fileMenu;
+  QMenu *editMenu;
+  QMenu *settingsMenu;
+  QMenu *questionMenu;
 
-    //Вспомогательные методы для выноса части
-    //кода за пределы конструктора
-    void createAction(QAction**, const QString&,
-        const QString&, void (MainWindow::*)());
-    void createActions();
-    void createMenus();
+  // Вспомогательные методы для выноса части
+  // кода за пределы конструктора
+  void createAction(QAction **, const QString &, const QString &,
+                    void (MainWindow::*)());
+  void createActions();
+  void createMenus();
 
-    //Элементы подменю 'File'
-    QAction *newAction;
-    QAction *openAction;
-    QAction *closeAction;
-    QAction *saveAction;
-    QAction *saveAsAction;
-    QAction *printAction;
-    QAction *exitAction;
+  // Элементы подменю 'File'
+  QAction *newAction;
+  QAction *openAction;
+  QAction *closeAction;
+  QAction *saveAction;
+  QAction *saveAsAction;
+  QAction *printAction;
+  QAction *exitAction;
 
-    //Элементы подменю 'Edit'
-    QAction *copyTextFormatAction;
-    QAction *applyTextFormatAction;
-    QAction *alignTextRightAction;
-    QAction *alignTextLeftAction;
-    QAction *alignTextCenterAction;
-    QAction *switchFontAction;
+  // Элементы подменю 'Edit'
+  QAction *copyTextFormatAction;
+  QAction *applyTextFormatAction;
+  QAction *alignTextRightAction;
+  QAction *alignTextLeftAction;
+  QAction *alignTextCenterAction;
+  QAction *switchFontAction;
 
-    //Элементы подменю 'Settings'
-    QAction *changeLangAction;
-    QAction *changeKeyBindAction;
-    QAction *changeStyleAction;
+  // Элементы подменю 'Settings'
+  QAction *changeLangAction;
+  QAction *changeKeyBindAction;
+  QAction *changeStyleAction;
 
-    //Элементы подменю '?'
-    QAction *helpAction;
-    QAction *aboutAction;
+  // Элементы подменю '?'
+  QAction *helpAction;
+  QAction *aboutAction;
 
-    //Поле для размещения редактируемого текста
-    QTextEdit *textEdit;
+  // Поле для размещения редактируемого текста
+  QTextEdit *textEdit;
 
 private slots:
-    //Основные функции приложения
-    void onNew();
-    void onOpen();
-    void onClose();
-    void onSave();
-    void onSaveAs();
-    void onPrint();
-    void onExit();
-    void onCopyTextFormat();
-    void onApplyTextFormat();
-    void onAlignTextRight();
-    void onAlignTextLeft();
-    void onAlignTextCenter();
-    void onSwitchFont();
-    void onChangeLang();
-    void onChangeKeyBind();
-    void onChangeStyle();
-    void onHelp();
-    void onAbout();
+  // Основные функции приложения
+  void onNew();
+  void onOpen();
+  void onClose();
+  void onSave();
+  void onSaveAs();
+  void onPrint();
+  void onExit();
+  void onCopyTextFormat();
+  void onApplyTextFormat();
+  void onAlignTextRight();
+  void onAlignTextLeft();
+  void onAlignTextCenter();
+  void onSwitchFont();
+  void onChangeLang();
+  void onChangeKeyBind();
+  void onChangeStyle();
+  void onHelp();
+  void onAbout();
 
-    //Слот действий на случай изменения
-    //содержимого textEdit
-    void onTextModified();
-
+  /*! GubaydullinRG
+  // Слот действий на случай изменения
+  // содержимого textEdit */
+  void onTextModified();
 };
 #endif // MAINWINDOW_H
