@@ -129,7 +129,7 @@ void MainWindow::onNew()
 {
     textEdit->clear();
     textEdit->setHidden(false);
-    lastFilename = " ";
+    lastFilename = "file.txt";
 }
 
 void MainWindow::onOpen()
@@ -137,8 +137,8 @@ void MainWindow::onOpen()
     QString lastFilename;
     QString fileName;
         fileName = QFileDialog::getOpenFileName(this, "Open Document",
-        QDir::currentPath(), "All files (*.*) ;; Document files (*.doc *.docx *.rtf)");
-             if(fileName == "")
+        QDir::currentPath(), "All files (*.*) ;; Document files (*.txt)");
+             if(fileName == "file.txt")
         {
             return;
         }
