@@ -63,6 +63,7 @@ private:
 
     //Поле для размещения редактируемого текста
     QTextEdit *textEdit;
+    QString lastFilename;
 
 private slots:
     //Основные функции приложения

@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
+#include <QFile>
+#include <QFileDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -124,12 +127,48 @@ void MainWindow::createMenus()
 
 void MainWindow::onNew()
 {
-
+    textEdit->clear();
+    textEdit->setHidden(false);
+    lastFilename = " ";
 }
 
 void MainWindow::onOpen()
 {
-
+    QString lastFilename;
+    QString fileName;
+        fileName = QFileDialog::getOpenFileName(this, "Open Document",
+        QDir::currentPath(), "All files (*.*) ;; Document files (*.doc *.docx *.rtf)");
+             if(fileName == "")
+        {
+            return;
+        }
+        else
+        {
+           QFile file(fileName);
+           if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
+           {
+               QMessageBox::warning(this,tr("Error"),tr("Open failed"));
+               return;
+           }
+           else
+           {
+               if(!file.isReadable())
+               {
+                 QMessageBox::warning(this,tr("Error"),tr("The file is not read"));
+               }
+               else
+               {
+                   QTextStream textStream(&file);
+                   while(!textStream.atEnd())
+                   {
+                       textEdit->setPlainText(textStream.readAll());
+                   }
+                   textEdit->show();
+                   file.close();
+                   lastFilename = fileName;
+               }
+           }
+        }
 }
 
 void MainWindow::onClose()
