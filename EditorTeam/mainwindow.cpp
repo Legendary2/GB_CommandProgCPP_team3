@@ -177,10 +177,8 @@ void MainWindow::onSaveAs() {
     if (file->isOpen())
       file->close();
 
-    QString ext{QString{&(filePath.data()[filePath.length() - 4])}};
-
     file->setFileName(filePath);
-    if (file->open(QFile::WriteOnly | QFile::NewOnly)) {
+    if (file->open(QFile::WriteOnly)) {
       QTextStream stream(file);
 
       stream << textEdit->toPlainText();
