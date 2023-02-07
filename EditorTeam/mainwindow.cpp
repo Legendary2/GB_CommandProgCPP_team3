@@ -210,9 +210,28 @@ void MainWindow::onHelp()
 
 void MainWindow::onAbout()
 {
-QMessageBox::about(this, tr("О программе"), tr(" Текстовый редактор v0.1 \n\n"
-                                               "Авторы: \n"
-                                               "1. \n"
-                                               "2. \n"
-                                               "3. \n" ));
+    QMessageBox msgBox;
+    msgBox.setTextFormat(Qt::RichText);
+    msgBox.setWindowTitle("О программе");
+    msgBox.setIconPixmap(QPixmap(":/images/tedit.png"));
+    msgBox.setInformativeText("ПО Текстовый редактор v 0.0 \n\n"
+                              "Авторы: \n"
+                              "1. Казалаков Руслан \n"
+                              "2. Кузнецов Андрей \n"
+                              "3. Аверенков Евгений \n"
+                              "4. Ребрин Марат \n"
+                              "5. Губайдуллин Рустем \n"
+                              "6. Намитов Александр \n"
+                              "7. Ферапонтов Константин \n"
+                              "8. Ляшенко Андрей \n\n"
+                              "2023 Все права защищены");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.show();
+    msgBox.exec();
 }
+
+
+
+
+
