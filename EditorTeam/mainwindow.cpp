@@ -245,7 +245,3 @@ void MainWindow::changeEnableActions() // Переключение активн�
     isTextModified = true;
     closeAction->setEnabled(true);
 }
-
-
-
->>>>>>> Stashed changes
