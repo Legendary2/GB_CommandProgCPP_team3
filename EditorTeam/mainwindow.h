@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -90,3 +91,5 @@ private slots:
 
 };
 #endif // MAINWINDOW_H
+    void changeEnableActions(); // Переключатель кнопки Close
+    bool isTextModified = false;

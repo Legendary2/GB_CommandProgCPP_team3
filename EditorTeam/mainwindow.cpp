@@ -246,3 +246,44 @@ void MainWindow::changeCloseAction() // Переключение активно�
 
 
 
+    connect(textEdit, &QTextEdit::textChanged, this, &MainWindow::changeEnableActions); //Вызываем функцию при изминении текста
+    closeAction->setEnabled(false); // Переключаем в неактивный режим
+void MainWindow::onClose()
+{
+    if (isTextModified)
+    {
+        if (warningWindow())
+        {
+            textEdit->clear();
+            isTextModified = false;
+            closeAction->setEnabled(false);
+        }
+    }
+}
+void MainWindow::onExit()
+{
+    if (!isTextModified)
+        MainWindow::close();
+    else if (warningWindow())
+        MainWindow::close();
+}
+bool MainWindow::warningWindow()
+{
+    QMessageBox choise; // Создаём диалоговое окно
+    choise.setWindowTitle(tr("Вы уверены?"));
+    choise.setText(tr("Все несохраненные данные будут утеряны!"));
+    choise.addButton(tr("Да"), QMessageBox::YesRole);
+    choise.addButton(tr("Нет"), QMessageBox::NoRole);
+    if (choise.exec() == false){
+         return true;
+    } else {
+        choise.close();
+        return false;
+    }
+}
+
+void MainWindow::changeEnableActions() // Переключение активности режима кнопки
+{
+    isTextModified = true;
+    closeAction->setEnabled(true);
+}
