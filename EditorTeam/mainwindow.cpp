@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     textEdit = new QTextEdit(this);
     boxLayout->addWidget(textEdit, 0);
     ui->centralwidget->setLayout(boxLayout);
+    connect(textEdit, &QTextEdit::textChanged, this, &MainWindow::changeCloseAction); //Вызываем функцию при изминении текста
 }
 
 MainWindow::~MainWindow()
@@ -88,6 +89,7 @@ void MainWindow::createMenus()
     fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(closeAction);
+    changeCloseAction(); // Переключаем в неактивный режим
     fileMenu->addSeparator();
     fileMenu->addAction(saveAction);
     fileMenu->addAction(saveAsAction);
@@ -134,7 +136,12 @@ void MainWindow::onOpen()
 
 void MainWindow::onClose()
 {
-
+    if (!(textEdit->toPlainText().isEmpty()))
+    {
+        closeAction->setEnabled(true);
+        if (warningWindow())
+            textEdit->clear();
+    }
 }
 
 void MainWindow::onSave()
@@ -154,7 +161,10 @@ void MainWindow::onPrint()
 
 void MainWindow::onExit()
 {
-    QApplication::exit(0);
+    if (textEdit->toPlainText().isEmpty())
+        MainWindow::close();
+    else if (warningWindow())
+        MainWindow::close();
 }
 
 void MainWindow::onCopyTextFormat()
@@ -212,7 +222,27 @@ void MainWindow::onAbout()
 
 }
 
+bool MainWindow::warningWindow()
+{
+    QMessageBox choise; // Создаём диалоговое окно
+    choise.setWindowTitle(tr("Вы уверены?"));
+    choise.setText(tr("Все несохраненные данные будут утеряны!"));
+    choise.addButton(tr("Да"), QMessageBox::YesRole);
+    choise.addButton(tr("Нет"), QMessageBox::NoRole);
+    if (choise.exec() == false){
+         return true;
+    } else {
+        choise.close();
+        return false;
+    }
+}
 
+void MainWindow::changeCloseAction() // Переключение активности режима кнопки
+{
+    if (closeAction->isEnabled())
+        closeAction->setEnabled(false);
+    else closeAction->setEnabled(true);
+}
 
 
 

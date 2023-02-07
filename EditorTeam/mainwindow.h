@@ -35,6 +35,9 @@ private:
     void createActions();
     void createMenus();
 
+    bool warningWindow(); // Окно предупреждения
+    void changeCloseAction(); // Переключатель кнопки Close
+
     //Элементы подменю 'File'
     QAction *newAction;
     QAction *openAction;
