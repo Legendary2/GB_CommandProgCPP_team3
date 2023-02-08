@@ -62,12 +62,13 @@ private:
   QAction *changeKeyBindAction;
   QAction *changeStyleAction;
 
+  //Поле для размещения редактируемого текста
+  QTextEdit *textEdit;
+  QString lastFilename;
+    
   //Элементы подменю '?'
   QAction *helpAction;
   QAction *aboutAction;
-
-  //Поле для размещения редактируемого текста
-  QTextEdit *textEdit;
 
 private slots:
   //Основные функции приложения
