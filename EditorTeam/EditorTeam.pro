@@ -15,8 +15,7 @@ SOURCES += \
 HEADERS += \
     mainwindow.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 RESOURCES += \
     resources/resources.qrc
