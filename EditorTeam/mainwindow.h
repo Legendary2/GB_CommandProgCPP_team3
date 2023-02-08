@@ -40,6 +40,9 @@ private:
   void createActions();
   void createMenus();
 
+    bool warningWindow(); // Окно предупреждения
+    void changeEnableActions(); // Переключатель кнопки Close
+
   //Элементы подменю 'File'
   QAction *newAction;
   QAction *openAction;
@@ -65,6 +68,8 @@ private:
   //Поле для размещения редактируемого текста
   QTextEdit *textEdit;
   QString lastFilename;
+
+  bool isTextModified = false;
     
   //Элементы подменю '?'
   QAction *helpAction;

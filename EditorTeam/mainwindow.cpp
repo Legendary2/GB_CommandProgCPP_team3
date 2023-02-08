@@ -14,11 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
   createActions();
   createMenus();
 
-  //Добавление поля для размещения редактируемого текста
-  QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-  textEdit = new QTextEdit(this);
-  boxLayout->addWidget(textEdit, 0);
-  ui->centralwidget->setLayout(boxLayout);
+    //Добавление поля для размещения редактируемого текста
+    QBoxLayout * boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+    textEdit = new QTextEdit(this);
+    boxLayout->addWidget(textEdit, 0);
+    ui->centralwidget->setLayout(boxLayout);
+    connect(textEdit, &QTextEdit::textChanged, this, &MainWindow::changeEnableActions); //Вызываем функцию при изминении текста
 }
 
 MainWindow::~MainWindow(){ delete ui; }
@@ -77,19 +78,21 @@ void MainWindow::createActions() {
                &MainWindow::onAbout);
 }
 
-void MainWindow::createMenus() {
-  // 'File'
-  fileMenu = menuBar()->addMenu(tr("&File"));
-  fileMenu->addAction(newAction);
-  fileMenu->addAction(openAction);
-  fileMenu->addAction(closeAction);
-  fileMenu->addSeparator();
-  fileMenu->addAction(saveAction);
-  fileMenu->addAction(saveAsAction);
-  fileMenu->addSeparator();
-  fileMenu->addAction(printAction);
-  fileMenu->addSeparator();
-  fileMenu->addAction(exitAction);
+void MainWindow::createMenus()
+{
+    // 'File'
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(closeAction);
+    closeAction->setEnabled(false); // Переключаем в неактивный режим
+    fileMenu->addSeparator();
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveAsAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(printAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAction);
 
   // 'Edit'
   editMenu = menuBar()->addMenu(tr("&Edit"));
@@ -116,8 +119,6 @@ void MainWindow::createMenus() {
   questionMenu->addSeparator();
   questionMenu->addAction(aboutAction);
 }
-
-void MainWindow::onClose() {}
 
 void MainWindow::onSave() {}
 
@@ -201,6 +202,19 @@ void MainWindow::onOpen()
             }
 }
 
+void MainWindow::onClose()
+{
+    if (isTextModified)
+    {
+        if (warningWindow())
+        {
+            textEdit->clear();
+            isTextModified = false;
+            closeAction->setEnabled(false);
+        }
+    }
+}
+
 void MainWindow::onHelp()
 {
 
@@ -209,4 +223,25 @@ void MainWindow::onHelp()
 void MainWindow::onAbout()
 {
 
+}
+
+bool MainWindow::warningWindow()
+{
+    QMessageBox choice; // Создаём диалоговое окно
+    choice.setWindowTitle(tr("Вы уверены?"));
+    choice.setText(tr("Все несохраненные данные будут утеряны!"));
+    choice.addButton(tr("Да"), QMessageBox::YesRole);
+    choice.addButton(tr("Нет"), QMessageBox::NoRole);
+    if (choice.exec() == false){
+         return true;
+    } else {
+        choice.close();
+        return false;
+    }
+}
+
+void MainWindow::changeEnableActions() // Переключение активности режима кнопки
+{
+    isTextModified = true;
+    closeAction->setEnabled(true);
 }
