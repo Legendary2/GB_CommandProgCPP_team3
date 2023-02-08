@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>themes/white.qss</file>
+        <file>themes/grey.qss</file>
+    </qresource>
+</RCC>
