@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -227,15 +228,15 @@ void MainWindow::onAbout()
 
 bool MainWindow::warningWindow()
 {
-    QMessageBox choise; // Создаём диалоговое окно
-    choise.setWindowTitle(tr("Вы уверены?"));
-    choise.setText(tr("Все несохраненные данные будут утеряны!"));
-    choise.addButton(tr("Да"), QMessageBox::YesRole);
-    choise.addButton(tr("Нет"), QMessageBox::NoRole);
-    if (choise.exec() == false){
+    QMessageBox choice; // Создаём диалоговое окно
+    choice.setWindowTitle(tr("Вы уверены?"));
+    choice.setText(tr("Все несохраненные данные будут утеряны!"));
+    choice.addButton(tr("Да"), QMessageBox::YesRole);
+    choice.addButton(tr("Нет"), QMessageBox::NoRole);
+    if (choice.exec() == false){
          return true;
     } else {
-        choise.close();
+        choice.close();
         return false;
     }
 }
