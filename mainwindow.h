@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QTextEdit>
+#include <QTranslator>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,10 +31,17 @@ private:
     QMenu *questionMenu;
 
     //Вспомогательные методы для читабельности конструктора
-    void createAction(QAction**, const QString&,
-        const QString&, void (MainWindow::*)());
+    void createAction(QAction**, void (MainWindow::*)());
     void createActions();
     void createMenus();
+
+    //Интернационализация приложения
+    QTranslator *translator;
+    virtual void changeEvent(QEvent*) override;
+    void retranslateAction(QAction**, const QPair<const char*, const char*>&);
+    void retranslateActions();
+    void retranslateMenus();
+    void retranslateGUI();
 
     //Элементы подменю 'File'
     QAction *newAction;

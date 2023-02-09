@@ -13,10 +13,14 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    const_strings.h \
     mainwindow.h
 
 FORMS += \
     mainwindow.ui
+
+TRANSLATIONS = l10n_ru.ts l10n_en.ts
+RESOURCES = resources.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
