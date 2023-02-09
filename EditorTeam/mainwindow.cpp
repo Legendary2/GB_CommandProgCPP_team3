@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "HelpBrowser.h"
 #include <QBoxLayout>
 #include <QFile>
 #include <QFileDialog>
@@ -165,6 +166,7 @@ void MainWindow::onNew()
 
 void MainWindow::onOpen()
 {
+
     QString fileName;
     fileName = QFileDialog::getOpenFileName(this, tr("Open Document"),
     QDir::currentPath(), "All files (*.*) ;; Document files (*.txt)");
@@ -188,10 +190,10 @@ void MainWindow::onOpen()
     }
     else
     {
-    QTextStream textStream(&file);
-    while(!textStream.atEnd())
+//    QTextStream textStream(&file);
+//    while(!textStream.atEnd())
     {
-    textEdit->setPlainText(textStream.readAll());
+//    textEdit->setPlainText(textStream.readAll());
     }
     textEdit->show();
     file.close();
@@ -199,32 +201,28 @@ void MainWindow::onOpen()
                    }
                }
             }
+
 }
 
 void MainWindow::onHelp()
 {
-
+    helpBrowser hp(":/helpfiles", "index.html", 0);
+    hp.resize(450, 350);
+    hp.show();
 }
 
 void MainWindow::onAbout()
 {
     QMessageBox msgBox;
-    //msgBox.setTextFormat(Qt::RichText);
     msgBox.setWindowTitle("О программе");
-    msgBox.setIconPixmap(QPixmap(":/images/tedit.png"));
-    msgBox.setInformativeText("ПО Текстовый редактор v 0.0 \n\n"
-                              "Авторы: \n"
-                              "1. Казалаков Руслан \n"
-                              "2. Кузнецов Андрей \n"
-                              "3. Аверенков Евгений \n"
-                              "4. Ребрин Марат \n"
-                              "5. Губайдуллин Рустем \n"
-                              "6. Намитов Александр \n"
-                              "7. Ферапонтов Константин \n"
-                              "8. Ляшенко Андрей \n\n"
-                              "© 2023 Все права защищены");
- //   msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setIconPixmap(QPixmap(":/images/about.png"));
+
+    msgBox.setInformativeText(" ПО Текстовый редактор v 0.0 \n\n"
+
+                              "  GB_CommandProgCPP_team3\n\n"
+
+                              "© 2008-2022 The Qt Company Ltd.\n "
+                              "     Все права защищены.");
     msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.show();
     msgBox.exec();
 }

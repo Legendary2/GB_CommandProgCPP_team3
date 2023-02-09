@@ -13,14 +13,14 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    HelpBrowser.h \
     mainwindow.h
 
-FORMS +=
+FORMS += \
+    mainwindow.ui
 
 RESOURCES += \
     resources/resources.qrc
-
-RESOURCES = application.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
