@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "HelpBrowser.h"
+#include "helpbrowser.h"
 #include <QBoxLayout>
 #include <QFile>
 #include <QFileDialog>
@@ -190,10 +190,10 @@ void MainWindow::onOpen()
     }
     else
     {
-//    QTextStream textStream(&file);
-//    while(!textStream.atEnd())
+    QTextStream textStream(&file);
+    while(!textStream.atEnd())
     {
-//    textEdit->setPlainText(textStream.readAll());
+    textEdit->setPlainText(textStream.readAll());
     }
     textEdit->show();
     file.close();
@@ -206,9 +206,8 @@ void MainWindow::onOpen()
 
 void MainWindow::onHelp()
 {
-    helpBrowser hp(":/helpfiles", "index.html", 0);
-    hp.resize(450, 350);
-    hp.show();
+helpbrowser *hbr = new helpbrowser;
+hbr -> show();
 }
 
 void MainWindow::onAbout()
@@ -222,7 +221,7 @@ void MainWindow::onAbout()
                               "  GB_CommandProgCPP_team3\n\n"
 
                               "© 2008-2022 The Qt Company Ltd.\n "
-                              "     Все права защищены.");
+                              "     Все права защищены.\n\n");
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
 }

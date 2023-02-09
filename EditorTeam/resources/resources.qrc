@@ -5,6 +5,6 @@
         <file>themes/grey.qss</file>
 		<file>images/tedit.png</file>
 		<file>images/about.png</file>
-		<file>helpfiles/index.html</file>
+		<file>helpfiles/index.htm</file>
     </qresource>
 </RCC>

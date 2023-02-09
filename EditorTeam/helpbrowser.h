@@ -1,13 +1,27 @@
-#include <QtWidgets>
-#include <QTextBrowser>
-#include <QBoxLayout>
+#ifndef HELPBROWSER_H
+#define HELPBROWSER_H
 
-class helpBrowser : public QWidget
+
+
+//#include <QWidget>
+#include <QtWidgets>
+//#include <QPushButton>
+//#include <QTextBrowser>
+//#include <QBoxLayout>
+
+namespace Ui {
+class helpbrowser;
+}
+
+class helpbrowser : public QWidget
 {
     Q_OBJECT
 
 public:
-    helpBrowser(const QString &strPath,
+    explicit helpbrowser(QWidget *parent = nullptr);
+    ~helpbrowser();
+
+    helpbrowser(const QString &strPath,
                 const QString &strFileName,
                 QWidget *pwgt = 0) : QWidget(pwgt)
     {
@@ -31,4 +45,10 @@ public:
     vboxLayout -> addWidget(txtBrowser);
     setLayout(vboxLayout);
     }
+
+
+private:
+    Ui::helpbrowser *ui;
 };
+
+#endif // HELPBROWSER_H
