@@ -146,7 +146,7 @@ void MainWindow::onSave() {
     if (!(file->openMode() & QFile::WriteOnly)) {
       file->close();
       if (!file->open(QIODevice::ReadWrite | QIODevice::Text)) {
-        ui->statusbar->showMessage(tr("Can't open "));
+        ui->statusbar->showMessage(tr("Can't save file."));
         return;
       }
     }
@@ -155,7 +155,7 @@ void MainWindow::onSave() {
     stream.seek(0);
     stream << textEdit->toPlainText();
 
-    ui->statusbar->showMessage(file->fileName() + " " + tr("сохранён."));
+    ui->statusbar->showMessage(file->fileName() + " " + tr("has been saved."));
 
     isModified = false;
   } else
@@ -169,9 +169,9 @@ void MainWindow::onSave() {
 }
 
 void MainWindow::onSaveAs() {
-  QString filePath{QFileDialog::getSaveFileName(this, tr("Сохранить файл как"),
+  QString filePath{QFileDialog::getSaveFileName(this, tr("Save file as "),
                                                 QDir::current().path(),
-                                                tr("Текстовый файл(*.txt)"))};
+                                                tr("Text file(*.txt)"))};
 
   if (filePath.length()) {
     if (file->isOpen())
@@ -183,14 +183,13 @@ void MainWindow::onSaveAs() {
 
       stream << textEdit->toPlainText();
 
-      ui->statusbar->showMessage(tr("Файл сохранён как ") + file->fileName() +
-                                 '.');
+      ui->statusbar->showMessage(tr("File saved as ") + file->fileName() + '.');
 
       isModified = false;
     } else //! open
     {
-      QMessageBox::warning(this, tr("Файл не найден"),
-                           tr("Не могу открыть файл ") + filePath);
+      QMessageBox::warning(this, tr("Can't save file"),
+                           tr("Cannot save file ") + filePath);
     }
   }
 }
