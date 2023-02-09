@@ -21,14 +21,18 @@ public:
 private:
   Ui::MainWindow *ui;
 
-  // Указатель на текущий редактируемый файл
+  //Указатель на текущий редактируемый файл
   QFile *file;
 
   /*! GubaydullinRG
-                Флаг "Содержимое textEdit изменено?" */
-  bool isModified;
+                  Флаг "Содержимое textEdit изменено?" */
+    bool isModified;
 
-  // Пункты меню
+  /*! KuznecovAG
+    Переменная для текущего стиля (пока только white и grey) */
+  QString currentStyle = "white";
+
+  //Пункты меню
   QMenu *fileMenu;
   QMenu *editMenu;
   QMenu *settingsMenu;
@@ -40,8 +44,10 @@ private:
                     void (MainWindow::*)());
   void createActions();
   void createMenus();
+  bool warningWindow(); // Окно предупреждения
+  void changeEnableActions(); // Переключатель кнопки Close
 
-  // Элементы подменю 'File'
+  //Элементы подменю 'File'
   QAction *newAction;
   QAction *openAction;
   QAction *closeAction;
@@ -50,7 +56,7 @@ private:
   QAction *printAction;
   QAction *exitAction;
 
-  // Элементы подменю 'Edit'
+  //Элементы подменю 'Edit'
   QAction *copyTextFormatAction;
   QAction *applyTextFormatAction;
   QAction *alignTextRightAction;
@@ -58,20 +64,23 @@ private:
   QAction *alignTextCenterAction;
   QAction *switchFontAction;
 
-  // Элементы подменю 'Settings'
+  //Элементы подменю 'Settings'
   QAction *changeLangAction;
   QAction *changeKeyBindAction;
   QAction *changeStyleAction;
 
-  // Элементы подменю '?'
+  //Поле для размещения редактируемого текста
+  QTextEdit *textEdit;
+  QString lastFilename;
+
+  bool isTextModified = false;
+    
+  //Элементы подменю '?'
   QAction *helpAction;
   QAction *aboutAction;
 
-  // Поле для размещения редактируемого текста
-  QTextEdit *textEdit;
-
 private slots:
-  // Основные функции приложения
+  //Основные функции приложения
   void onNew();
   void onOpen();
   void onClose();
