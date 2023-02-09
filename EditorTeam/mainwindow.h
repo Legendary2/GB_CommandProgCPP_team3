@@ -24,6 +24,10 @@ private:
   //Указатель на текущий редактируемый файл
   QFile *file;
 
+  /*! GubaydullinRG
+                  Флаг "Содержимое textEdit изменено?" */
+    bool isModified;
+
   /*! KuznecovAG
     Переменная для текущего стиля (пока только white и grey) */
   QString currentStyle = "white";
@@ -34,14 +38,14 @@ private:
   QMenu *settingsMenu;
   QMenu *questionMenu;
 
-  //Вспомогательные методы для читабельности конструктора
+  // Вспомогательные методы для выноса части
+  // кода за пределы конструктора
   void createAction(QAction **, const QString &, const QString &,
                     void (MainWindow::*)());
   void createActions();
   void createMenus();
-
-    bool warningWindow(); // Окно предупреждения
-    void changeEnableActions(); // Переключатель кнопки Close
+  bool warningWindow(); // Окно предупреждения
+  void changeEnableActions(); // Переключатель кнопки Close
 
   //Элементы подменю 'File'
   QAction *newAction;
@@ -95,5 +99,10 @@ private slots:
   void onChangeStyle();
   void onHelp();
   void onAbout();
+
+  /*! GubaydullinRG
+  // Слот действий на случай изменения
+  // содержимого textEdit */
+  void onTextModified();
 };
 #endif // MAINWINDOW_H
