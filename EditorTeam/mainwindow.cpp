@@ -126,7 +126,13 @@ void MainWindow::onSaveAs() {}
 
 void MainWindow::onPrint() {}
 
-void MainWindow::onExit() { QApplication::exit(0); }
+void MainWindow::onExit() 
+{ 
+    if (!isTextModified)
+        MainWindow::close();
+    else if (warningWindow())
+        MainWindow::close(); 
+}
 
 void MainWindow::onCopyTextFormat() {}
 
