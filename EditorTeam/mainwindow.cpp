@@ -206,10 +206,9 @@ void MainWindow::onOpen()
 
 void MainWindow::onHelp()
 {
-    HelpBrowser helpbrowser(":/helpfiles", "index.htm");
-    helpbrowser.resize(400, 400);
-    helpbrowser.show();
-    helpbrowser.activateWindow();
+    HelpBrowser *hb = new HelpBrowser(":/helpfiles", "index.htm");
+    hb->resize(400,400);
+    hb->show();
 }
 
 void MainWindow::onAbout()
