@@ -207,7 +207,7 @@ void MainWindow::onOpen()
 void MainWindow::onHelp()
 {
     HelpBrowser *hb = new HelpBrowser(":/helpfiles", "index.htm");
-    hb->resize(400,400);
+    hb->resize(600,400);
     hb->show();
 }
 

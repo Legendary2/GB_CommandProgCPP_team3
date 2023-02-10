@@ -10,10 +10,10 @@ public:
                 const QString &strFileName,
                 QWidget *pwgt = 0) : QWidget(pwgt)
     {
-    QPushButton *pressBack = new QPushButton("Back");
-    QPushButton *pressForward = new QPushButton("Forward");
-    QPushButton *pressHome = new QPushButton("Home");
-    QTextBrowser *txtBrowser = new QTextBrowser;
+    QPushButton *pressBack = new QPushButton("Back",this);
+    QPushButton *pressForward = new QPushButton("Forward", this);
+    QPushButton *pressHome = new QPushButton("Home",this);
+    QTextBrowser *txtBrowser = new QTextBrowser(this);
 
 
     connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
@@ -25,8 +25,8 @@ public:
     txtBrowser->setSearchPaths(QStringList() << strPath);
     txtBrowser->setSource(QString(strFileName));
 
-    QVBoxLayout *vboxLayout = new QVBoxLayout;
-    QHBoxLayout *hboxLayout = new QHBoxLayout;
+    QVBoxLayout *vboxLayout = new QVBoxLayout(this);
+    QHBoxLayout *hboxLayout = new QHBoxLayout(this);
 
     hboxLayout -> addWidget(pressBack);
     hboxLayout -> addWidget(pressForward);
