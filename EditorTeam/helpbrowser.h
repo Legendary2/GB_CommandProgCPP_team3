@@ -1,37 +1,26 @@
-#ifndef HELPBROWSER_H
-#define HELPBROWSER_H
-
-
-
-//#include <QWidget>
 #include <QtWidgets>
-//#include <QPushButton>
-//#include <QTextBrowser>
-//#include <QBoxLayout>
+#include <QApplication>
 
-namespace Ui {
-class helpbrowser;
-}
-
-class helpbrowser : public QWidget
+class HelpBrowser : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit helpbrowser(QWidget *parent = nullptr);
-    ~helpbrowser();
-
-    helpbrowser(const QString &strPath,
+    HelpBrowser(const QString &strPath,
                 const QString &strFileName,
                 QWidget *pwgt = 0) : QWidget(pwgt)
     {
-    QPushButton *pressBack = new QPushButton("<<");
-    QPushButton *pressForward = new QPushButton(">>");
+    QPushButton *pressBack = new QPushButton("Back");
+    QPushButton *pressForward = new QPushButton("Forward");
+    QPushButton *pressHome = new QPushButton("Home");
     QTextBrowser *txtBrowser = new QTextBrowser;
 
 
     connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
     connect(pressForward, SIGNAL(clicked(bool)), txtBrowser, SLOT(forward()));
+    connect(pressHome, SIGNAL(clicked(bool)), txtBrowser, SLOT(home()));
+    connect(txtBrowser, SIGNAL(backwardAvailable(bool)), pressBack, SLOT(setEnabled(bool)));
+    connect(txtBrowser, SIGNAL(forwardAvailable(bool)), pressForward, SLOT(setEnabled(bool)));
 
     txtBrowser->setSearchPaths(QStringList() << strPath);
     txtBrowser->setSource(QString(strFileName));
@@ -41,14 +30,10 @@ public:
 
     hboxLayout -> addWidget(pressBack);
     hboxLayout -> addWidget(pressForward);
+    hboxLayout -> addWidget(pressHome);
     vboxLayout -> addLayout(hboxLayout);
     vboxLayout -> addWidget(txtBrowser);
     setLayout(vboxLayout);
     }
 
-
-private:
-    Ui::helpbrowser *ui;
 };
-
-#endif // HELPBROWSER_H
