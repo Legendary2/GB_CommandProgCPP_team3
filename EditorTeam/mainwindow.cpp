@@ -7,32 +7,36 @@
 #include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
-    hb(QSharedPointer<HelpBrowser> (new HelpBrowser (":/helpfiles", "index.htm")))
-{
+    : QMainWindow(parent), ui(new Ui::MainWindow), file(new QFile(this)),
+      isModified(false), hb(QSharedPointer<HelpBrowser> (new HelpBrowser (":/helpfiles", "index.htm"))) {
   ui->setupUi(this);
 
   // Заполнение главного меню
   createActions();
   createMenus();
 
-  //Добавление поля для размещения редактируемого текста
+  // Добавление поля для размещения редактируемого текста
   QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);
   textEdit = new QTextEdit(this);
   boxLayout->addWidget(textEdit, 0);
   ui->centralwidget->setLayout(boxLayout);
+
+  /*! GubaydullinRG
+   Привязка события изменения содержимого textEdit к вызову
+   слота onTextModified() */
+  connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 }
 
-MainWindow::~MainWindow(){ delete ui; }
+MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::createAction(QAction** action, const QString& actionTitle,
-    const QString& statusTitle, void (MainWindow::*funcSlot)())
-{
-   *action = new QAction(actionTitle, this);
+void MainWindow::createAction(QAction **action, const QString &actionTitle,
+                              const QString &statusTitle,
+                              void (MainWindow::*funcSlot)()) {
+  *action = new QAction(actionTitle, this);
 
-   (*action)->setStatusTip(statusTitle);
+  (*action)->setStatusTip(statusTitle);
 
-   connect(*action, &QAction::triggered, this, funcSlot);
+  connect(*action, &QAction::triggered, this, funcSlot);
 }
 
 void MainWindow::createActions() {
@@ -85,8 +89,10 @@ void MainWindow::createMenus() {
   fileMenu->addAction(newAction);
   fileMenu->addAction(openAction);
   fileMenu->addAction(closeAction);
+  closeAction->setEnabled(false); // На старте нам нечего закрывать
   fileMenu->addSeparator();
   fileMenu->addAction(saveAction);
+  saveAction->setEnabled(false); // На старте нам некуда сохранять
   fileMenu->addAction(saveAsAction);
   fileMenu->addSeparator();
   fileMenu->addAction(printAction);
@@ -119,15 +125,70 @@ void MainWindow::createMenus() {
   questionMenu->addAction(aboutAction);
 }
 
-void MainWindow::onClose() {}
+void MainWindow::onSave() {
+  if (file->isOpen()) {
+    // Проверим режим открытого файла на возможность записи,
+    // если нет, то дадим эту возможность
+    if (!(file->openMode() & QFile::WriteOnly)) {
+      file->close();
+      if (!file->open(QIODevice::ReadWrite | QIODevice::Text)) {
+        ui->statusbar->showMessage(tr("Can't save file."));
+        return;
+      }
+    }
 
-void MainWindow::onSave() {}
+    QTextStream stream(file);
+    stream.seek(0);
+    stream << textEdit->toPlainText();
 
-void MainWindow::onSaveAs() {}
+    ui->statusbar->showMessage(file->fileName() + " " + tr("has been saved."));
+
+    isModified = false;
+  } else
+  // На случай, если никакой файл в textEdit не загружен,
+  // но юзер хочет сохранить содержимое textEdit в файл,
+  {
+    onSaveAs();
+  }
+
+  saveAction->setEnabled(false);
+}
+
+void MainWindow::onSaveAs() {
+  QString filePath{QFileDialog::getSaveFileName(this, tr("Save file as "),
+                                                QDir::current().path(),
+                                                tr("Text file(*.txt)"))};
+
+  if (filePath.length()) {
+    if (file->isOpen())
+      file->close();
+
+    file->setFileName(filePath);
+    if (file->open(QFile::WriteOnly)) {
+      QTextStream stream(file);
+
+      stream << textEdit->toPlainText();
+
+      ui->statusbar->showMessage(tr("File saved as ") + file->fileName() + '.');
+
+      isModified = false;
+    } else //! open
+    {
+      QMessageBox::warning(this, tr("Can't save file"),
+                           tr("Cannot save file ") + filePath);
+    }
+  }
+}
 
 void MainWindow::onPrint() {}
 
-void MainWindow::onExit() { QApplication::exit(0); }
+void MainWindow::onExit() 
+{ 
+    if (!isTextModified)
+        MainWindow::close();
+    else if (warningWindow())
+        MainWindow::close(); 
+}
 
 void MainWindow::onCopyTextFormat() {}
 
@@ -205,6 +266,32 @@ void MainWindow::onOpen()
 
 }
 
+void MainWindow::onClose()
+{
+    if (isTextModified)
+    {
+        if (warningWindow())
+        {
+            textEdit->clear();
+            isTextModified = false;
+            closeAction->setEnabled(false);
+        }
+    }
+}
+
+void MainWindow::onClose()
+{
+    if (isTextModified)
+    {
+        if (warningWindow())
+        {
+            textEdit->clear();
+            isTextModified = false;
+            closeAction->setEnabled(false);
+        }
+    }
+}
+
 void MainWindow::onHelp()
 {
     hb->resize(600,400);
@@ -225,4 +312,62 @@ void MainWindow::onAbout()
                               "     Все права защищены.\n\n");
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
+}
+
+/*! GubaydullinRG
+        Выполнение действий в случае изменения
+        содержимого textEdit */
+void MainWindow::onTextModified() {
+  isModified = true;
+  saveAction->setEnabled(true);
+}
+
+bool MainWindow::warningWindow()
+{
+    QMessageBox choice; // Создаём диалоговое окно
+    choice.setWindowTitle(tr("Вы уверены?"));
+    choice.setText(tr("Все несохраненные данные будут утеряны!"));
+    choice.addButton(tr("Да"), QMessageBox::YesRole);
+    choice.addButton(tr("Нет"), QMessageBox::NoRole);
+    if (choice.exec() == false){
+         return true;
+    } else {
+        choice.close();
+        return false;
+    }
+}
+
+void MainWindow::changeEnableActions() // Переключение активности режима кнопки
+{
+    isTextModified = true;
+    closeAction->setEnabled(true);
+}
+
+/*! GubaydullinRG
+        Выполнение действий в случае изменения
+        содержимого textEdit */
+void MainWindow::onTextModified() {
+  isModified = true;
+  saveAction->setEnabled(true);
+}
+
+bool MainWindow::warningWindow()
+{
+    QMessageBox choice; // Создаём диалоговое окно
+    choice.setWindowTitle(tr("Вы уверены?"));
+    choice.setText(tr("Все несохраненные данные будут утеряны!"));
+    choice.addButton(tr("Да"), QMessageBox::YesRole);
+    choice.addButton(tr("Нет"), QMessageBox::NoRole);
+    if (choice.exec() == false){
+         return true;
+    } else {
+        choice.close();
+        return false;
+    }
+}
+
+void MainWindow::changeEnableActions() // Переключение активности режима кнопки
+{
+    isTextModified = true;
+    closeAction->setEnabled(true);
 }

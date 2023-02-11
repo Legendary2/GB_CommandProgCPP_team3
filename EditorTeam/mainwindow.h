@@ -28,6 +28,12 @@ public:
 
   QSharedPointer<HelpBrowser> hb;
 
+  QSharedPointer<HelpBrowser> hb;
+
+  /*! GubaydullinRG
+                  Флаг "Содержимое textEdit изменено?" */
+    bool isModified;
+
   /*! KuznecovAG
     Переменная для текущего стиля (пока только white и grey) */
   QString currentStyle = "white";
@@ -38,11 +44,14 @@ public:
   QMenu *settingsMenu;
   QMenu *questionMenu;
 
-  //Вспомогательные методы для читабельности конструктора
+  // Вспомогательные методы для выноса части
+  // кода за пределы конструктора
   void createAction(QAction **, const QString &, const QString &,
                     void (MainWindow::*)());
   void createActions();
   void createMenus();
+  bool warningWindow(); // Окно предупреждения
+  void changeEnableActions(); // Переключатель кнопки Close
 
   //Элементы подменю 'File'
   QAction *newAction;
@@ -69,6 +78,8 @@ public:
   //Поле для размещения редактируемого текста
   QTextEdit *textEdit;
   QString lastFilename;
+
+  bool isTextModified = false;
     
   //Элементы подменю '?'
   QAction *helpAction;
@@ -94,5 +105,10 @@ private slots:
   void onChangeStyle();
   void onHelp();
   void onAbout();
+
+  /*! GubaydullinRG
+  // Слот действий на случай изменения
+  // содержимого textEdit */
+  void onTextModified();
 };
 #endif // MAINWINDOW_H
