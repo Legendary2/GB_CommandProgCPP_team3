@@ -23,16 +23,13 @@ public:
 
   Ui::MainWindow *ui;
 
+  /*! GubaydullinRG
+  Флаг "Содержимое textEdit изменено?" */
+  bool isModified;
   //Указатель на текущий редактируемый файл
   QFile *file;
 
   QSharedPointer<HelpBrowser> hb;
-
-  QSharedPointer<HelpBrowser> hb;
-
-  /*! GubaydullinRG
-                  Флаг "Содержимое textEdit изменено?" */
-    bool isModified;
 
   /*! KuznecovAG
     Переменная для текущего стиля (пока только white и grey) */

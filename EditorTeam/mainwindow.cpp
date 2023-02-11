@@ -279,19 +279,6 @@ void MainWindow::onClose()
     }
 }
 
-void MainWindow::onClose()
-{
-    if (isTextModified)
-    {
-        if (warningWindow())
-        {
-            textEdit->clear();
-            isTextModified = false;
-            closeAction->setEnabled(false);
-        }
-    }
-}
-
 void MainWindow::onHelp()
 {
     hb->resize(600,400);
@@ -312,35 +299,6 @@ void MainWindow::onAbout()
                               "     Все права защищены.\n\n");
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
-}
-
-/*! GubaydullinRG
-        Выполнение действий в случае изменения
-        содержимого textEdit */
-void MainWindow::onTextModified() {
-  isModified = true;
-  saveAction->setEnabled(true);
-}
-
-bool MainWindow::warningWindow()
-{
-    QMessageBox choice; // Создаём диалоговое окно
-    choice.setWindowTitle(tr("Вы уверены?"));
-    choice.setText(tr("Все несохраненные данные будут утеряны!"));
-    choice.addButton(tr("Да"), QMessageBox::YesRole);
-    choice.addButton(tr("Нет"), QMessageBox::NoRole);
-    if (choice.exec() == false){
-         return true;
-    } else {
-        choice.close();
-        return false;
-    }
-}
-
-void MainWindow::changeEnableActions() // Переключение активности режима кнопки
-{
-    isTextModified = true;
-    closeAction->setEnabled(true);
 }
 
 /*! GubaydullinRG
