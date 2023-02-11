@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "helpbrowser.h"
 #include <QBoxLayout>
 #include <QFile>
 #include <QFileDialog>
@@ -8,7 +7,9 @@
 #include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+    hb(QSharedPointer<HelpBrowser> (new HelpBrowser (":/helpfiles", "index.htm")))
+{
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -206,7 +207,6 @@ void MainWindow::onOpen()
 
 void MainWindow::onHelp()
 {
-    HelpBrowser *hb = new HelpBrowser(":/helpfiles", "index.htm");
     hb->resize(600,400);
     hb->show();
 }

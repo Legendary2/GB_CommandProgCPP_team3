@@ -5,6 +5,8 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QTextEdit>
+#include <QSharedPointer>
+#include "helpbrowser.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +25,8 @@ public:
 
   //Указатель на текущий редактируемый файл
   QFile *file;
+
+  QSharedPointer<HelpBrowser> hb;
 
   /*! KuznecovAG
     Переменная для текущего стиля (пока только white и grey) */
