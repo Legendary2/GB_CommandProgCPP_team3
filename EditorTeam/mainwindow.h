@@ -3,7 +3,10 @@
 
 #include <QFile>
 #include <QMainWindow>
+#include <QFile>
 #include <QTextEdit>
+#include <QSharedPointer>
+#include "helpbrowser.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,15 +21,15 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-private:
   Ui::MainWindow *ui;
 
+  /*! GubaydullinRG
+  Флаг "Содержимое textEdit изменено?" */
+  bool isModified;
   //Указатель на текущий редактируемый файл
   QFile *file;
 
-  /*! GubaydullinRG
-                  Флаг "Содержимое textEdit изменено?" */
-    bool isModified;
+  QSharedPointer<HelpBrowser> hb;
 
   /*! KuznecovAG
     Переменная для текущего стиля (пока только white и grey) */

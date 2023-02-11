@@ -8,7 +8,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), file(new QFile(this)),
-      isModified(false) {
+      isModified(false), hb(QSharedPointer<HelpBrowser> (new HelpBrowser (":/helpfiles", "index.htm"))) {
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -228,6 +228,7 @@ void MainWindow::onNew()
 
 void MainWindow::onOpen()
 {
+
     QString fileName;
     fileName = QFileDialog::getOpenFileName(this, tr("Open Document"),
     QDir::currentPath(), "All files (*.*) ;; Document files (*.txt)");
@@ -262,6 +263,7 @@ void MainWindow::onOpen()
                    }
                }
             }
+
 }
 
 void MainWindow::onClose()
@@ -279,12 +281,24 @@ void MainWindow::onClose()
 
 void MainWindow::onHelp()
 {
-
+    hb->resize(600,400);
+    hb->show();
 }
 
 void MainWindow::onAbout()
 {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("О программе");
+    msgBox.setIconPixmap(QPixmap(":/images/about.png"));
 
+    msgBox.setInformativeText(" ПО Текстовый редактор v 0.0 \n\n"
+
+                              "  GB_CommandProgCPP_team3\n\n"
+
+                              "© 2008-2022 The Qt Company Ltd.\n "
+                              "     Все права защищены.\n\n");
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();
 }
 
 /*! GubaydullinRG
