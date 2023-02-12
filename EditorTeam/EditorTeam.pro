@@ -14,13 +14,15 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    const_strings.h \
     helpbrowser.h \
     mainwindow.h
 
-FORMS += \
-    helpbrowser.ui \
-    mainwindow.ui
+FORMS += mainwindow.ui
 
+TRANSLATIONS += \
+    translation/l10n_ru.ts
+    translation/l10n_en.ts
 RESOURCES += \
     resources/resources.qrc
 

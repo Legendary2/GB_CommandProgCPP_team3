@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QTextEdit>
+#include <QTranslator>
 #include <QSharedPointer>
 #include "helpbrowser.h"
 
@@ -14,13 +15,15 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
   Q_OBJECT
 
 public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+private:
   Ui::MainWindow *ui;
 
   /*! GubaydullinRG
@@ -43,10 +46,18 @@ public:
 
   // Вспомогательные методы для выноса части
   // кода за пределы конструктора
-  void createAction(QAction **, const QString &, const QString &,
-                    void (MainWindow::*)());
+  void createAction(QAction**, void (MainWindow::*)());
   void createActions();
   void createMenus();
+
+  //Интернационализация приложения
+  QTranslator *translator;
+  virtual void changeEvent(QEvent*) override;
+  void retranslateAction(QAction**, const QPair<const char*, const char*>&);
+  void retranslateActions();
+  void retranslateMenus();
+  void retranslateGUI();
+
   bool warningWindow(); // Окно предупреждения
   void changeEnableActions(); // Переключатель кнопки Close
 
