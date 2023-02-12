@@ -1,90 +1,122 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFile>
 #include <QMainWindow>
 #include <QFile>
 #include <QTextEdit>
+#include <QTranslator>
+#include <QSharedPointer>
+#include "helpbrowser.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+  MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+  Ui::MainWindow *ui;
 
-    //Указатель на текущий редактируемый файл
-    QFile *file;
+  /*! GubaydullinRG
+  Флаг "Содержимое textEdit изменено?" */
+  bool isModified;
+  //Указатель на текущий редактируемый файл
+  QFile *file;
 
-    //Пункты меню
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *settingsMenu;
-    QMenu *questionMenu;
+  QSharedPointer<HelpBrowser> hb;
 
-    //Вспомогательные методы для читабельности конструктора
-    void createAction(QAction**, const QString&,
-        const QString&, void (MainWindow::*)());
-    void createActions();
-    void createMenus();
+  /*! KuznecovAG
+    Переменная для текущего стиля (пока только white и grey) */
+  QString currentStyle = "white";
 
-    //Элементы подменю 'File'
-    QAction *newAction;
-    QAction *openAction;
-    QAction *closeAction;
-    QAction *saveAction;
-    QAction *saveAsAction;
-    QAction *printAction;
-    QAction *exitAction;
+  //Пункты меню
+  QMenu *fileMenu;
+  QMenu *editMenu;
+  QMenu *settingsMenu;
+  QMenu *questionMenu;
 
-    //Элементы подменю 'Edit'
-    QAction *copyTextFormatAction;
-    QAction *applyTextFormatAction;
-    QAction *alignTextRightAction;
-    QAction *alignTextLeftAction;
-    QAction *alignTextCenterAction;
-    QAction *switchFontAction;
+  // Вспомогательные методы для выноса части
+  // кода за пределы конструктора
+  void createAction(QAction**, void (MainWindow::*)());
+  void createActions();
+  void createMenus();
 
-    //Элементы подменю 'Settings'
-    QAction *changeLangAction;
-    QAction *changeKeyBindAction;
-    QAction *changeStyleAction;
+  //Интернационализация приложения
+  QTranslator *translator;
+  virtual void changeEvent(QEvent*) override;
+  void retranslateAction(QAction**, const QPair<const char*, const char*>&);
+  void retranslateActions();
+  void retranslateMenus();
+  void retranslateGUI();
 
-    //Элементы подменю '?'
-    QAction *helpAction;
-    QAction *aboutAction;
+  bool warningWindow(); // Окно предупреждения
+  void changeEnableActions(); // Переключатель кнопки Close
 
-    //Поле для размещения редактируемого текста
-    QTextEdit *textEdit;
-    QString lastFilename;
+  //Элементы подменю 'File'
+  QAction *newAction;
+  QAction *openAction;
+  QAction *closeAction;
+  QAction *saveAction;
+  QAction *saveAsAction;
+  QAction *printAction;
+  QAction *exitAction;
+
+  //Элементы подменю 'Edit'
+  QAction *copyTextFormatAction;
+  QAction *applyTextFormatAction;
+  QAction *alignTextRightAction;
+  QAction *alignTextLeftAction;
+  QAction *alignTextCenterAction;
+  QAction *switchFontAction;
+
+  //Элементы подменю 'Settings'
+  QAction *changeLangAction;
+  QAction *changeKeyBindAction;
+  QAction *changeStyleAction;
+
+  //Поле для размещения редактируемого текста
+  QTextEdit *textEdit;
+  QString lastFilename;
+
+  bool isTextModified = false;
+    
+  //Элементы подменю '?'
+  QAction *helpAction;
+  QAction *aboutAction;
 
 private slots:
-    //Основные функции приложения
-    void onNew();
-    void onOpen();
-    void onClose();
-    void onSave();
-    void onSaveAs();
-    void onPrint();
-    void onExit();
-    void onCopyTextFormat();
-    void onApplyTextFormat();
-    void onAlignTextRight();
-    void onAlignTextLeft();
-    void onAlignTextCenter();
-    void onSwitchFont();
-    void onChangeLang();
-    void onChangeKeyBind();
-    void onChangeStyle();
-    void onHelp();
-    void onAbout();
+  //Основные функции приложения
+  void onNew();
+  void onOpen();
+  void onClose();
+  void onSave();
+  void onSaveAs();
+  void onPrint();
+  void onExit();
+  void onCopyTextFormat();
+  void onApplyTextFormat();
+  void onAlignTextRight();
+  void onAlignTextLeft();
+  void onAlignTextCenter();
+  void onSwitchFont();
+  void onChangeLang();
+  void onChangeKeyBind();
+  void onChangeStyle();
+  void onHelp();
+  void onAbout();
 
+  /*! GubaydullinRG
+  // Слот действий на случай изменения
+  // содержимого textEdit */
+  void onTextModified();
 };
 #endif // MAINWINDOW_H
