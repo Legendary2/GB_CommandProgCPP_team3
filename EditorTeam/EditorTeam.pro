@@ -18,7 +18,7 @@ HEADERS += \
     helpbrowser.h \
     mainwindow.h
 
-FORMS +=
+FORMS += mainwindow.ui
 
 TRANSLATIONS += \
     translation/l10n_ru.ts
