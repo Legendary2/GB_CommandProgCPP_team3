@@ -11,12 +11,15 @@ CONFIG += c++17
 SOURCES += \
     helpbrowser.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    filehandler.cpp
 
 HEADERS += \
     const_strings.h \
     helpbrowser.h \
-    mainwindow.h
+    mainwindow.h \
+    filehandler.h \
+    idevhandler.h
 
 FORMS += mainwindow.ui
 

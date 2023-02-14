@@ -1,13 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QFile>
+#include "filehandler.h"
+#include "helpbrowser.h"
 #include <QMainWindow>
-#include <QFile>
+#include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
-#include <QSharedPointer>
-#include "helpbrowser.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,8 +14,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
@@ -26,11 +24,11 @@ public:
 private:
   Ui::MainWindow *ui;
 
-  /*! GubaydullinRG
-  Флаг "Содержимое textEdit изменено?" */
-  bool isModified;
-  //Указатель на текущий редактируемый файл
-  QFile *file;
+  /* Флаг "Содержимое textEdit изменено?" */
+  bool isTextModified;
+
+  // Указатель на текущий редактируемый файл
+  QSharedPointer<IDevHandler<QString>> srcHandler;
 
   QSharedPointer<HelpBrowser> hb;
 
@@ -38,7 +36,7 @@ private:
     Переменная для текущего стиля (пока только white и grey) */
   QString currentStyle = "white";
 
-  //Пункты меню
+  // Пункты меню
   QMenu *fileMenu;
   QMenu *editMenu;
   QMenu *settingsMenu;
@@ -46,22 +44,25 @@ private:
 
   // Вспомогательные методы для выноса части
   // кода за пределы конструктора
-  void createAction(QAction**, void (MainWindow::*)());
+  void createAction(QAction **, void (MainWindow::*)());
   void createActions();
   void createMenus();
 
-  //Интернационализация приложения
+  // Интернационализация приложения
   QTranslator *translator;
-  virtual void changeEvent(QEvent*) override;
-  void retranslateAction(QAction**, const QPair<const char*, const char*>&);
+  virtual void changeEvent(QEvent *) override;
+  void retranslateAction(QAction **, const QPair<const char *, const char *> &);
   void retranslateActions();
   void retranslateMenus();
   void retranslateGUI();
 
-  bool warningWindow(); // Окно предупреждения
-  void changeEnableActions(); // Переключатель кнопки Close
+  /*! GubaydullinRG
+      Включение/отключение доступности элементов меню 'File' */
+  void changeFileMenuAccess(const QString &, bool, bool, bool);
 
-  //Элементы подменю 'File'
+  bool textChangedWarning(); // Окно предупреждения
+
+  // Элементы подменю 'File'
   QAction *newAction;
   QAction *openAction;
   QAction *closeAction;
@@ -70,7 +71,7 @@ private:
   QAction *printAction;
   QAction *exitAction;
 
-  //Элементы подменю 'Edit'
+  // Элементы подменю 'Edit'
   QAction *copyTextFormatAction;
   QAction *applyTextFormatAction;
   QAction *alignTextRightAction;
@@ -78,23 +79,20 @@ private:
   QAction *alignTextCenterAction;
   QAction *switchFontAction;
 
-  //Элементы подменю 'Settings'
+  // Элементы подменю 'Settings'
   QAction *changeLangAction;
   QAction *changeKeyBindAction;
   QAction *changeStyleAction;
 
-  //Поле для размещения редактируемого текста
+  // Поле для размещения редактируемого текста
   QTextEdit *textEdit;
-  QString lastFilename;
 
-  bool isTextModified = false;
-    
-  //Элементы подменю '?'
+  // Элементы подменю '?'
   QAction *helpAction;
   QAction *aboutAction;
 
 private slots:
-  //Основные функции приложения
+  // Основные функции приложения
   void onNew();
   void onOpen();
   void onClose();
