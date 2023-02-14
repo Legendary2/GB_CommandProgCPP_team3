@@ -248,9 +248,22 @@ void MainWindow::onCopyTextFormat() {}
 
 void MainWindow::onApplyTextFormat() {}
 
-void MainWindow::onAlignTextRight() {}
+void MainWindow::onAlignTextRight() {
+    QTextCursor cursor = textEdit -> textCursor();
+    QTextBlockFormat txtForm = cursor.blockFormat();
+    txtForm.setAlignment(Qt::AlignRight);
+    cursor.mergeBlockFormat(txtForm);
+    textEdit -> setTextCursor(cursor);
 
-void MainWindow::onAlignTextLeft() {}
+}
+
+void MainWindow::onAlignTextLeft() {
+    QTextCursor cursor = textEdit -> textCursor();
+    QTextBlockFormat txtForm = cursor.blockFormat();
+    txtForm.setAlignment(Qt::AlignLeft);
+    cursor.mergeBlockFormat(txtForm);
+    textEdit -> setTextCursor(cursor);
+}
 
 void MainWindow::onAlignTextCenter() {}
 
