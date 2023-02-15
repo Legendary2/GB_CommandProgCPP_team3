@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyle>
+#include <QTextBlockFormat>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isModified(false),
@@ -252,7 +253,14 @@ void MainWindow::onAlignTextRight() {}
 
 void MainWindow::onAlignTextLeft() {}
 
-void MainWindow::onAlignTextCenter() {}
+void MainWindow::onAlignTextCenter()
+{
+    QTextCursor center = textEdit->textCursor();
+    QTextBlockFormat textBlockFormat = center.blockFormat();
+    textBlockFormat.setAlignment(Qt::AlignCenter);
+    center.mergeBlockFormat(textBlockFormat);
+    textEdit->setTextCursor(center);
+}
 
 void MainWindow::onSwitchFont() {}
 
