@@ -254,7 +254,15 @@ void MainWindow::onAlignTextLeft() {}
 
 void MainWindow::onAlignTextCenter() {}
 
-void MainWindow::onSwitchFont() {}
+void MainWindow::onSwitchFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, QFont("Arial", 14));
+    if (ok)
+    {
+        textEdit->setFont(font);
+    }
+}
 
 void MainWindow::onChangeLang() { retranslateGUI(); }
 
