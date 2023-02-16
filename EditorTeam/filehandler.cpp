@@ -2,24 +2,23 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-FileHandler::FileHandler(QWidget *parent) : QWidget{parent}, file{}, data{} {}
+FileHandler::FileHandler(QWidget *parent)
+    : QWidget{parent}, fileName{}, data{} {}
 
 bool FileHandler::open() {
 
-  QString fileName;
-  fileName = QFileDialog::getOpenFileName(
+  QFile file;
+  QString filePath = QFileDialog::getOpenFileName(
       this, tr("Open Document"), QDir::currentPath(),
       tr("All files (*.*) ;; Plain text files (*.txt)"));
-  if (fileName.isEmpty()) {
+  if (filePath.isEmpty()) {
     return false;
   } else {
     if (file.isOpen()) {
       file.close();
     }
-    file.setFileName(fileName);
-    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-      // if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-      //QMessageBox::warning(this, tr("Error"), tr("Open failed"));
+    file.setFileName(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
       return false;
     } else {
       if (!file.isReadable()) {
@@ -29,36 +28,29 @@ bool FileHandler::open() {
         data = QTextStream(&file).readAll();
       }
     }
+    fileName = QFileInfo(filePath).fileName();
+    file.close();
   }
+
   return true;
 }
 
-void FileHandler::close() {
-  if (file.isOpen())
-    file.close();
-  file.setFileName("");
-}
+void FileHandler::close() { fileName = ""; }
 
 bool FileHandler::save(const QString &inputStr) {
-  if (file.isOpen()) {
-    // Проверим режим открытого файла на возможность записи,
-    // если нет, то дадим эту возможность
-    if (!(file.openMode() & QFile::WriteOnly)) {
-      file.close();
-      if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-        return false;
-      }
-    }
-
-    QTextStream stream(&file);
-    stream.seek(0);
-    stream << inputStr;
-
-  } else
-  // На случай, если никакой файл в textEdit не загружен,
-  // но юзер хочет сохранить содержимое textEdit в файл,
-  {
+  if (fileName.isEmpty()) {
     saveAs(inputStr);
+  } else {
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+      return false;
+    } else {
+      QTextStream stream(&file);
+      stream.seek(0);
+      stream << inputStr;
+      file.close();
+    }
   }
 
   return true;
@@ -70,14 +62,15 @@ bool FileHandler::saveAs(const QString &inputStr) {
                                                 tr("Text file(*.txt)"))};
 
   if (filePath.length()) {
-    if (file.isOpen())
-      file.close();
 
-    file.setFileName(filePath);
+    QFile file(filePath);
     if (file.open(QFile::WriteOnly)) {
       QTextStream stream(&file);
 
       stream << inputStr;
+
+      fileName = QFileInfo(filePath).fileName();
+      file.close();
 
       return true;
 
@@ -93,4 +86,4 @@ bool FileHandler::saveAs(const QString &inputStr) {
 
 const QString &FileHandler::getData() const { return data; }
 
-const QString FileHandler::getSourceName() const { return file.fileName(); }
+const QString &FileHandler::getSourceName() const { return fileName; }

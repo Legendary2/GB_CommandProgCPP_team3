@@ -2,6 +2,7 @@
 #include "const_strings.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
+#include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyle>
@@ -187,10 +188,12 @@ void MainWindow::changeFileMenuAccess(const QString &winTitle,
                                       bool hideTextEdit, bool enableSaveAs,
                                       bool enableClose) {
   setWindowTitle(winTitle);
+  bool isTextChanged = isTextModified;
   textEdit->clear();
   textEdit->setHidden(hideTextEdit);
   saveAsAction->setEnabled(enableSaveAs);
   closeAction->setEnabled(enableClose);
+  isTextModified = isTextChanged;
 }
 
 void MainWindow::onSave() {
@@ -200,6 +203,7 @@ void MainWindow::onSave() {
     ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
                                tr("has been saved."));
     saveAction->setEnabled(false);
+    setWindowTitle(srcHandler->getSourceName());
   } else
     ui->statusbar->showMessage(tr("Can't save file."));
 }
@@ -210,14 +214,16 @@ void MainWindow::onSaveAs() {
     ui->statusbar->showMessage(tr("File saved as ") +
                                srcHandler->getSourceName());
     saveAction->setEnabled(false);
-    setWindowTitle(QFileInfo(srcHandler->getSourceName()).fileName());
-  }
+    setWindowTitle(srcHandler->getSourceName());
+  } else
+    ui->statusbar->showMessage(tr("Can't save file."));
 }
 
 void MainWindow::onPrint() {}
 
 void MainWindow::onExit() {
-  onClose();
+  if (!textEdit->isHidden())
+    onClose();
   QApplication::exit(0);
 }
 
@@ -255,22 +261,27 @@ void MainWindow::onNew() {
 
   onClose();
 
-  changeFileMenuAccess(tr("New unsaved document"), false, true, false);
+  changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
 
   saveAction->setEnabled(false);
   isTextModified = false;
 }
 
 void MainWindow::onOpen() {
-
-  onClose();
+  if (isTextModified) {
+    if (textChangedWarning()) {
+      onSave();
+    }
+  }
 
   if (srcHandler->open()) {
 
-    changeFileMenuAccess(QFileInfo(srcHandler->getSourceName()).fileName(),
-                         false, true, true);
+    changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
 
     textEdit->setPlainText(srcHandler->getData());
+    saveAction->setEnabled(false);
+    isTextModified = false;
+
     saveAction->setEnabled(false);
     isTextModified = false;
   }
@@ -284,9 +295,10 @@ void MainWindow::onClose() {
   }
 
   srcHandler->close();
-  changeFileMenuAccess(tr("No file opened"), true, false, false);
   saveAction->setEnabled(false);
+
   isTextModified = false;
+  changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
 }
 
 void MainWindow::onHelp() {
@@ -315,8 +327,16 @@ void MainWindow::onAbout() {
         содержимого textEdit */
 void MainWindow::onTextModified() {
 
-  if (!srcHandler->getSourceName().isEmpty())
-    saveAction->setEnabled(true);
+  QString srcName{srcHandler->getSourceName()};
+
+  if (isTextModified) {
+    if (srcName.isEmpty()) {
+      setWindowTitle(QString(NEW_DOC_STR).append("*"));
+    } else {
+      saveAction->setEnabled(true);
+      setWindowTitle(srcName.append("*"));
+    }
+  }
 
   closeAction->setEnabled(true);
 
