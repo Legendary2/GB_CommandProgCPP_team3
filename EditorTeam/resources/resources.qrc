@@ -5,8 +5,28 @@
         <file>translation/l10n_en.qm</file>
         <file>themes/white.qss</file>
         <file>themes/grey.qss</file>
-		<file>images/tedit.png</file>
-		<file>images/about.png</file>
-		<file>helpfiles/index.htm</file>
+	<file>images/app_icon.png</file>
+	<file>images/icon_32.png</file>
+	<file>images/icon_64.png</file>
+	<file>images/icon_128.png</file>
+	<file>images/icon_256.png</file>
+	<file>images/about.png</file>
+	<file>images/align_center.png</file>
+	<file>images/align_left.png</file>
+	<file>images/align_right.png</file>
+	<file>images/close.png</file>
+	<file>images/copy_format.png</file>
+	<file>images/exit.png</file>
+	<file>images/font.png</file>
+	<file>images/help.png</file>
+	<file>images/keybinds.png</file>
+	<file>images/language.png</file>
+	<file>images/new.png</file>
+	<file>images/open.png</file>
+	<file>images/print.png</file>
+	<file>images/save.png</file>
+	<file>images/save_as.png</file>
+	<file>images/style.png</file>
+	<file>helpfiles/index.htm</file>
     </qresource>
 </RCC>
