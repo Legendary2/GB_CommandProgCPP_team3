@@ -88,6 +88,7 @@ const QString keyBindsIconPath{":/images/keybinds.png"};
 const QString changeLanguageIconPath{":/images/language.png"};
 const QString newIconPath{":/images/new.png"};
 const QString openIconPath{":/images/open.png"};
+const QString applyTextFormatIconPath{":/images/paste_format.png"};
 const QString printIconPath{":/images/print.png"};
 const QString saveIconPath{":/images/save.png"};
 const QString saveAsIconPath{":/images/save_as.png"};

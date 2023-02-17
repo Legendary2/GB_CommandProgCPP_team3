@@ -37,7 +37,8 @@ class MainWindow : public QMainWindow
     /*! KuznecovAG
       Переменная для текущего стиля (пока только white и grey) */
     QString currentStyle = "white";
-    QToolBar *mainToolBar = addToolBar(tr("Главная панель"));
+    // Тулбар главной панели
+    QToolBar *mainToolBar;
 
     //Пункты меню
     QMenu *fileMenu;
@@ -47,8 +48,7 @@ class MainWindow : public QMainWindow
 
     // Вспомогательные методы для выноса части
     // кода за пределы конструктора
-    void createAction(QAction **, const QString &, void (MainWindow::*)(),
-                      bool);
+    void createAction(QAction **, const QString &, void (MainWindow::*)());
     void createActions();
     void createMenus();
 
@@ -121,6 +121,7 @@ class MainWindow : public QMainWindow
     // Слот действий на случай изменения
     // содержимого textEdit */
     void onTextModified();
+
     void setMainToolBar();
 };
 #endif // MAINWINDOW_H

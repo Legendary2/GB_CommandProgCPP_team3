@@ -20,12 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(logoIconPath));
     ui->setupUi(this);
 
-    // Создание тулбара
-    setMainToolBar();
-
     // Заполнение главного меню
     createActions();
     createMenus();
+
+    // Функция настроек и заполнения тулбара
+    setMainToolBar();
 
     retranslateGUI();
 
@@ -44,40 +44,37 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::createAction(QAction **action, const QString &iconPath,
-                              void (MainWindow::*funcSlot)(),
-                              bool isAddInToolBar = false)
+                              void (MainWindow::*funcSlot)())
 {
     *action = new QAction(this);
 
     (*action)->setIcon(QIcon(iconPath));
-    if (isAddInToolBar)
-        mainToolBar->addAction(*action);
+
     connect(*action, &QAction::triggered, this, funcSlot);
 }
 
 void MainWindow::createActions()
 {
     // 'File'
-    createAction(&newAction, newIconPath, &MainWindow::onNew, true);
-    createAction(&openAction, openIconPath, &MainWindow::onOpen, true);
+    createAction(&newAction, newIconPath, &MainWindow::onNew);
+    createAction(&openAction, openIconPath, &MainWindow::onOpen);
     createAction(&closeAction, closeIconPath, &MainWindow::onClose);
-    createAction(&saveAction, saveIconPath, &MainWindow::onSave, true);
-    createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs, true);
-    createAction(&printAction, printIconPath, &MainWindow::onPrint, true);
+    createAction(&saveAction, saveIconPath, &MainWindow::onSave);
+    createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
+    createAction(&printAction, printIconPath, &MainWindow::onPrint);
     createAction(&exitAction, exitIconPath, &MainWindow::onExit);
-    mainToolBar->addSeparator();
 
     // 'Edit'
     createAction(&copyTextFormatAction, copyTextFormatIconPath,
-                 &MainWindow::onCopyTextFormat, true);
-    createAction(&applyTextFormatAction, copyTextFormatIconPath,
+                 &MainWindow::onCopyTextFormat);
+    createAction(&applyTextFormatAction, applyTextFormatIconPath,
                  &MainWindow::onApplyTextFormat);
     createAction(&alignTextLeftAction, alignLeftIconPath,
-                 &MainWindow::onAlignTextLeft, true);
+                 &MainWindow::onAlignTextLeft);
     createAction(&alignTextCenterAction, alignCenterIconPath,
-                 &MainWindow::onAlignTextCenter, true);
+                 &MainWindow::onAlignTextCenter);
     createAction(&alignTextRightAction, alignRightIconPath,
-                 &MainWindow::onAlignTextRight, true);
+                 &MainWindow::onAlignTextRight);
     createAction(&switchFontAction, switchFontIconPath,
                  &MainWindow::onSwitchFont);
 
@@ -437,8 +434,24 @@ void MainWindow::changeEnableActions() // Переключение активн�
     closeAction->setEnabled(true);
 }
 
-void MainWindow::setMainToolBar()
+void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {
+    mainToolBar = addToolBar("");
     mainToolBar->setFloatable(false);
     mainToolBar->setMovable(false);
+    mainToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    mainToolBar->addAction(newAction);
+    mainToolBar->addAction(openAction);
+    mainToolBar->addAction(saveAction);
+    mainToolBar->addAction(saveAsAction);
+    mainToolBar->addSeparator();
+    mainToolBar->addAction(printAction);
+    mainToolBar->addSeparator();
+    mainToolBar->addAction(copyTextFormatAction);
+    mainToolBar->addAction(applyTextFormatAction);
+    mainToolBar->addSeparator();
+    mainToolBar->addAction(alignTextLeftAction);
+    mainToolBar->addAction(alignTextCenterAction);
+    mainToolBar->addAction(alignTextRightAction);
 }
