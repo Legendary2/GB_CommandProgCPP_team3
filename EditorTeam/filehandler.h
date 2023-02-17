@@ -2,7 +2,6 @@
 #define FILEHANDLER_H
 
 #include "idevhandler.h"
-#include <QDebug>
 #include <QFile>
 #include <QWidget>
 

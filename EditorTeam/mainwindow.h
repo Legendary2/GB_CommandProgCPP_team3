@@ -27,6 +27,9 @@ private:
   /* Флаг "Содержимое textEdit изменено?" */
   bool isTextModified;
 
+  /*! GubaydullinRG В textEdit загружен новый документ? */
+  bool newDataLoaded;
+
   // Указатель на текущий редактируемый файл
   QSharedPointer<IDevHandler<QString>> srcHandler;
 

@@ -10,7 +10,10 @@ bool FileHandler::open() {
   QFile file;
   QString filePath = QFileDialog::getOpenFileName(
       this, tr("Open Document"), QDir::currentPath(),
-      tr("All files (*.*) ;; Plain text files (*.txt)"));
+      tr("All files (*) ;; Plain text files (*.txt) ;;"
+         " XML files (*.xml) ;; CPP files (*.cpp) ;; Header files (*.h "
+         "*.hpp) ;; SHELL files (*.sh) ;; CONF files (*.conf) ;; INI files "
+         "(*.ini)"));
   if (filePath.isEmpty()) {
     return false;
   } else {
@@ -57,9 +60,12 @@ bool FileHandler::save(const QString &inputStr) {
 }
 
 bool FileHandler::saveAs(const QString &inputStr) {
-  QString filePath{QFileDialog::getSaveFileName(this, tr("Save file as "),
-                                                QDir::current().path(),
-                                                tr("Text file(*.txt)"))};
+  QString filePath{QFileDialog::getSaveFileName(
+      this, tr("Save file as "), QDir::current().path(),
+      tr("All files (*) ;; Plain text files (*.txt) ;;"
+         " XML files (*.xml) ;; CPP files (*.cpp) ;; Header files (*.h "
+         "*.hpp) ;; SHELL files (*.sh) ;; CONF files (*.conf) ;; INI files "
+         "(*.ini)"))};
 
   if (filePath.length()) {
 

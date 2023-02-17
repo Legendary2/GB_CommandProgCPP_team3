@@ -2,13 +2,13 @@
 #include "const_strings.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
-#include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
+      newDataLoaded(false),
       srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
       hb(QSharedPointer<HelpBrowser>(
           new HelpBrowser(":/helpfiles", "index.htm"))),
@@ -187,13 +187,19 @@ void MainWindow::retranslateGUI() {
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
                                       bool hideTextEdit, bool enableSaveAs,
                                       bool enableClose) {
+
+  QPair<bool, bool> cachedBoolStats{isTextModified, newDataLoaded};
+
   setWindowTitle(winTitle);
-  bool isTextChanged = isTextModified;
+
   textEdit->clear();
   textEdit->setHidden(hideTextEdit);
+
   saveAsAction->setEnabled(enableSaveAs);
   closeAction->setEnabled(enableClose);
-  isTextModified = isTextChanged;
+
+  isTextModified = cachedBoolStats.first;
+  newDataLoaded = cachedBoolStats.second;
 }
 
 void MainWindow::onSave() {
@@ -260,11 +266,10 @@ void MainWindow::onChangeStyle() {
 void MainWindow::onNew() {
 
   onClose();
-
   changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
-
   saveAction->setEnabled(false);
   isTextModified = false;
+  newDataLoaded = true;
 }
 
 void MainWindow::onOpen() {
@@ -275,13 +280,9 @@ void MainWindow::onOpen() {
   }
 
   if (srcHandler->open()) {
-
+    newDataLoaded = true;
     changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
-
     textEdit->setPlainText(srcHandler->getData());
-    saveAction->setEnabled(false);
-    isTextModified = false;
-
     saveAction->setEnabled(false);
     isTextModified = false;
   }
@@ -298,6 +299,8 @@ void MainWindow::onClose() {
   saveAction->setEnabled(false);
 
   isTextModified = false;
+  newDataLoaded = false;
+
   changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
 }
 
@@ -329,18 +332,18 @@ void MainWindow::onTextModified() {
 
   QString srcName{srcHandler->getSourceName()};
 
-  if (isTextModified) {
+  if (!newDataLoaded) {
     if (srcName.isEmpty()) {
-      setWindowTitle(QString(NEW_DOC_STR).append("*"));
+      if (textEdit->isHidden())
+        setWindowTitle(QString(NEW_DOC_STR).append("*"));
     } else {
       saveAction->setEnabled(true);
       setWindowTitle(srcName.append("*"));
     }
+    closeAction->setEnabled(true);
+    isTextModified = true;
   }
-
-  closeAction->setEnabled(true);
-
-  isTextModified = true;
+  newDataLoaded = false;
 }
 
 bool MainWindow::textChangedWarning() {
