@@ -2,23 +2,18 @@
 #include "const_strings.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
-#include <QDebug>
-#include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , isModified(false)
-    , file(new QFile(this))
-    , hb(QSharedPointer<HelpBrowser>(
-          new HelpBrowser(":/helpfiles", "index.htm")))
-    , translator(new QTranslator(this))
-{
-    setWindowIcon(QIcon(logoIconPath));
-    ui->setupUi(this);
+    : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
+      newDataLoaded(false),
+      srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
+      hb(QSharedPointer<HelpBrowser>(
+          new HelpBrowser(":/helpfiles", "index.htm"))),
+      translator(new QTranslator(this)) {
+  ui->setupUi(this);
 
     // Заполнение главного меню
     createActions();
@@ -29,16 +24,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     retranslateGUI();
 
-    // Добавление поля для размещения редактируемого текста
-    QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-    textEdit = new QTextEdit(this);
-    boxLayout->addWidget(textEdit, 0);
-    ui->centralwidget->setLayout(boxLayout);
+  // Добавление поля для размещения редактируемого текста
+  QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+  textEdit = new QTextEdit(this);
+  boxLayout->addWidget(textEdit, 0);
+  ui->centralwidget->setLayout(boxLayout);
 
-    /*! GubaydullinRG
-    Привязка события изменения содержимого textEdit к вызову
-    слота onTextModified() */
-    connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+  /*! GubaydullinRG
+  Привязка события изменения содержимого textEdit к вызову
+  слота onTextModified() */
+  connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+
+  /*! GubaydullinRG
+   *  На старте приложения создаём пустой документ */
+  onNew();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -210,80 +209,53 @@ void MainWindow::retranslateGUI()
     retranslateActions();
 }
 
-void MainWindow::onSave()
-{
-    if (file->isOpen())
-    {
-        // Проверим режим открытого файла на возможность записи,
-        // если нет, то дадим эту возможность
-        if (!(file->openMode() & QFile::WriteOnly))
-        {
-            file->close();
-            if (!file->open(QIODevice::ReadWrite | QIODevice::Text))
-            {
-                ui->statusbar->showMessage(tr("Can't save file."));
-                return;
-            }
-        }
+void MainWindow::changeFileMenuAccess(const QString &winTitle,
+                                      bool hideTextEdit, bool enableSaveAs,
+                                      bool enableClose) {
 
-        QTextStream stream(file);
-        stream.seek(0);
-        stream << textEdit->toPlainText();
+  QPair<bool, bool> cachedBoolStats{isTextModified, newDataLoaded};
 
-        ui->statusbar->showMessage(file->fileName() + " " +
-                                   tr("has been saved."));
+  setWindowTitle(winTitle);
 
-        isModified = false;
-    }
-    else
-    // На случай, если никакой файл в textEdit не загружен,
-    // но юзер хочет сохранить содержимое textEdit в файл,
-    {
-        onSaveAs();
-    }
+  textEdit->clear();
+  textEdit->setHidden(hideTextEdit);
 
-    saveAction->setEnabled(false);
+  saveAsAction->setEnabled(enableSaveAs);
+  closeAction->setEnabled(enableClose);
+
+  isTextModified = cachedBoolStats.first;
+  newDataLoaded = cachedBoolStats.second;
 }
 
-void MainWindow::onSaveAs()
-{
-    QString filePath{QFileDialog::getSaveFileName(this, tr("Save file as "),
-                                                  QDir::current().path(),
-                                                  tr("Text file(*.txt)"))};
+void MainWindow::onSave() {
+  if (srcHandler->save(textEdit->toPlainText())) {
+    isTextModified = false;
 
-    if (filePath.length())
-    {
-        if (file->isOpen())
-            file->close();
+    ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
+                               tr("has been saved."));
+    saveAction->setEnabled(false);
+    setWindowTitle(srcHandler->getSourceName());
+  } else
+    ui->statusbar->showMessage(tr("Can't save file."));
+}
 
-        file->setFileName(filePath);
-        if (file->open(QFile::WriteOnly))
-        {
-            QTextStream stream(file);
-
-            stream << textEdit->toPlainText();
-
-            ui->statusbar->showMessage(tr("File saved as ") + file->fileName() +
-                                       '.');
-
-            isModified = false;
-        }
-        else //! open
-        {
-            QMessageBox::warning(this, tr("Can't save file"),
-                                 tr("Cannot save file ") + filePath);
-        }
-    }
+void MainWindow::onSaveAs() {
+  if (srcHandler->saveAs(textEdit->toPlainText())) {
+    isTextModified = false;
+    ui->statusbar->showMessage(tr("File saved as ") +
+                               srcHandler->getSourceName());
+    saveAction->setEnabled(false);
+    setWindowTitle(srcHandler->getSourceName());
+  } else
+    ui->statusbar->showMessage(tr("Can't save file."));
 }
 
 void MainWindow::onPrint() {}
 
-void MainWindow::onExit()
-{
-    if (!isTextModified)
-        MainWindow::close();
-    else if (warningWindow())
-        MainWindow::close();
+void MainWindow::onExit() {
+  if (!textEdit->isHidden())
+    onClose();
+  QApplication::exit(0);
 }
 
 void MainWindow::onCopyTextFormat() {}
@@ -318,65 +290,45 @@ void MainWindow::onChangeStyle()
     currentStyle = newStyle;
 }
 
-void MainWindow::onNew()
-{
-    textEdit->clear();
-    textEdit->setHidden(false);
-    lastFilename = "file.txt";
+void MainWindow::onNew() {
+
+  onClose();
+  changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
+  saveAction->setEnabled(false);
+  isTextModified = false;
+  newDataLoaded = true;
 }
 
-void MainWindow::onOpen()
-{
+void MainWindow::onOpen() {
+  if (isTextModified) {
+    if (textChangedWarning()) {
+      onSave();
+    }
+  }
 
-    QString fileName;
-    fileName = QFileDialog::getOpenFileName(
-        this, tr("Open Document"), QDir::currentPath(),
-        "All files (*.*) ;; Document files (*.txt)");
-    if (fileName == "file.txt")
-    {
-        return;
-    }
-    else
-    {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadWrite | QIODevice::Text))
-        {
-            QMessageBox::warning(this, tr("Error"), tr("Open failed"));
-            return;
-        }
-        else
-        {
-            if (!file.isReadable())
-            {
-                QMessageBox::warning(this, tr("Error"),
-                                     tr("The file is not read"));
-            }
-            else
-            {
-                QTextStream textStream(&file);
-                while (!textStream.atEnd())
-                {
-                    textEdit->setPlainText(textStream.readAll());
-                }
-                textEdit->show();
-                file.close();
-                lastFilename = fileName;
-            }
-        }
-    }
+  if (srcHandler->open()) {
+    newDataLoaded = true;
+    changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
+    textEdit->setPlainText(srcHandler->getData());
+    saveAction->setEnabled(false);
+    isTextModified = false;
+  }
 }
 
-void MainWindow::onClose()
-{
-    if (isTextModified)
-    {
-        if (warningWindow())
-        {
-            textEdit->clear();
-            isTextModified = false;
-            closeAction->setEnabled(false);
-        }
+void MainWindow::onClose() {
+  if (isTextModified) {
+    if (textChangedWarning()) { // Юзер согласился сохраниться
+      onSave();
     }
+  }
+
+  srcHandler->close();
+  saveAction->setEnabled(false);
+
+  isTextModified = false;
+  newDataLoaded = false;
+
+  changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
 }
 
 void MainWindow::onHelp()
@@ -395,43 +347,48 @@ void MainWindow::onAbout()
 
                               "  GB_CommandProgCPP_team3\n\n"
 
-                              "© 2008-2022 The Qt Company Ltd.\n "
-                              "     Все права защищены.\n\n");
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+                            "© 2008-2022 The Qt Company Ltd.\n "
+                            "     Все права защищены.\n\n");
+  msgBox.setDefaultButton(QMessageBox::Ok);
+
+  msgBox.exec();
 }
 
 /*! GubaydullinRG
         Выполнение действий в случае изменения
         содержимого textEdit */
-void MainWindow::onTextModified()
-{
-    isModified = true;
-    saveAction->setEnabled(true);
-}
+void MainWindow::onTextModified() {
 
-bool MainWindow::warningWindow()
-{
-    QMessageBox choice; // Создаём диалоговое окно
-    choice.setWindowTitle(tr("Вы уверены?"));
-    choice.setText(tr("Все несохраненные данные будут утеряны!"));
-    choice.addButton(tr("Да"), QMessageBox::YesRole);
-    choice.addButton(tr("Нет"), QMessageBox::NoRole);
-    if (choice.exec() == false)
-    {
-        return true;
-    }
-    else
-    {
-        choice.close();
-        return false;
-    }
-}
+  QString srcName{srcHandler->getSourceName()};
 
-void MainWindow::changeEnableActions() // Переключение активности режима кнопки
-{
-    isTextModified = true;
+  if (!newDataLoaded) {
+    if (srcName.isEmpty()) {
+      if (textEdit->isHidden())
+        setWindowTitle(QString(NEW_DOC_STR).append("*"));
+    } else {
+      saveAction->setEnabled(true);
+      setWindowTitle(srcName.append("*"));
+    }
     closeAction->setEnabled(true);
+    isTextModified = true;
+  }
+  newDataLoaded = false;
+}
+
+bool MainWindow::textChangedWarning() {
+  QMessageBox choice(this); // Создаём диалоговое окно
+
+  choice.setWindowTitle(tr("Unsaved data could be lost"));
+  choice.setText(tr("Do you want to save changes?"));
+  choice.addButton(tr("Yes"), QMessageBox::YesRole);
+  choice.addButton(tr("No"), QMessageBox::NoRole);
+
+  if (choice.exec() == true) {
+    return false;
+  } else {
+    choice.close();
+    return true;
+  }
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара

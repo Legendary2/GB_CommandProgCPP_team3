@@ -74,6 +74,11 @@ static const QPair<const char *, const char *> ABOUT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "About"),
     QT_TRANSLATE_NOOP("MainWindow", "Short info about application")};
 
+// Window title constants
+static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
+static const char *NO_FILE_OPENED_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
+
 // Icons
 const QString aboutIconPath{":/images/about.png"};
 const QString alignCenterIconPath{":/images/align_center.png"};

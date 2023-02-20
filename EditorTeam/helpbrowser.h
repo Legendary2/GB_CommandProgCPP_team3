@@ -9,7 +9,7 @@ class HelpBrowser : public QWidget {
 
 public:
   HelpBrowser(const QString &strPath, const QString &strFileName,
-              QWidget *pwgt = nullptr);
+              QWidget *pwgt = 0);
 };
 
 #endif // HELPBROWSER_H
