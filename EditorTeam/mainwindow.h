@@ -89,6 +89,7 @@ class MainWindow : public QMainWindow
     //Поле для размещения редактируемого текста
     QTextEdit *textEdit;
     QString lastFilename;
+    QTextCharFormat textFormat;
 
     bool isTextModified = false;
 

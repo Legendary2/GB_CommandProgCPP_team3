@@ -286,7 +286,12 @@ void MainWindow::onExit()
         MainWindow::close();
 }
 
-void MainWindow::onCopyTextFormat() {}
+void MainWindow::onCopyTextFormat()
+{
+    if (textEdit->textCursor().hasSelection())
+        textFormat = textEdit->currentCharFormat();
+    qDebug() << "textFormat:" << textFormat.font(); //Для отслеживания формата текста
+}
 
 void MainWindow::onApplyTextFormat() {}
 
