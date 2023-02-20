@@ -7,6 +7,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyle>
+#include <QPrinter>
+#include <QPrintDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -200,9 +202,9 @@ void MainWindow::retranslateMenus()
 void MainWindow::retranslateGUI()
 {
     if (translator->language() == "ru_RU")
-        translator->load(":/translation/l10n_en.qm");
+        static_cast<void>(translator->load(":/translation/l10n_en.qm"));
     else
-        translator->load(":/translation/l10n_ru.qm");
+        static_cast<void>(translator->load(":/translation/l10n_ru.qm"));
 
     QApplication::installTranslator(translator);
 
@@ -276,7 +278,16 @@ void MainWindow::onSaveAs()
     }
 }
 
-void MainWindow::onPrint() {}
+void MainWindow::onPrint()
+{
+    QPrinter printer;
+    QPrintDialog dlg(&printer, this);
+    dlg.setWindowTitle(tr("Print"));
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+    QString printStr = textEdit->toPlainText();
+    textEdit->print(&printer);
+}
 
 void MainWindow::onExit()
 {
