@@ -202,9 +202,9 @@ void MainWindow::retranslateMenus()
 void MainWindow::retranslateGUI()
 {
     if (translator->language() == "ru_RU")
-        static_cast<void>(translator->load(":/translation/l10n_en.qm"));
+        translator->load(":/translation/l10n_en.qm");
     else
-        static_cast<void>(translator->load(":/translation/l10n_ru.qm"));
+        translator->load(":/translation/l10n_ru.qm");
 
     QApplication::installTranslator(translator);
 
