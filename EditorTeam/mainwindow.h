@@ -1,28 +1,30 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "filehandler.h"
 #include "helpbrowser.h"
+#include "filehandler.h"
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
-  Q_OBJECT
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
-public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+  public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
-private:
-  Ui::MainWindow *ui;
+  private:
+    Ui::MainWindow *ui;
 
   /* Флаг "Содержимое textEdit изменено?" */
   bool isTextModified;
@@ -33,11 +35,13 @@ private:
   // Указатель на текущий редактируемый файл
   QSharedPointer<IDevHandler<QString>> srcHandler;
 
-  QSharedPointer<HelpBrowser> hb;
+    QSharedPointer<HelpBrowser> hb;
 
-  /*! KuznecovAG
-    Переменная для текущего стиля (пока только white и grey) */
-  QString currentStyle = "white";
+    /*! KuznecovAG
+      Переменная для текущего стиля (пока только white и grey) */
+    QString currentStyle = "white";
+    // Тулбар главной панели
+    QToolBar *mainToolBar;
 
   // Пункты меню
   QMenu *fileMenu;
@@ -47,7 +51,7 @@ private:
 
   // Вспомогательные методы для выноса части
   // кода за пределы конструктора
-  void createAction(QAction **, void (MainWindow::*)());
+  void createAction(QAction **, const QString &, void (MainWindow::*)());
   void createActions();
   void createMenus();
 
@@ -115,9 +119,11 @@ private slots:
   void onHelp();
   void onAbout();
 
-  /*! GubaydullinRG
-  // Слот действий на случай изменения
-  // содержимого textEdit */
-  void onTextModified();
+    /*! GubaydullinRG
+    // Слот действий на случай изменения
+    // содержимого textEdit */
+    void onTextModified();
+
+    void setMainToolBar();
 };
 #endif // MAINWINDOW_H

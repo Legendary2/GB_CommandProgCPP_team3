@@ -2,6 +2,7 @@
 #define CONST_STRINGS_H
 
 #include <QPair>
+#include <QString>
 
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
@@ -77,5 +78,27 @@ static const QPair<const char *, const char *> ABOUT_ACTION_STR_PAIR{
 static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
 static const char *NO_FILE_OPENED_STR{
     QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
+
+// Icons
+const QString aboutIconPath{":/images/about.png"};
+const QString alignCenterIconPath{":/images/align_center.png"};
+const QString alignLeftIconPath{":/images/align_left.png"};
+const QString alignRightIconPath{":/images/align_right.png"};
+const QString closeIconPath{":/images/close.png"};
+const QString copyTextFormatIconPath{":/images/copy_format.png"};
+const QString exitIconPath{":/images/exit.png"};
+const QString switchFontIconPath{":/images/font.png"};
+const QString helpIconPath{":/images/help.png"};
+const QString keyBindsIconPath{":/images/keybinds.png"};
+const QString changeLanguageIconPath{":/images/language.png"};
+const QString newIconPath{":/images/new.png"};
+const QString openIconPath{":/images/open.png"};
+const QString applyTextFormatIconPath{":/images/paste_format.png"};
+const QString printIconPath{":/images/print.png"};
+const QString saveIconPath{":/images/save.png"};
+const QString saveAsIconPath{":/images/save_as.png"};
+const QString changeStyleIconPath{":/images/style.png"};
+const QString logoIconPath{":/images/icon_64.png"};
+const QString appIconPath{":/images/icon_128.png"};
 
 #endif // CONST_STRINGS_H
