@@ -268,7 +268,17 @@ void MainWindow::onAlignTextLeft() {}
 
 void MainWindow::onAlignTextCenter() {}
 
-void MainWindow::onSwitchFont() {}
+void MainWindow::onSwitchFont()
+{
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok,textEdit->currentFont());
+    if (ok)
+    {
+        QTextCharFormat textCharFormat;
+        textCharFormat.setFont(font);
+        textEdit-> textCursor().setCharFormat(textCharFormat);
+    }
+}
 
 void MainWindow::onChangeLang() { retranslateGUI(); }
 
