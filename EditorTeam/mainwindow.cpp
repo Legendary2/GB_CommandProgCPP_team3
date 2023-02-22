@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
       srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
       hb(QSharedPointer<HelpBrowser>(
           new HelpBrowser(":/helpfiles", "index.htm"))),
-      translator(new QTranslator(this)) /*, popupMenu(new QMenu(this))*/ {
+      translator(new QTranslator(this)), popupMenu(new QMenu(this)),
+      fontSizeLabel(new QLabel(this)), fontSizeComboBox(new QComboBox(this)) {
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -389,17 +390,11 @@ void MainWindow::inflatePopupMenu() {
   connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
           SLOT(onPopupMenuCalled(QPoint)));
 
-  popupMenu = new QMenu(this);
-
   QWidgetAction *popupWidgetAction = new QWidgetAction(popupMenu);
 
   QWidget *fontSizeWidget = new QWidget(popupMenu);
 
   QHBoxLayout *fontSizeLayout = new QHBoxLayout(popupMenu);
-
-  fontSizeLabel = new QLabel(tr(POPUP_FONT_SIZE_STR), popupMenu);
-
-  fontSizeComboBox = new QComboBox(popupMenu);
 
   for (int i = 10; i <= 50; i += 10)
     fontSizeComboBox->addItem(QString::number(i));
