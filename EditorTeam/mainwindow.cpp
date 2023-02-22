@@ -7,13 +7,16 @@
 #include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
-      newDataLoaded(false),
-      srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
-      hb(QSharedPointer<HelpBrowser>(
-          new HelpBrowser(":/helpfiles", "index.htm"))),
-      translator(new QTranslator(this)) {
-  ui->setupUi(this);
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , isTextModified(false)
+    , newDataLoaded(false)
+    , srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this)))
+    , hb(QSharedPointer<HelpBrowser>(
+          new HelpBrowser(":/helpfiles", "index.htm")))
+    , translator(new QTranslator(this))
+{
+    ui->setupUi(this);
 
     // Заполнение главного меню
     createActions();
@@ -24,20 +27,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     retranslateGUI();
 
-  // Добавление поля для размещения редактируемого текста
-  QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
-  textEdit = new QTextEdit(this);
-  boxLayout->addWidget(textEdit, 0);
-  ui->centralwidget->setLayout(boxLayout);
+    // Добавление поля для размещения редактируемого текста
+    QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    textEdit = new QTextEdit(this);
+    boxLayout->addWidget(textEdit, 0);
+    ui->centralwidget->setLayout(boxLayout);
 
-  /*! GubaydullinRG
-  Привязка события изменения содержимого textEdit к вызову
-  слота onTextModified() */
-  connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+    /*! GubaydullinRG
+    Привязка события изменения содержимого textEdit к вызову
+    слота onTextModified() */
+    connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 
-  /*! GubaydullinRG
-   *  На старте приложения создаём пустой документ */
-  onNew();
+    /*! GubaydullinRG
+     *  На старте приложения создаём пустой документ */
+    onNew();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -76,6 +79,10 @@ void MainWindow::createActions()
                  &MainWindow::onAlignTextRight);
     createAction(&switchFontAction, switchFontIconPath,
                  &MainWindow::onSwitchFont);
+
+    // 'Format'
+    createAction(&underlineTextFormatAction, NULL,
+                 &MainWindow::onUnderlineTextFormat);
 
     // 'Settings'
     createAction(&changeLangAction, changeLanguageIconPath,
@@ -119,6 +126,11 @@ void MainWindow::createMenus()
     editMenu->addAction(alignTextCenterAction);
     editMenu->addSeparator();
     editMenu->addAction(switchFontAction);
+
+    // 'Format'
+    formatMenu = new QMenu(this);
+    menuBar()->addMenu(formatMenu);
+    formatMenu->addAction(underlineTextFormatAction);
 
     // 'Settings'
     settingsMenu = new QMenu(this);
@@ -178,6 +190,9 @@ void MainWindow::retranslateActions()
                       ALIGN_TEXT_CENTER_ACTION_STR_PAIR);
     retranslateAction(&switchFontAction, SWITCH_FONT_ACTION_STR_PAIR);
 
+    // 'Format'
+    retranslateAction(&underlineTextFormatAction,
+                      UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
     // 'Settings'
     retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
     retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -192,6 +207,7 @@ void MainWindow::retranslateMenus()
 {
     fileMenu->setTitle(tr(FILE_MENU_STR));
     editMenu->setTitle(tr(EDIT_MENU_STR));
+    formatMenu->setTitle(tr(FORMAT_MENU_STR));
     settingsMenu->setTitle(tr(SETTINGS_MENU_STR));
     questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
@@ -211,51 +227,59 @@ void MainWindow::retranslateGUI()
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
                                       bool hideTextEdit, bool enableSaveAs,
-                                      bool enableClose) {
+                                      bool enableClose)
+{
 
-  QPair<bool, bool> cachedBoolStats{isTextModified, newDataLoaded};
+    QPair<bool, bool> cachedBoolStats{isTextModified, newDataLoaded};
 
-  setWindowTitle(winTitle);
+    setWindowTitle(winTitle);
 
-  textEdit->clear();
-  textEdit->setHidden(hideTextEdit);
+    textEdit->clear();
+    textEdit->setHidden(hideTextEdit);
 
-  saveAsAction->setEnabled(enableSaveAs);
-  closeAction->setEnabled(enableClose);
+    saveAsAction->setEnabled(enableSaveAs);
+    closeAction->setEnabled(enableClose);
 
-  isTextModified = cachedBoolStats.first;
-  newDataLoaded = cachedBoolStats.second;
+    isTextModified = cachedBoolStats.first;
+    newDataLoaded = cachedBoolStats.second;
 }
 
-void MainWindow::onSave() {
-  if (srcHandler->save(textEdit->toPlainText())) {
-    isTextModified = false;
+void MainWindow::onSave()
+{
+    if (srcHandler->save(textEdit->toPlainText()))
+    {
+        isTextModified = false;
 
-    ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
-                               tr("has been saved."));
-    saveAction->setEnabled(false);
-    setWindowTitle(srcHandler->getSourceName());
-  } else
-    ui->statusbar->showMessage(tr("Can't save file."));
+        ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
+                                   tr("has been saved."));
+        saveAction->setEnabled(false);
+        setWindowTitle(srcHandler->getSourceName());
+    }
+    else
+        ui->statusbar->showMessage(tr("Can't save file."));
 }
 
-void MainWindow::onSaveAs() {
-  if (srcHandler->saveAs(textEdit->toPlainText())) {
-    isTextModified = false;
-    ui->statusbar->showMessage(tr("File saved as ") +
-                               srcHandler->getSourceName());
-    saveAction->setEnabled(false);
-    setWindowTitle(srcHandler->getSourceName());
-  } else
-    ui->statusbar->showMessage(tr("Can't save file."));
+void MainWindow::onSaveAs()
+{
+    if (srcHandler->saveAs(textEdit->toPlainText()))
+    {
+        isTextModified = false;
+        ui->statusbar->showMessage(tr("File saved as ") +
+                                   srcHandler->getSourceName());
+        saveAction->setEnabled(false);
+        setWindowTitle(srcHandler->getSourceName());
+    }
+    else
+        ui->statusbar->showMessage(tr("Can't save file."));
 }
 
 void MainWindow::onPrint() {}
 
-void MainWindow::onExit() {
-  if (!textEdit->isHidden())
-    onClose();
-  QApplication::exit(0);
+void MainWindow::onExit()
+{
+    if (!textEdit->isHidden())
+        onClose();
+    QApplication::exit(0);
 }
 
 void MainWindow::onCopyTextFormat() {}
@@ -271,12 +295,12 @@ void MainWindow::onAlignTextCenter() {}
 void MainWindow::onSwitchFont()
 {
     bool ok;
-    QFont font = QFontDialog::getFont(&ok,textEdit->currentFont());
+    QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
     if (ok)
     {
         QTextCharFormat textCharFormat;
         textCharFormat.setFont(font);
-        textEdit-> textCursor().setCharFormat(textCharFormat);
+        textEdit->textCursor().setCharFormat(textCharFormat);
     }
 }
 
@@ -300,45 +324,53 @@ void MainWindow::onChangeStyle()
     currentStyle = newStyle;
 }
 
-void MainWindow::onNew() {
+void MainWindow::onNew()
+{
 
-  onClose();
-  changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
-  saveAction->setEnabled(false);
-  isTextModified = false;
-  newDataLoaded = true;
-}
-
-void MainWindow::onOpen() {
-  if (isTextModified) {
-    if (textChangedWarning()) {
-      onSave();
-    }
-  }
-
-  if (srcHandler->open()) {
-    newDataLoaded = true;
-    changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
-    textEdit->setPlainText(srcHandler->getData());
+    onClose();
+    changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
     saveAction->setEnabled(false);
     isTextModified = false;
-  }
+    newDataLoaded = true;
 }
 
-void MainWindow::onClose() {
-  if (isTextModified) {
-    if (textChangedWarning()) { // Юзер согласился сохраниться
-      onSave();
+void MainWindow::onOpen()
+{
+    if (isTextModified)
+    {
+        if (textChangedWarning())
+        {
+            onSave();
+        }
     }
-  }
 
-  srcHandler->close();
-  saveAction->setEnabled(false);
+    if (srcHandler->open())
+    {
+        newDataLoaded = true;
+        changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
+        textEdit->setPlainText(srcHandler->getData());
+        saveAction->setEnabled(false);
+        isTextModified = false;
+    }
+}
 
-  isTextModified = false;
-  newDataLoaded = false;
+void MainWindow::onClose()
+{
+    if (isTextModified)
+    {
+        if (textChangedWarning())
+        { // Юзер согласился сохраниться
+            onSave();
+        }
+    }
 
-  changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
+    srcHandler->close();
+    saveAction->setEnabled(false);
+
+    isTextModified = false;
+    newDataLoaded = false;
+
+    changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
 }
 
 void MainWindow::onHelp()
@@ -357,48 +389,70 @@ void MainWindow::onAbout()
 
                               "  GB_CommandProgCPP_team3\n\n"
 
-                            "© 2008-2022 The Qt Company Ltd.\n "
-                            "     Все права защищены.\n\n");
-  msgBox.setDefaultButton(QMessageBox::Ok);
+                              "© 2008-2022 The Qt Company Ltd.\n "
+                              "     Все права защищены.\n\n");
+    msgBox.setDefaultButton(QMessageBox::Ok);
 
-  msgBox.exec();
+    msgBox.exec();
 }
 
 /*! GubaydullinRG
         Выполнение действий в случае изменения
         содержимого textEdit */
-void MainWindow::onTextModified() {
+void MainWindow::onTextModified()
+{
 
-  QString srcName{srcHandler->getSourceName()};
+    QString srcName{srcHandler->getSourceName()};
 
-  if (!newDataLoaded) {
-    if (srcName.isEmpty()) {
-      if (textEdit->isHidden())
-        setWindowTitle(QString(NEW_DOC_STR).append("*"));
-    } else {
-      saveAction->setEnabled(true);
-      setWindowTitle(srcName.append("*"));
+    if (!newDataLoaded)
+    {
+        if (srcName.isEmpty())
+        {
+            if (textEdit->isHidden())
+                setWindowTitle(QString(NEW_DOC_STR).append("*"));
+        }
+        else
+        {
+            saveAction->setEnabled(true);
+            setWindowTitle(srcName.append("*"));
+        }
+        closeAction->setEnabled(true);
+        isTextModified = true;
     }
-    closeAction->setEnabled(true);
-    isTextModified = true;
-  }
-  newDataLoaded = false;
+    newDataLoaded = false;
 }
 
-bool MainWindow::textChangedWarning() {
-  QMessageBox choice(this); // Создаём диалоговое окно
+bool MainWindow::textChangedWarning()
+{
+    QMessageBox choice(this); // Создаём диалоговое окно
 
-  choice.setWindowTitle(tr("Unsaved data could be lost"));
-  choice.setText(tr("Do you want to save changes?"));
-  choice.addButton(tr("Yes"), QMessageBox::YesRole);
-  choice.addButton(tr("No"), QMessageBox::NoRole);
+    choice.setWindowTitle(tr("Unsaved data could be lost"));
+    choice.setText(tr("Do you want to save changes?"));
+    choice.addButton(tr("Yes"), QMessageBox::YesRole);
+    choice.addButton(tr("No"), QMessageBox::NoRole);
 
-  if (choice.exec() == true) {
-    return false;
-  } else {
-    choice.close();
-    return true;
-  }
+    if (choice.exec() == true)
+    {
+        return false;
+    }
+    else
+    {
+        choice.close();
+        return true;
+    }
+}
+
+void MainWindow::onUnderlineTextFormat()
+{
+    QTextCharFormat chFormat;
+    if (textEdit->textCursor().hasSelection())
+    {
+        if (!textEdit->textCursor().charFormat().fontUnderline())
+            chFormat.setFontUnderline(true);
+        else
+            chFormat.setFontUnderline(false);
+        textEdit->textCursor().setCharFormat(chFormat);
+    }
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
