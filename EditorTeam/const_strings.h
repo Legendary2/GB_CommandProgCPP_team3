@@ -74,6 +74,10 @@ static const QPair<const char *, const char *> ABOUT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "About"),
     QT_TRANSLATE_NOOP("MainWindow", "Short info about application")};
 
+// font size on popupMenu
+static const char *POPUP_FONT_SIZE_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "Choose font size from 8 to 50:"});
+
 // Window title constants
 static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
 static const char *NO_FILE_OPENED_STR{
