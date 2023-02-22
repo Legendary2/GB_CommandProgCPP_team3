@@ -20,9 +20,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-	helpbrowser.cpp
-	helpbrowser.h
-	const_strings.h
+	    helpbrowser.cpp
+	    helpbrowser.h
+	    const_strings.h
+        idevhandler.h
+        filehandler.h
+        filehandler.cpp
 )
 
 set(TS_SRC_FILES

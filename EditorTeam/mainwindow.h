@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include "helpbrowser.h"
-#include <QFile>
+#include "filehandler.h"
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
@@ -26,11 +26,14 @@ class MainWindow : public QMainWindow
   private:
     Ui::MainWindow *ui;
 
-    /*! GubaydullinRG
-    Флаг "Содержимое textEdit изменено?" */
-    bool isModified;
-    //Указатель на текущий редактируемый файл
-    QFile *file;
+  /* Флаг "Содержимое textEdit изменено?" */
+  bool isTextModified;
+
+  /*! GubaydullinRG В textEdit загружен новый документ? */
+  bool newDataLoaded;
+
+  // Указатель на текущий редактируемый файл
+  QSharedPointer<IDevHandler<QString>> srcHandler;
 
     QSharedPointer<HelpBrowser> hb;
 
@@ -40,82 +43,81 @@ class MainWindow : public QMainWindow
     // Тулбар главной панели
     QToolBar *mainToolBar;
 
-    //Пункты меню
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *settingsMenu;
-    QMenu *questionMenu;
+  // Пункты меню
+  QMenu *fileMenu;
+  QMenu *editMenu;
+  QMenu *settingsMenu;
+  QMenu *questionMenu;
 
-    // Вспомогательные методы для выноса части
-    // кода за пределы конструктора
-    void createAction(QAction **, const QString &, void (MainWindow::*)());
-    void createActions();
-    void createMenus();
+  // Вспомогательные методы для выноса части
+  // кода за пределы конструктора
+  void createAction(QAction **, const QString &, void (MainWindow::*)());
+  void createActions();
+  void createMenus();
 
-    //Интернационализация приложения
-    QTranslator *translator;
-    virtual void changeEvent(QEvent *) override;
-    void retranslateAction(QAction **,
-                           const QPair<const char *, const char *> &);
-    void retranslateActions();
-    void retranslateMenus();
-    void retranslateGUI();
+  // Интернационализация приложения
+  QTranslator *translator;
+  virtual void changeEvent(QEvent *) override;
+  void retranslateAction(QAction **, const QPair<const char *, const char *> &);
+  void retranslateActions();
+  void retranslateMenus();
+  void retranslateGUI();
 
-    bool warningWindow();       // Окно предупреждения
-    void changeEnableActions(); // Переключатель кнопки Close
+  /*! GubaydullinRG
+      Включение/отключение доступности элементов меню 'File' */
+  void changeFileMenuAccess(const QString &, bool, bool, bool);
 
-    //Элементы подменю 'File'
-    QAction *newAction;
-    QAction *openAction;
-    QAction *closeAction;
-    QAction *saveAction;
-    QAction *saveAsAction;
-    QAction *printAction;
-    QAction *exitAction;
+  bool textChangedWarning(); // Окно предупреждения
 
-    //Элементы подменю 'Edit'
-    QAction *copyTextFormatAction;
-    QAction *applyTextFormatAction;
-    QAction *alignTextRightAction;
-    QAction *alignTextLeftAction;
-    QAction *alignTextCenterAction;
-    QAction *switchFontAction;
+  // Элементы подменю 'File'
+  QAction *newAction;
+  QAction *openAction;
+  QAction *closeAction;
+  QAction *saveAction;
+  QAction *saveAsAction;
+  QAction *printAction;
+  QAction *exitAction;
 
-    //Элементы подменю 'Settings'
-    QAction *changeLangAction;
-    QAction *changeKeyBindAction;
-    QAction *changeStyleAction;
+  // Элементы подменю 'Edit'
+  QAction *copyTextFormatAction;
+  QAction *applyTextFormatAction;
+  QAction *alignTextRightAction;
+  QAction *alignTextLeftAction;
+  QAction *alignTextCenterAction;
+  QAction *switchFontAction;
 
-    //Поле для размещения редактируемого текста
-    QTextEdit *textEdit;
-    QString lastFilename;
+  // Элементы подменю 'Settings'
+  QAction *changeLangAction;
+  QAction *changeKeyBindAction;
+  QAction *changeStyleAction;
 
-    bool isTextModified = false;
+  // Поле для размещения редактируемого текста
+  QTextEdit *textEdit;
 
-    //Элементы подменю '?'
-    QAction *helpAction;
-    QAction *aboutAction;
+  // Элементы подменю '?'
+  QAction *helpAction;
+  QAction *aboutAction;
 
-  private slots:
-    //Основные функции приложения
-    void onNew();
-    void onOpen();
-    void onClose();
-    void onSave();
-    void onSaveAs();
-    void onPrint();
-    void onExit();
-    void onCopyTextFormat();
-    void onApplyTextFormat();
-    void onAlignTextRight();
-    void onAlignTextLeft();
-    void onAlignTextCenter();
-    void onSwitchFont();
-    void onChangeLang();
-    void onChangeKeyBind();
-    void onChangeStyle();
-    void onHelp();
-    void onAbout();
+private slots:
+  // Основные функции приложения
+  void onNew();
+  void onOpen();
+  void onClose();
+  void onSave();
+  void onSaveAs();
+  void onPrint();
+  void onExit();
+  void onCopyTextFormat();
+  void onApplyTextFormat();
+  void onAlignTextRight();
+  void onAlignTextLeft();
+  void onAlignTextCenter();
+  void onSwitchFont();
+  void onChangeLang();
+  void onChangeKeyBind();
+  void onChangeStyle();
+  void onHelp();
+  void onAbout();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения
