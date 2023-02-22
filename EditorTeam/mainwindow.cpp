@@ -5,7 +5,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyle>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QTextBlockFormat>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
@@ -251,7 +254,16 @@ void MainWindow::onSaveAs() {
     ui->statusbar->showMessage(tr("Can't save file."));
 }
 
-void MainWindow::onPrint() {}
+void MainWindow::onPrint()
+{
+    QPrinter printer;
+    QPrintDialog dlg(&printer, this);
+    dlg.setWindowTitle(tr("Print"));
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+    QString printStr = textEdit->toPlainText();
+    textEdit->print(&printer);
+}
 
 void MainWindow::onExit() {
   if (!textEdit->isHidden())
