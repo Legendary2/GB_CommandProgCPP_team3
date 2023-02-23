@@ -25,20 +25,27 @@
 ### Linux Ubuntu 18.04:
 1. Qt v6.2.4 LTS
 
+https://docs.google.com/document/d/1kM6dwnTYJyXO_quz3wDepJl7CVUYDPrBvn453UYi1zo/edit
+
 2. Git v2.39.2
+
 https://git-scm.com/download/linux
 
 3. CMake
+
 https://cmake.org/install/
 
 ### Windows 10:
 1. Qt v6.2.4 LTS
+
 https://rutracker.org/forum/viewtopic.php?t=6196654 (для доступа может потребоваться VPN в браузере)
 
 2. Git v2.39.2
+
 https://git-scm.com/download/win
 
 3. CMake
+
 https://cmake.org/install/
 
 ## 1.3 Развертывание проекта
