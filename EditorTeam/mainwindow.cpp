@@ -292,6 +292,14 @@ void MainWindow::onAlignTextLeft() {
     textEdit -> setTextCursor(cursor);
 }
 
+void MainWindow::onAlignTextLeft() {
+    QTextCursor cursor = textEdit -> textCursor();
+    QTextBlockFormat txtForm = cursor.blockFormat();
+    txtForm.setAlignment(Qt::AlignLeft);
+    cursor.mergeBlockFormat(txtForm);
+    textEdit -> setTextCursor(cursor);
+}
+
 void MainWindow::onAlignTextCenter()
 {
     QTextCursor center = textEdit->textCursor();
