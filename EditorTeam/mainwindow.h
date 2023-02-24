@@ -98,6 +98,12 @@ class MainWindow : public QMainWindow
 
     // Поле для размещения редактируемого текста
     QTextEdit *textEdit;
+    QString lastFilename;
+
+    // Объект хранит в себе скопированный формат текста
+    QTextCharFormat textFormat;
+
+    bool isTextModified = false;
 
     // Элементы подменю '?'
     QAction *helpAction;
