@@ -6,6 +6,7 @@
 
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
+static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};
 static const char *SETTINGS_MENU_STR{
     QT_TRANSLATE_NOOP("MainWindow", "&Settings")};
 static const char *QUESTION_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "?")};
@@ -55,6 +56,12 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Switch font"),
     QT_TRANSLATE_NOOP("MainWindow", "Switch font")};
 
+// 'Format' - menu actions constants
+static const QPair<const char *, const char *>
+    UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Underline font"),
+        QT_TRANSLATE_NOOP("MainWindow", "Underline font")};
+
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_LANG_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Language"),
@@ -73,6 +80,11 @@ static const QPair<const char *, const char *> HELP_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> ABOUT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "About"),
     QT_TRANSLATE_NOOP("MainWindow", "Short info about application")};
+
+// Window title constants
+static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
+static const char *NO_FILE_OPENED_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
 
 // Icons
 const QString aboutIconPath{":/images/about.png"};

@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "filehandler.h"
 #include "helpbrowser.h"
-#include <QFile>
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
@@ -26,11 +26,14 @@ class MainWindow : public QMainWindow
   private:
     Ui::MainWindow *ui;
 
-    /*! GubaydullinRG
-    Флаг "Содержимое textEdit изменено?" */
-    bool isModified;
-    //Указатель на текущий редактируемый файл
-    QFile *file;
+    /* Флаг "Содержимое textEdit изменено?" */
+    bool isTextModified;
+
+    /*! GubaydullinRG В textEdit загружен новый документ? */
+    bool newDataLoaded;
+
+    // Указатель на текущий редактируемый файл
+    QSharedPointer<IDevHandler<QString>> srcHandler;
 
     QSharedPointer<HelpBrowser> hb;
 
@@ -40,9 +43,10 @@ class MainWindow : public QMainWindow
     // Тулбар главной панели
     QToolBar *mainToolBar;
 
-    //Пункты меню
+    // Пункты меню
     QMenu *fileMenu;
     QMenu *editMenu;
+    QMenu *formatMenu; // Добавил, ятобы было куда меню делать
     QMenu *settingsMenu;
     QMenu *questionMenu;
 
@@ -52,7 +56,7 @@ class MainWindow : public QMainWindow
     void createActions();
     void createMenus();
 
-    //Интернационализация приложения
+    // Интернационализация приложения
     QTranslator *translator;
     virtual void changeEvent(QEvent *) override;
     void retranslateAction(QAction **,
@@ -61,10 +65,13 @@ class MainWindow : public QMainWindow
     void retranslateMenus();
     void retranslateGUI();
 
-    bool warningWindow();       // Окно предупреждения
-    void changeEnableActions(); // Переключатель кнопки Close
+    /*! GubaydullinRG
+        Включение/отключение доступности элементов меню 'File' */
+    void changeFileMenuAccess(const QString &, bool, bool, bool);
 
-    //Элементы подменю 'File'
+    bool textChangedWarning(); // Окно предупреждения
+
+    // Элементы подменю 'File'
     QAction *newAction;
     QAction *openAction;
     QAction *closeAction;
@@ -73,7 +80,7 @@ class MainWindow : public QMainWindow
     QAction *printAction;
     QAction *exitAction;
 
-    //Элементы подменю 'Edit'
+    // Элементы подменю 'Edit'
     QAction *copyTextFormatAction;
     QAction *applyTextFormatAction;
     QAction *alignTextRightAction;
@@ -81,12 +88,15 @@ class MainWindow : public QMainWindow
     QAction *alignTextCenterAction;
     QAction *switchFontAction;
 
-    //Элементы подменю 'Settings'
+    // Элементы подменю 'Format'
+    QAction *underlineTextFormatAction;
+
+    // Элементы подменю 'Settings'
     QAction *changeLangAction;
     QAction *changeKeyBindAction;
     QAction *changeStyleAction;
 
-    //Поле для размещения редактируемого текста
+    // Поле для размещения редактируемого текста
     QTextEdit *textEdit;
     QString lastFilename;
 
@@ -95,12 +105,12 @@ class MainWindow : public QMainWindow
 
     bool isTextModified = false;
 
-    //Элементы подменю '?'
+    // Элементы подменю '?'
     QAction *helpAction;
     QAction *aboutAction;
 
   private slots:
-    //Основные функции приложения
+    // Основные функции приложения
     void onNew();
     void onOpen();
     void onClose();
@@ -119,6 +129,7 @@ class MainWindow : public QMainWindow
     void onChangeStyle();
     void onHelp();
     void onAbout();
+    void onUnderlineTextFormat();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения
