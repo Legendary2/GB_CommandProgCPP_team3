@@ -107,5 +107,9 @@ const QString saveAsIconPath{":/images/save_as.png"};
 const QString changeStyleIconPath{":/images/style.png"};
 const QString logoIconPath{":/images/icon_64.png"};
 const QString appIconPath{":/images/icon_128.png"};
+const QString boldTextFormatIconPath{":/images/bold.png"};
+const QString crossedTextFormatIconPath{":/images/crossed.png"};
+const QString italicTextFormatIconPath{":/images/italic.png"};
+const QString underlineTextFormatIconPath{":/images/underline.png"};
 
 #endif // CONST_STRINGS_H
