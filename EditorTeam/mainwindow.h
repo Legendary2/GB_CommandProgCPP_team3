@@ -1,67 +1,76 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QFile>
+#include "helpbrowser.h"
+#include "filehandler.h"
 #include <QMainWindow>
-#include <QFile>
+#include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
-#include <QSharedPointer>
-#include "helpbrowser.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+  public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
-private:
-  Ui::MainWindow *ui;
+  private:
+    Ui::MainWindow *ui;
 
-  /*! GubaydullinRG
-  Флаг "Содержимое textEdit изменено?" */
-  bool isModified;
-  //Указатель на текущий редактируемый файл
-  QFile *file;
+  /* Флаг "Содержимое textEdit изменено?" */
+  bool isTextModified;
 
-  QSharedPointer<HelpBrowser> hb;
+  /*! GubaydullinRG В textEdit загружен новый документ? */
+  bool newDataLoaded;
 
-  /*! KuznecovAG
-    Переменная для текущего стиля (пока только white и grey) */
-  QString currentStyle = "white";
+  // Указатель на текущий редактируемый файл
+  QSharedPointer<IDevHandler<QString>> srcHandler;
 
-  //Пункты меню
+    QSharedPointer<HelpBrowser> hb;
+
+    /*! KuznecovAG
+      Переменная для текущего стиля (пока только white и grey) */
+    QString currentStyle = "white";
+    // Тулбар главной панели
+    QToolBar *mainToolBar;
+
+  // Пункты меню
   QMenu *fileMenu;
   QMenu *editMenu;
+  QMenu *formatMenu;
   QMenu *settingsMenu;
   QMenu *questionMenu;
 
   // Вспомогательные методы для выноса части
   // кода за пределы конструктора
-  void createAction(QAction**, void (MainWindow::*)());
+  void createAction(QAction **, const QString &, void (MainWindow::*)());
   void createActions();
   void createMenus();
 
-  //Интернационализация приложения
+  // Интернационализация приложения
   QTranslator *translator;
-  virtual void changeEvent(QEvent*) override;
-  void retranslateAction(QAction**, const QPair<const char*, const char*>&);
+  virtual void changeEvent(QEvent *) override;
+  void retranslateAction(QAction **, const QPair<const char *, const char *> &);
   void retranslateActions();
   void retranslateMenus();
   void retranslateGUI();
 
-  bool warningWindow(); // Окно предупреждения
-  void changeEnableActions(); // Переключатель кнопки Close
+  /*! GubaydullinRG
+      Включение/отключение доступности элементов меню 'File' */
+  void changeFileMenuAccess(const QString &, bool, bool, bool);
 
-  //Элементы подменю 'File'
+  bool textChangedWarning(); // Окно предупреждения
+
+  // Элементы подменю 'File'
   QAction *newAction;
   QAction *openAction;
   QAction *closeAction;
@@ -70,7 +79,7 @@ private:
   QAction *printAction;
   QAction *exitAction;
 
-  //Элементы подменю 'Edit'
+  // Элементы подменю 'Edit'
   QAction *copyTextFormatAction;
   QAction *applyTextFormatAction;
   QAction *alignTextRightAction;
@@ -78,23 +87,23 @@ private:
   QAction *alignTextCenterAction;
   QAction *switchFontAction;
 
-  //Элементы подменю 'Settings'
+  // Элементы подменю 'Format'
+      QAction *crossedTextFormatAction;
+
+  // Элементы подменю 'Settings'
   QAction *changeLangAction;
   QAction *changeKeyBindAction;
   QAction *changeStyleAction;
 
-  //Поле для размещения редактируемого текста
+  // Поле для размещения редактируемого текста
   QTextEdit *textEdit;
-  QString lastFilename;
 
-  bool isTextModified = false;
-    
-  //Элементы подменю '?'
+  // Элементы подменю '?'
   QAction *helpAction;
   QAction *aboutAction;
 
 private slots:
-  //Основные функции приложения
+  // Основные функции приложения
   void onNew();
   void onOpen();
   void onClose();
@@ -113,10 +122,13 @@ private slots:
   void onChangeStyle();
   void onHelp();
   void onAbout();
+  void onCrossedTextFormat();
 
-  /*! GubaydullinRG
-  // Слот действий на случай изменения
-  // содержимого textEdit */
-  void onTextModified();
+    /*! GubaydullinRG
+    // Слот действий на случай изменения
+    // содержимого textEdit */
+    void onTextModified();
+
+    void setMainToolBar();
 };
 #endif // MAINWINDOW_H
