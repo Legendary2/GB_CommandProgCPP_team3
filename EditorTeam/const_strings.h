@@ -6,6 +6,7 @@
 
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
+static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};
 static const char *SETTINGS_MENU_STR{
     QT_TRANSLATE_NOOP("MainWindow", "&Settings")};
 static const char *QUESTION_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "?")};
@@ -54,6 +55,12 @@ static const QPair<const char *, const char *>
 static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Switch font"),
     QT_TRANSLATE_NOOP("MainWindow", "Switch font")};
+
+// 'Format' - menu actions constants
+static const QPair<const char *, const char *>
+    CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed text"),
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed text")};
 
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_LANG_ACTION_STR_PAIR{

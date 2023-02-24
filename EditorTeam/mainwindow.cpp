@@ -8,7 +8,7 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextBlockFormat>
-
+#include <QTextCursor>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
@@ -81,6 +81,10 @@ void MainWindow::createActions()
     createAction(&switchFontAction, switchFontIconPath,
                  &MainWindow::onSwitchFont);
 
+    // 'Format'
+        createAction(&crossedTextFormatAction, NULL,
+                     &::MainWindow::onCrossedTextFormat);
+
     // 'Settings'
     createAction(&changeLangAction, changeLanguageIconPath,
                  &MainWindow::onChangeLang);
@@ -123,6 +127,11 @@ void MainWindow::createMenus()
     editMenu->addAction(alignTextCenterAction);
     editMenu->addSeparator();
     editMenu->addAction(switchFontAction);
+
+    // 'Format'
+        formatMenu = new QMenu(this);
+        menuBar()->addMenu(formatMenu);
+        formatMenu->addAction(crossedTextFormatAction);
 
     // 'Settings'
     settingsMenu = new QMenu(this);
@@ -182,6 +191,10 @@ void MainWindow::retranslateActions()
                       ALIGN_TEXT_CENTER_ACTION_STR_PAIR);
     retranslateAction(&switchFontAction, SWITCH_FONT_ACTION_STR_PAIR);
 
+    // 'Format'
+        retranslateAction(&crossedTextFormatAction,
+                          CROSSED_TEXT_FORMAT_ACTION_STR_PAIR);
+
     // 'Settings'
     retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
     retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -196,6 +209,7 @@ void MainWindow::retranslateMenus()
 {
     fileMenu->setTitle(tr(FILE_MENU_STR));
     editMenu->setTitle(tr(EDIT_MENU_STR));
+    formatMenu->setTitle(tr(FORMAT_MENU_STR));
     settingsMenu->setTitle(tr(SETTINGS_MENU_STR));
     questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
@@ -419,6 +433,19 @@ bool MainWindow::textChangedWarning() {
     choice.close();
     return true;
   }
+}
+
+void MainWindow::onCrossedTextFormat()
+{
+    QTextCharFormat crossedFormat;
+    if (textEdit->textCursor().hasSelection())
+    {
+        if (!textEdit->textCursor().charFormat().fontStrikeOut())
+            crossedFormat.setFontStrikeOut(true);
+        else
+            crossedFormat.setFontStrikeOut(false);
+        textEdit->textCursor().setCharFormat(crossedFormat);
+    }
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара

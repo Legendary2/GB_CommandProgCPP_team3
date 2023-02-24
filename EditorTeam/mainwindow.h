@@ -46,6 +46,7 @@ class MainWindow : public QMainWindow
   // Пункты меню
   QMenu *fileMenu;
   QMenu *editMenu;
+  QMenu *formatMenu;
   QMenu *settingsMenu;
   QMenu *questionMenu;
 
@@ -86,6 +87,9 @@ class MainWindow : public QMainWindow
   QAction *alignTextCenterAction;
   QAction *switchFontAction;
 
+  // Элементы подменю 'Format'
+      QAction *crossedTextFormatAction;
+
   // Элементы подменю 'Settings'
   QAction *changeLangAction;
   QAction *changeKeyBindAction;
@@ -118,6 +122,7 @@ private slots:
   void onChangeStyle();
   void onHelp();
   void onAbout();
+  void onCrossedTextFormat();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения
