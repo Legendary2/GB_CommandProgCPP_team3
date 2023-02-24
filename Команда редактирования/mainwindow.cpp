@@ -244,6 +244,21 @@ void MainWindow::onExit() {
     MainWindow::close();
 }
 
+//изменение текста на жирны
+void MainWindow::onBold()
+{
+    QFont font
+    font.setBold(true);
+    QTextCharFormat textCharFormat;
+    textCharFormat.setFont(font);
+    textEdit->textCursor().setCharFormat(textCharFormat);
+}
+
+void MainWindow::onItalic()
+{
+    textEdit->setFontItalic(true);
+}
+
 void MainWindow::onCopyTextFormat() {}
 
 void MainWindow::onApplyTextFormat() {}
