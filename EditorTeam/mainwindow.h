@@ -44,7 +44,7 @@ private:
   // Пункты меню
   QMenu *fileMenu;
   QMenu *editMenu;
-  QMenu *formatMenu; // Добавил, ятобы было куда меню делать
+  QMenu *formatMenu; // Добавил, чтобы было куда меню делать
   QMenu *settingsMenu;
   QMenu *questionMenu;
 
@@ -62,16 +62,19 @@ private:
   void retranslateMenus();
   void retranslateGUI();
 
-  /*! GubaydullinRG Переменная, хранящая скопированный функцией
-   * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
-   * onApplyTextFormat() */
-  QTextCharFormat copiedTxtFormat;
-
   /*! GubaydullinRG
-      Включение/отключение доступности элементов меню 'File' */
+      Включение/отключение доступности элементов меню */
   void changeFileMenuAccess(const QString &, bool, bool, bool);
+  void changePopupMenuAccess();
 
   bool textChangedWarning(); // Окно предупреждения
+
+  /*! GubaydullinRG
+  Контекстное для textEdit меню */
+  QMenu *popupMenu;
+  QComboBox *fontSizeComboBox;
+  QLabel *fontSizeLabel;
+  void inflatePopupMenu();
 
   // Элементы подменю 'File'
   QAction *newAction;
@@ -102,9 +105,21 @@ private:
   QTextEdit *textEdit;
   QString lastFilename;
 
+  // Объект хранит в себе скопированный формат текста
+  QTextCharFormat textFormat;
+
+  bool isTextModified = false;
+
   // Элементы подменю '?'
   QAction *helpAction;
   QAction *aboutAction;
+
+  // popup
+  QWidgetAction *popupWidgetAction;
+  QAction *copyAction;
+  QAction *cutAction;
+  QAction *pasteAction;
+  QAction *selectAllAction;
 
 private slots:
   // Основные функции приложения
@@ -134,5 +149,17 @@ private slots:
   void onTextModified();
 
   void setMainToolBar();
+
+  /*! GubaydullinRG
+  Показ контекстного меню (popupMenu) в textEdit
+  и реакция на выбор элемента в popupComboBox */
+  void onPopupMenuCalled(QPoint);
+  void onPopupComboBoxIndexChanged(int);
+
+  void onCopy();
+  void onCut();
+  void onPaste();
+  void onSelectAll();
 };
+
 #endif // MAINWINDOW_H

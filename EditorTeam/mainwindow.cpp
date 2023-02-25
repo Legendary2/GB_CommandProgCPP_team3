@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QRegularExpressionValidator>
 #include <QStyle>
 #include <QTextBlockFormat>
 
@@ -15,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
       srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
       hb(QSharedPointer<HelpBrowser>(
           new HelpBrowser(":/helpfiles", "index.htm"))),
-      translator(new QTranslator(this)) {
+      translator(new QTranslator(this)), popupMenu(new QMenu(this)),
+      fontSizeLabel(new QLabel(this)), fontSizeComboBox(new QComboBox(this)) {
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -37,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent)
   Привязка события изменения содержимого textEdit к вызову
   слота onTextModified() */
   connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+
+  /*! GubaydullinRG
+        Заполнение контекстного меню для textEdit */
+  inflatePopupMenu();
+
+  retranslateGUI();
 
   /*! GubaydullinRG
    *  На старте приложения создаём пустой документ */
@@ -93,6 +101,12 @@ void MainWindow::createActions() {
   // '?'
   createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
   createAction(&aboutAction, aboutIconPath, &MainWindow::onAbout);
+
+  // popup menu
+  createAction(&copyAction, copyIconPath, &MainWindow::onCopy);
+  createAction(&cutAction, cutIconPath, &MainWindow::onCut);
+  createAction(&pasteAction, pasteIconPath, &MainWindow::onPaste);
+  createAction(&selectAllAction, selectAllIconPath, &MainWindow::onSelectAll);
 }
 
 void MainWindow::createMenus() {
@@ -100,6 +114,7 @@ void MainWindow::createMenus() {
   fileMenu = new QMenu(this);
   menuBar()->addMenu(fileMenu);
   fileMenu->addAction(newAction);
+  newAction->setShortcut(QKeySequence("CTRL+N"));
   fileMenu->addAction(openAction);
   fileMenu->addAction(closeAction);
   closeAction->setEnabled(false); // На старте нам нечего закрывать
@@ -107,8 +122,10 @@ void MainWindow::createMenus() {
   fileMenu->addAction(saveAction);
   saveAction->setEnabled(false); // На старте нам некуда сохранять
   fileMenu->addAction(saveAsAction);
+  saveAsAction->setShortcut(QKeySequence("CTRL+S"));
   fileMenu->addSeparator();
   fileMenu->addAction(printAction);
+  printAction->setShortcut(QKeySequence("CTRL+P"));
   fileMenu->addSeparator();
   fileMenu->addAction(exitAction);
 
@@ -142,8 +159,10 @@ void MainWindow::createMenus() {
   questionMenu = new QMenu(this);
   menuBar()->addMenu(questionMenu);
   questionMenu->addAction(helpAction);
+  helpAction->setShortcut(QKeySequence("CTRL+H"));
   questionMenu->addSeparator();
   questionMenu->addAction(aboutAction);
+  aboutAction->setShortcut(QKeySequence("CTRL+Q"));
 
   retranslateMenus();
 }
@@ -184,6 +203,7 @@ void MainWindow::retranslateActions() {
   // 'Format'
   retranslateAction(&underlineTextFormatAction,
                     UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
+
   // 'Settings'
   retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
   retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -192,6 +212,12 @@ void MainWindow::retranslateActions() {
   // '?'
   retranslateAction(&helpAction, HELP_ACTION_STR_PAIR);
   retranslateAction(&aboutAction, ABOUT_ACTION_STR_PAIR);
+
+  // popup
+  retranslateAction(&copyAction, COPY_ACTION_STR_PAIR);
+  retranslateAction(&cutAction, CUT_ACTION_STR_PAIR);
+  retranslateAction(&pasteAction, PASTE_ACTION_STR_PAIR);
+  retranslateAction(&selectAllAction, SELECT_ALL_ACTION_STR_PAIR);
 }
 
 void MainWindow::retranslateMenus() {
@@ -212,6 +238,8 @@ void MainWindow::retranslateGUI() {
 
   retranslateMenus();
   retranslateActions();
+
+  fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
 }
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
@@ -230,6 +258,24 @@ void MainWindow::changeFileMenuAccess(const QString &winTitle,
 
   isTextModified = cachedBoolStats.first;
   newDataLoaded = cachedBoolStats.second;
+}
+
+void MainWindow::changePopupMenuAccess() {
+  if (textEdit->textCursor().hasSelection()) {
+    copyAction->setEnabled(true);
+    cutAction->setEnabled(true);
+  } else {
+    copyAction->setEnabled(false);
+    cutAction->setEnabled(false);
+  }
+
+  if (textEdit->document()->isEmpty()) {
+    selectAllAction->setEnabled(false);
+    popupWidgetAction->setEnabled(false);
+  } else {
+    selectAllAction->setEnabled(true);
+    popupWidgetAction->setEnabled(true);
+  }
 }
 
 void MainWindow::onSave() {
@@ -311,7 +357,6 @@ void MainWindow::onCopyTextFormat() {
 void MainWindow::onApplyTextFormat() {
   if (!copiedTxtFormat.isValid())
     return;
-
   if (textEdit->textCursor().isNull())
     return;
 
@@ -469,6 +514,45 @@ bool MainWindow::textChangedWarning() {
   }
 }
 
+void MainWindow::inflatePopupMenu() {
+  textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+
+  connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
+          SLOT(onPopupMenuCalled(QPoint)));
+
+  popupWidgetAction = new QWidgetAction(popupMenu);
+
+  QWidget *fontSizeWidget = new QWidget(popupMenu);
+
+  QHBoxLayout *fontSizeLayout = new QHBoxLayout(popupMenu);
+
+  for (int i = 10; i <= 50; i += 10)
+    fontSizeComboBox->addItem(QString::number(i));
+
+  fontSizeComboBox->setEditable(true);
+
+  fontSizeComboBox->setValidator(new QRegularExpressionValidator(
+      QRegularExpression("^([8-9]|[1-4]\\d|50)$"), popupMenu));
+
+  connect(fontSizeComboBox, SIGNAL(currentIndexChanged(int)),
+          SLOT(onPopupComboBoxIndexChanged(int)));
+
+  fontSizeLayout->addWidget(fontSizeLabel);
+  fontSizeLayout->addWidget(fontSizeComboBox);
+
+  fontSizeWidget->setLayout(fontSizeLayout);
+
+  popupWidgetAction->setDefaultWidget(fontSizeWidget);
+
+  popupMenu->addAction(copyAction);
+  popupMenu->addAction(cutAction);
+  popupMenu->addAction(pasteAction);
+  popupMenu->addSeparator();
+  popupMenu->addAction(selectAllAction);
+  popupMenu->addSeparator();
+  popupMenu->addAction(popupWidgetAction);
+}
+
 void MainWindow::onUnderlineTextFormat() {
   QTextCharFormat chFormat;
   if (textEdit->textCursor().hasSelection()) {
@@ -501,3 +585,63 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
   mainToolBar->addAction(alignTextCenterAction);
   mainToolBar->addAction(alignTextRightAction);
 }
+
+void MainWindow::onPopupMenuCalled(QPoint pos) {
+
+  QTextCharFormat charFormat;
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  bool formatsDiffer{false};
+
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+    charFormat = textEdit->textCursor().charFormat();
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
+    }
+  } else {
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
+    charFormat = formatsCheckCursor.charFormat();
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+    }
+  }
+
+  fontSizeComboBox->setCurrentText(
+      formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
+
+  changePopupMenuAccess();
+  popupMenu->exec(mapToGlobal(pos));
+}
+
+void MainWindow::onPopupComboBoxIndexChanged(int /* index */) {
+
+  QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
+  textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
+  textEdit->textCursor().setCharFormat(textCharFormat);
+
+  popupMenu->close();
+}
+
+void MainWindow::onCopy() { textEdit->copy(); }
+
+void MainWindow::onCut() { textEdit->cut(); }
+
+void MainWindow::onPaste() {
+  if (textEdit->canPaste())
+    textEdit->paste();
+}
+
+void MainWindow::onSelectAll() { textEdit->selectAll(); }
