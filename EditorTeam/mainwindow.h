@@ -9,22 +9,20 @@
 #include <QTranslator>
 
 QT_BEGIN_NAMESPACE
-namespace Ui
-{
+namespace Ui {
 class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 
-  public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+public:
+  MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
 
-  private:
-    Ui::MainWindow *ui;
+private:
+  Ui::MainWindow *ui;
 
     /* Флаг "Содержимое textEdit изменено?" */
     bool isTextModified;
@@ -35,18 +33,18 @@ class MainWindow : public QMainWindow
     // Указатель на текущий редактируемый файл
     QSharedPointer<IDevHandler<QString>> srcHandler;
 
-    QSharedPointer<HelpBrowser> hb;
+  QSharedPointer<HelpBrowser> hb;
 
-    /*! KuznecovAG
-      Переменная для текущего стиля (пока только white и grey) */
-    QString currentStyle = "white";
-    // Тулбар главной панели
-    QToolBar *mainToolBar;
+  /*! KuznecovAG
+    Переменная для текущего стиля (пока только white и grey) */
+  QString currentStyle = "white";
+  // Тулбар главной панели
+  QToolBar *mainToolBar;
 
     // Пункты меню
     QMenu *fileMenu;
     QMenu *editMenu;
-    QMenu *formatMenu; // Добавил, ятобы было куда меню делать
+    QMenu *formatMenu; // Добавил, чтобы было куда меню делать
     QMenu *settingsMenu;
     QMenu *questionMenu;
 
@@ -70,6 +68,13 @@ class MainWindow : public QMainWindow
     void changeFileMenuAccess(const QString &, bool, bool, bool);
 
     bool textChangedWarning(); // Окно предупреждения
+    
+    /*! GubaydullinRG
+    Контекстное для textEdit меню */
+    QMenu *popupMenu;
+    QComboBox *fontSizeComboBox;
+    QLabel *fontSizeLabel;
+    void inflatePopupMenu();
 
     // Элементы подменю 'File'
     QAction *newAction;
@@ -131,11 +136,18 @@ class MainWindow : public QMainWindow
     void onAbout();
     void onUnderlineTextFormat();
 
-    /*! GubaydullinRG
-    // Слот действий на случай изменения
-    // содержимого textEdit */
-    void onTextModified();
+  /*! GubaydullinRG
+  // Слот действий на случай изменения
+  // содержимого textEdit */
+  void onTextModified();
 
-    void setMainToolBar();
+  void setMainToolBar();
+
+  /*! GubaydullinRG
+  Показ контекстного меню (popupMenu) в textEdit
+  и реакция на выбор элемента в popupComboBox */
+  void onPopupMenuCalled(QPoint);
+  void onPopupComboBoxIndexChanged(int);
 };
+
 #endif // MAINWINDOW_H

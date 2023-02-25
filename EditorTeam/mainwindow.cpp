@@ -4,6 +4,7 @@
 #include <QBoxLayout>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QRegularExpressionValidator>
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QStyle>
@@ -15,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
       srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
       hb(QSharedPointer<HelpBrowser>(
           new HelpBrowser(":/helpfiles", "index.htm"))),
-      translator(new QTranslator(this)) {
+      translator(new QTranslator(this)), popupMenu(new QMenu(this)),
+      fontSizeLabel(new QLabel(this)), fontSizeComboBox(new QComboBox(this)) {
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -37,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent)
   Привязка события изменения содержимого textEdit к вызову
   слота onTextModified() */
   connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+
+  /*! GubaydullinRG
+        Заполнение контекстного меню для textEdit */
+  inflatePopupMenu();
+
+  retranslateGUI();
 
   /*! GubaydullinRG
    *  На старте приложения создаём пустой документ */
@@ -184,6 +192,7 @@ void MainWindow::retranslateActions() {
   // 'Format'
   retranslateAction(&underlineTextFormatAction,
                     UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
+
   // 'Settings'
   retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
   retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -212,6 +221,8 @@ void MainWindow::retranslateGUI() {
 
   retranslateMenus();
   retranslateActions();
+
+  fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
 }
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
@@ -430,6 +441,40 @@ bool MainWindow::textChangedWarning() {
   }
 }
 
+void MainWindow::inflatePopupMenu() {
+  textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+
+  connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
+          SLOT(onPopupMenuCalled(QPoint)));
+
+  QWidgetAction *popupWidgetAction = new QWidgetAction(popupMenu);
+
+  QWidget *fontSizeWidget = new QWidget(popupMenu);
+
+  QHBoxLayout *fontSizeLayout = new QHBoxLayout(popupMenu);
+
+  for (int i = 10; i <= 50; i += 10)
+    fontSizeComboBox->addItem(QString::number(i));
+
+  fontSizeComboBox->setEditable(true);
+
+  fontSizeComboBox->setValidator(new QRegularExpressionValidator(
+      QRegularExpression("^([8-9]|[1-4]\\d|50)$"), popupMenu));
+
+  connect(fontSizeComboBox, SIGNAL(currentIndexChanged(int)),
+          SLOT(onPopupComboBoxIndexChanged(int)));
+
+  fontSizeLayout->addWidget(fontSizeLabel);
+  fontSizeLayout->addWidget(fontSizeComboBox);
+
+  fontSizeWidget->setLayout(fontSizeLayout);
+
+  popupWidgetAction->setDefaultWidget(fontSizeWidget);
+
+  popupMenu->addSeparator();
+  popupMenu->addAction(popupWidgetAction);
+}
+
 void MainWindow::onUnderlineTextFormat() {
   QTextCharFormat chFormat;
   if (textEdit->textCursor().hasSelection()) {
@@ -439,7 +484,6 @@ void MainWindow::onUnderlineTextFormat() {
       chFormat.setFontUnderline(false);
     textEdit->textCursor().setCharFormat(chFormat);
   }
-}
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {
@@ -461,4 +505,52 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
   mainToolBar->addAction(alignTextLeftAction);
   mainToolBar->addAction(alignTextCenterAction);
   mainToolBar->addAction(alignTextRightAction);
+}
+
+void MainWindow::onPopupMenuCalled(QPoint pos) {
+
+  QTextCharFormat charFormat;
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  bool formatsDiffer{false};
+
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+    charFormat = textEdit->textCursor().charFormat();
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
+    }
+  } else {
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
+    charFormat = formatsCheckCursor.charFormat();
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+    }
+  }
+
+  fontSizeComboBox->setCurrentText(
+      formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
+
+  popupMenu->exec(mapToGlobal(pos));
+}
+
+void MainWindow::onPopupComboBoxIndexChanged(int /* index */) {
+
+  QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
+  textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
+  textEdit->textCursor().setCharFormat(textCharFormat);
+
+  popupMenu->close();
 }
