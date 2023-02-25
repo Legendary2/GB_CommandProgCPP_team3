@@ -62,6 +62,11 @@ private:
   void retranslateMenus();
   void retranslateGUI();
 
+  /*! GubaydullinRG Переменная, хранящая скопированный функцией
+     * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
+     * onApplyTextFormat() */
+  QTextCharFormat copiedTxtFormat;
+
   /*! GubaydullinRG
       Включение/отключение доступности элементов меню */
   void changeFileMenuAccess(const QString &, bool, bool, bool);
@@ -107,8 +112,6 @@ private:
 
   // Объект хранит в себе скопированный формат текста
   QTextCharFormat textFormat;
-
-  bool isTextModified = false;
 
   // Элементы подменю '?'
   QAction *helpAction;
