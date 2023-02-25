@@ -2,7 +2,6 @@
 #include "const_strings.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
-#include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
@@ -445,7 +444,6 @@ void MainWindow::onPopupMenuCalled(QPoint pos) {
 
   QTextCharFormat charFormat;
   QTextCursor formatsCheckCursor = textEdit->textCursor();
-  QString comboBoxText;
   bool formatsDiffer{false};
 
   if (textEdit->textCursor().selectionEnd() ==
