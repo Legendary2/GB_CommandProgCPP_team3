@@ -75,6 +75,7 @@ void MainWindow::createMenus() {
   fileMenu = new QMenu(this);
   menuBar()->addMenu(fileMenu);
   fileMenu->addAction(newAction);
+  newAction->setShortcut(QKeySequence("CTRL+N"));
   fileMenu->addAction(openAction);
   fileMenu->addAction(closeAction);
   closeAction->setEnabled(false); // На старте нам нечего закрывать
@@ -82,8 +83,10 @@ void MainWindow::createMenus() {
   fileMenu->addAction(saveAction);
   saveAction->setEnabled(false); // На старте нам некуда сохранять
   fileMenu->addAction(saveAsAction);
+  saveAsAction->setShortcut(QKeySequence("CTRL+S"));
   fileMenu->addSeparator();
   fileMenu->addAction(printAction);
+  printAction->setShortcut(QKeySequence("CTRL+P"));
   fileMenu->addSeparator();
   fileMenu->addAction(exitAction);
 
@@ -112,8 +115,10 @@ void MainWindow::createMenus() {
   questionMenu = new QMenu(this);
   menuBar()->addMenu(questionMenu);
   questionMenu->addAction(helpAction);
+  helpAction->setShortcut(QKeySequence("CTRL+H"));
   questionMenu->addSeparator();
   questionMenu->addAction(aboutAction);
+  aboutAction->setShortcut(QKeySequence("CTRL+Q"));
 
   retranslateMenus();
 }
