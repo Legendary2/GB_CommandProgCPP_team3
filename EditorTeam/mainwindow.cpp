@@ -5,7 +5,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
+#include <QPrintDialog>
+#include <QPrinter>
 #include <QStyle>
+#include <QTextBlockFormat>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
@@ -23,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
 
   // Функция настроек и заполнения тулбара
   setMainToolBar();
+
+  retranslateGUI();
 
   // Добавление поля для размещения редактируемого текста
   QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -81,6 +86,10 @@ void MainWindow::createActions() {
   createAction(&switchFontAction, switchFontIconPath,
                &MainWindow::onSwitchFont);
 
+  // 'Format'
+  createAction(&underlineTextFormatAction, underlineTextFormatIconPath,
+               &MainWindow::onUnderlineTextFormat);
+
   // 'Settings'
   createAction(&changeLangAction, changeLanguageIconPath,
                &MainWindow::onChangeLang);
@@ -122,6 +131,11 @@ void MainWindow::createMenus() {
   editMenu->addAction(alignTextCenterAction);
   editMenu->addSeparator();
   editMenu->addAction(switchFontAction);
+
+  // 'Format'
+  formatMenu = new QMenu(this);
+  menuBar()->addMenu(formatMenu);
+  formatMenu->addAction(underlineTextFormatAction);
 
   // 'Settings'
   settingsMenu = new QMenu(this);
@@ -175,6 +189,10 @@ void MainWindow::retranslateActions() {
   retranslateAction(&alignTextCenterAction, ALIGN_TEXT_CENTER_ACTION_STR_PAIR);
   retranslateAction(&switchFontAction, SWITCH_FONT_ACTION_STR_PAIR);
 
+  // 'Format'
+  retranslateAction(&underlineTextFormatAction,
+                    UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
+
   // 'Settings'
   retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
   retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -188,6 +206,7 @@ void MainWindow::retranslateActions() {
 void MainWindow::retranslateMenus() {
   fileMenu->setTitle(tr(FILE_MENU_STR));
   editMenu->setTitle(tr(EDIT_MENU_STR));
+  formatMenu->setTitle(tr(FORMAT_MENU_STR));
   settingsMenu->setTitle(tr(SETTINGS_MENU_STR));
   questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
@@ -247,7 +266,15 @@ void MainWindow::onSaveAs() {
     ui->statusbar->showMessage(tr("Can't save file."));
 }
 
-void MainWindow::onPrint() {}
+void MainWindow::onPrint() {
+  QPrinter printer;
+  QPrintDialog dlg(&printer, this);
+  dlg.setWindowTitle(tr("Print"));
+  if (dlg.exec() != QDialog::Accepted)
+    return;
+  QString printStr = textEdit->toPlainText();
+  textEdit->print(&printer);
+}
 
 void MainWindow::onExit() {
   if (!textEdit->isHidden())
@@ -255,17 +282,47 @@ void MainWindow::onExit() {
   QApplication::exit(0);
 }
 
-void MainWindow::onCopyTextFormat() {}
+void MainWindow::onCopyTextFormat()
+{
+    if (textEdit->textCursor().hasSelection())
+        textFormat = textEdit->currentCharFormat();
+}
 
 void MainWindow::onApplyTextFormat() {}
 
-void MainWindow::onAlignTextRight() {}
+void MainWindow::onAlignTextRight() {
+  QTextCursor cursor = textEdit->textCursor();
+  QTextBlockFormat txtForm = cursor.blockFormat();
+  txtForm.setAlignment(Qt::AlignRight);
+  cursor.mergeBlockFormat(txtForm);
+  textEdit->setTextCursor(cursor);
+}
 
-void MainWindow::onAlignTextLeft() {}
+void MainWindow::onAlignTextLeft() {
+  QTextCursor cursor = textEdit->textCursor();
+  QTextBlockFormat txtForm = cursor.blockFormat();
+  txtForm.setAlignment(Qt::AlignLeft);
+  cursor.mergeBlockFormat(txtForm);
+  textEdit->setTextCursor(cursor);
+}
 
-void MainWindow::onAlignTextCenter() {}
+void MainWindow::onAlignTextCenter() {
+  QTextCursor center = textEdit->textCursor();
+  QTextBlockFormat textBlockFormat = center.blockFormat();
+  textBlockFormat.setAlignment(Qt::AlignCenter);
+  center.mergeBlockFormat(textBlockFormat);
+  textEdit->setTextCursor(center);
+}
 
-void MainWindow::onSwitchFont() {}
+void MainWindow::onSwitchFont() {
+  bool ok;
+  QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
+  if (ok) {
+    QTextCharFormat textCharFormat;
+    textCharFormat.setFont(font);
+    textEdit->textCursor().setCharFormat(textCharFormat);
+  }
+}
 
 void MainWindow::onChangeLang() { retranslateGUI(); }
 
@@ -417,6 +474,16 @@ void MainWindow::inflatePopupMenu() {
   popupMenu->addSeparator();
   popupMenu->addAction(popupWidgetAction);
 }
+
+void MainWindow::onUnderlineTextFormat() {
+  QTextCharFormat chFormat;
+  if (textEdit->textCursor().hasSelection()) {
+    if (!textEdit->textCursor().charFormat().fontUnderline())
+      chFormat.setFontUnderline(true);
+    else
+      chFormat.setFontUnderline(false);
+    textEdit->textCursor().setCharFormat(chFormat);
+  }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {

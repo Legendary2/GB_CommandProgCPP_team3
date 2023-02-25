@@ -6,6 +6,7 @@
 
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
+static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};
 static const char *SETTINGS_MENU_STR{
     QT_TRANSLATE_NOOP("MainWindow", "&Settings")};
 static const char *QUESTION_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "?")};
@@ -54,6 +55,12 @@ static const QPair<const char *, const char *>
 static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Switch font"),
     QT_TRANSLATE_NOOP("MainWindow", "Switch font")};
+
+// 'Format' - menu actions constants
+static const QPair<const char *, const char *>
+    UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Underline font"),
+        QT_TRANSLATE_NOOP("MainWindow", "Underline font")};
 
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_LANG_ACTION_STR_PAIR{
@@ -104,5 +111,9 @@ const QString saveAsIconPath{":/images/save_as.png"};
 const QString changeStyleIconPath{":/images/style.png"};
 const QString logoIconPath{":/images/icon_64.png"};
 const QString appIconPath{":/images/icon_128.png"};
+const QString boldTextFormatIconPath{":/images/bold.png"};
+const QString crossedTextFormatIconPath{":/images/crossed.png"};
+const QString italicTextFormatIconPath{":/images/italic.png"};
+const QString underlineTextFormatIconPath{":/images/underline.png"};
 
 #endif // CONST_STRINGS_H

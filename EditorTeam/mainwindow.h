@@ -24,14 +24,14 @@ public:
 private:
   Ui::MainWindow *ui;
 
-  /* Флаг "Содержимое textEdit изменено?" */
-  bool isTextModified;
+    /* Флаг "Содержимое textEdit изменено?" */
+    bool isTextModified;
 
-  /*! GubaydullinRG В textEdit загружен новый документ? */
-  bool newDataLoaded;
+    /*! GubaydullinRG В textEdit загружен новый документ? */
+    bool newDataLoaded;
 
-  // Указатель на текущий редактируемый файл
-  QSharedPointer<IDevHandler<QString>> srcHandler;
+    // Указатель на текущий редактируемый файл
+    QSharedPointer<IDevHandler<QString>> srcHandler;
 
   QSharedPointer<HelpBrowser> hb;
 
@@ -41,88 +41,100 @@ private:
   // Тулбар главной панели
   QToolBar *mainToolBar;
 
-  // Пункты меню
-  QMenu *fileMenu;
-  QMenu *editMenu;
-  QMenu *settingsMenu;
-  QMenu *questionMenu;
+    // Пункты меню
+    QMenu *fileMenu;
+    QMenu *editMenu;
+    QMenu *formatMenu; // Добавил, чтобы было куда меню делать
+    QMenu *settingsMenu;
+    QMenu *questionMenu;
 
-  // Вспомогательные методы для выноса части
-  // кода за пределы конструктора
-  void createAction(QAction **, const QString &, void (MainWindow::*)());
-  void createActions();
-  void createMenus();
+    // Вспомогательные методы для выноса части
+    // кода за пределы конструктора
+    void createAction(QAction **, const QString &, void (MainWindow::*)());
+    void createActions();
+    void createMenus();
 
-  // Интернационализация приложения
-  QTranslator *translator;
-  virtual void changeEvent(QEvent *) override;
-  void retranslateAction(QAction **, const QPair<const char *, const char *> &);
-  void retranslateActions();
-  void retranslateMenus();
-  void retranslateGUI();
+    // Интернационализация приложения
+    QTranslator *translator;
+    virtual void changeEvent(QEvent *) override;
+    void retranslateAction(QAction **,
+                           const QPair<const char *, const char *> &);
+    void retranslateActions();
+    void retranslateMenus();
+    void retranslateGUI();
 
-  /*! GubaydullinRG
-      Включение/отключение доступности элементов меню 'File' */
-  void changeFileMenuAccess(const QString &, bool, bool, bool);
+    /*! GubaydullinRG
+        Включение/отключение доступности элементов меню 'File' */
+    void changeFileMenuAccess(const QString &, bool, bool, bool);
 
-  bool textChangedWarning(); // Окно предупреждения
+    bool textChangedWarning(); // Окно предупреждения
+    
+    /*! GubaydullinRG
+    Контекстное для textEdit меню */
+    QMenu *popupMenu;
+    QComboBox *fontSizeComboBox;
+    QLabel *fontSizeLabel;
+    void inflatePopupMenu();
 
-  /*! GubaydullinRG
-      Контекстное для textEdit меню */
-  QMenu *popupMenu;
-  QComboBox *fontSizeComboBox;
-  QLabel *fontSizeLabel;
-  void inflatePopupMenu();
+    // Элементы подменю 'File'
+    QAction *newAction;
+    QAction *openAction;
+    QAction *closeAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
+    QAction *printAction;
+    QAction *exitAction;
 
-  // Элементы подменю 'File'
-  QAction *newAction;
-  QAction *openAction;
-  QAction *closeAction;
-  QAction *saveAction;
-  QAction *saveAsAction;
-  QAction *printAction;
-  QAction *exitAction;
+    // Элементы подменю 'Edit'
+    QAction *copyTextFormatAction;
+    QAction *applyTextFormatAction;
+    QAction *alignTextRightAction;
+    QAction *alignTextLeftAction;
+    QAction *alignTextCenterAction;
+    QAction *switchFontAction;
 
-  // Элементы подменю 'Edit'
-  QAction *copyTextFormatAction;
-  QAction *applyTextFormatAction;
-  QAction *alignTextRightAction;
-  QAction *alignTextLeftAction;
-  QAction *alignTextCenterAction;
-  QAction *switchFontAction;
+    // Элементы подменю 'Format'
+    QAction *underlineTextFormatAction;
 
-  // Элементы подменю 'Settings'
-  QAction *changeLangAction;
-  QAction *changeKeyBindAction;
-  QAction *changeStyleAction;
+    // Элементы подменю 'Settings'
+    QAction *changeLangAction;
+    QAction *changeKeyBindAction;
+    QAction *changeStyleAction;
 
-  // Поле для размещения редактируемого текста
-  QTextEdit *textEdit;
+    // Поле для размещения редактируемого текста
+    QTextEdit *textEdit;
+    QString lastFilename;
 
-  // Элементы подменю '?'
-  QAction *helpAction;
-  QAction *aboutAction;
+    // Объект хранит в себе скопированный формат текста
+    QTextCharFormat textFormat;
 
-private slots:
-  // Основные функции приложения
-  void onNew();
-  void onOpen();
-  void onClose();
-  void onSave();
-  void onSaveAs();
-  void onPrint();
-  void onExit();
-  void onCopyTextFormat();
-  void onApplyTextFormat();
-  void onAlignTextRight();
-  void onAlignTextLeft();
-  void onAlignTextCenter();
-  void onSwitchFont();
-  void onChangeLang();
-  void onChangeKeyBind();
-  void onChangeStyle();
-  void onHelp();
-  void onAbout();
+    bool isTextModified = false;
+
+    // Элементы подменю '?'
+    QAction *helpAction;
+    QAction *aboutAction;
+
+  private slots:
+    // Основные функции приложения
+    void onNew();
+    void onOpen();
+    void onClose();
+    void onSave();
+    void onSaveAs();
+    void onPrint();
+    void onExit();
+    void onCopyTextFormat();
+    void onApplyTextFormat();
+    void onAlignTextRight();
+    void onAlignTextLeft();
+    void onAlignTextCenter();
+    void onSwitchFont();
+    void onChangeLang();
+    void onChangeKeyBind();
+    void onChangeStyle();
+    void onHelp();
+    void onAbout();
+    void onUnderlineTextFormat();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
