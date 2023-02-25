@@ -2,6 +2,7 @@
 #include "const_strings.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
+#include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
@@ -441,11 +442,41 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
 }
 
 void MainWindow::onPopupMenuCalled(QPoint pos) {
-  if (textEdit->textCursor().selectedText().isEmpty())
-    return;
+
+  QTextCharFormat charFormat;
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  QString comboBoxText;
+  bool formatsDiffer{false};
+
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+    charFormat = textEdit->textCursor().charFormat();
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
+    }
+  } else {
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
+    charFormat = formatsCheckCursor.charFormat();
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+    }
+  }
 
   fontSizeComboBox->setCurrentText(
-      QString::number(textEdit->textCursor().charFormat().font().pointSize()));
+      formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
 
   popupMenu->exec(mapToGlobal(pos));
 }
