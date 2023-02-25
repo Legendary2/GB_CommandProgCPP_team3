@@ -4,9 +4,9 @@
 #include <QBoxLayout>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QRegularExpressionValidator>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QRegularExpressionValidator>
 #include <QStyle>
 #include <QTextBlockFormat>
 
@@ -101,6 +101,12 @@ void MainWindow::createActions() {
   // '?'
   createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
   createAction(&aboutAction, aboutIconPath, &MainWindow::onAbout);
+
+  // popup menu
+  createAction(&copyAction, copyIconPath, &MainWindow::onCopy);
+  createAction(&cutAction, cutIconPath, &MainWindow::onCut);
+  createAction(&pasteAction, pasteIconPath, &MainWindow::onPaste);
+  createAction(&selectAllAction, selectAllIconPath, &MainWindow::onSelectAll);
 }
 
 void MainWindow::createMenus() {
@@ -201,6 +207,12 @@ void MainWindow::retranslateActions() {
   // '?'
   retranslateAction(&helpAction, HELP_ACTION_STR_PAIR);
   retranslateAction(&aboutAction, ABOUT_ACTION_STR_PAIR);
+
+  // popup
+  retranslateAction(&copyAction, COPY_ACTION_STR_PAIR);
+  retranslateAction(&cutAction, CUT_ACTION_STR_PAIR);
+  retranslateAction(&pasteAction, PASTE_ACTION_STR_PAIR);
+  retranslateAction(&selectAllAction, SELECT_ALL_ACTION_STR_PAIR);
 }
 
 void MainWindow::retranslateMenus() {
@@ -243,6 +255,24 @@ void MainWindow::changeFileMenuAccess(const QString &winTitle,
   newDataLoaded = cachedBoolStats.second;
 }
 
+void MainWindow::changePopupMenuAccess() {
+  if (textEdit->textCursor().hasSelection()) {
+    copyAction->setEnabled(true);
+    cutAction->setEnabled(true);
+  } else {
+    copyAction->setEnabled(false);
+    cutAction->setEnabled(false);
+  }
+
+  if (textEdit->document()->isEmpty()) {
+    selectAllAction->setEnabled(false);
+    popupWidgetAction->setEnabled(false);
+  } else {
+    selectAllAction->setEnabled(true);
+    popupWidgetAction->setEnabled(true);
+  }
+}
+
 void MainWindow::onSave() {
   if (srcHandler->save(textEdit->toPlainText())) {
     isTextModified = false;
@@ -282,10 +312,9 @@ void MainWindow::onExit() {
   QApplication::exit(0);
 }
 
-void MainWindow::onCopyTextFormat()
-{
-    if (textEdit->textCursor().hasSelection())
-        textFormat = textEdit->currentCharFormat();
+void MainWindow::onCopyTextFormat() {
+  if (textEdit->textCursor().hasSelection())
+    textFormat = textEdit->currentCharFormat();
 }
 
 void MainWindow::onApplyTextFormat() {}
@@ -441,14 +470,13 @@ bool MainWindow::textChangedWarning() {
   }
 }
 
-void MainWindow::inflatePopupMenu()
-{
+void MainWindow::inflatePopupMenu() {
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
           SLOT(onPopupMenuCalled(QPoint)));
 
-  QWidgetAction *popupWidgetAction = new QWidgetAction(popupMenu);
+  popupWidgetAction = new QWidgetAction(popupMenu);
 
   QWidget *fontSizeWidget = new QWidget(popupMenu);
 
@@ -472,15 +500,18 @@ void MainWindow::inflatePopupMenu()
 
   popupWidgetAction->setDefaultWidget(fontSizeWidget);
 
+  popupMenu->addAction(copyAction);
+  popupMenu->addAction(cutAction);
+  popupMenu->addAction(pasteAction);
+  popupMenu->addSeparator();
+  popupMenu->addAction(selectAllAction);
   popupMenu->addSeparator();
   popupMenu->addAction(popupWidgetAction);
 }
 
-void MainWindow::onUnderlineTextFormat()
-{
+void MainWindow::onUnderlineTextFormat() {
   QTextCharFormat chFormat;
-  if (textEdit->textCursor().hasSelection())
-  {
+  if (textEdit->textCursor().hasSelection()) {
     if (!textEdit->textCursor().charFormat().fontUnderline())
       chFormat.setFontUnderline(true);
     else
@@ -547,6 +578,7 @@ void MainWindow::onPopupMenuCalled(QPoint pos) {
   fontSizeComboBox->setCurrentText(
       formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
 
+  changePopupMenuAccess();
   popupMenu->exec(mapToGlobal(pos));
 }
 
@@ -558,3 +590,14 @@ void MainWindow::onPopupComboBoxIndexChanged(int /* index */) {
 
   popupMenu->close();
 }
+
+void MainWindow::onCopy() { textEdit->copy(); }
+
+void MainWindow::onCut() { textEdit->cut(); }
+
+void MainWindow::onPaste() {
+  if (textEdit->canPaste())
+    textEdit->paste();
+}
+
+void MainWindow::onSelectAll() { textEdit->selectAll(); }
