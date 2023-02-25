@@ -441,7 +441,8 @@ bool MainWindow::textChangedWarning() {
   }
 }
 
-void MainWindow::inflatePopupMenu() {
+void MainWindow::inflatePopupMenu()
+{
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
@@ -475,15 +476,18 @@ void MainWindow::inflatePopupMenu() {
   popupMenu->addAction(popupWidgetAction);
 }
 
-void MainWindow::onUnderlineTextFormat() {
+void MainWindow::onUnderlineTextFormat()
+{
   QTextCharFormat chFormat;
-  if (textEdit->textCursor().hasSelection()) {
+  if (textEdit->textCursor().hasSelection())
+  {
     if (!textEdit->textCursor().charFormat().fontUnderline())
       chFormat.setFontUnderline(true);
     else
       chFormat.setFontUnderline(false);
     textEdit->textCursor().setCharFormat(chFormat);
   }
+}
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {

@@ -24,9 +24,6 @@ public:
 private:
   Ui::MainWindow *ui;
 
-    /* Флаг "Содержимое textEdit изменено?" */
-    bool isTextModified;
-
     /*! GubaydullinRG В textEdit загружен новый документ? */
     bool newDataLoaded;
 
