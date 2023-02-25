@@ -87,7 +87,7 @@ void MainWindow::createActions() {
                &MainWindow::onSwitchFont);
 
   // 'Format'
-  createAction(&underlineTextFormatAction, underlineTextFormatIconPath,
+  createAction(&underlineTextFormatAction, NULL,
                &MainWindow::onUnderlineTextFormat);
 
   // 'Settings'
@@ -318,11 +318,50 @@ void MainWindow::onExit() {
 }
 
 void MainWindow::onCopyTextFormat() {
-  if (textEdit->textCursor().hasSelection())
-    textFormat = textEdit->currentCharFormat();
+
+  QTextCharFormat charFormat;
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  bool formatsDiffer{false};
+
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+    charFormat = textEdit->textCursor().charFormat();
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
+    }
+  } else {
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
+    charFormat = formatsCheckCursor.charFormat();
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+    }
+  }
+
+  if (!formatsDiffer)
+    copiedTxtFormat = charFormat;
 }
 
-void MainWindow::onApplyTextFormat() {}
+void MainWindow::onApplyTextFormat() {
+  if (!copiedTxtFormat.isValid())
+    return;
+  if (textEdit->textCursor().isNull())
+    return;
+
+  textEdit->textCursor().setCharFormat(copiedTxtFormat);
+}
 
 void MainWindow::onAlignTextRight() {
   QTextCursor cursor = textEdit->textCursor();
