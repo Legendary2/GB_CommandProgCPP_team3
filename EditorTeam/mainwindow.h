@@ -113,6 +113,8 @@ private slots:
   void onChangeStyle();
   void onHelp();
   void onAbout();
+  void Bold();
+  void Italic();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
