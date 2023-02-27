@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     , isModified(false)
     , file(new QFile(this))
     , hb(QSharedPointer<HelpBrowser>(
-          new HelpBrowser(":/helpfiles", "index.htm")))
+          new HelpBrowser(":/helpfiles", "index.html")))
     , translator(new QTranslator(this))
 {
     setWindowIcon(QIcon(logoIconPath));
@@ -388,15 +388,10 @@ void MainWindow::onHelp()
 void MainWindow::onAbout()
 {
     QMessageBox msgBox;
-    msgBox.setWindowTitle("О программе");
+    msgBox.setWindowTitle(tr("About EditorTeam"));
     msgBox.setIconPixmap(appIconPath);
 
-    msgBox.setInformativeText(" ПО Текстовый редактор v 0.0 \n\n"
-
-                              "  GB_CommandProgCPP_team3\n\n"
-
-                              "© 2008-2022 The Qt Company Ltd.\n "
-                              "     Все права защищены.\n\n");
+    msgBox.setInformativeText(tr("EditorTeam v 0.1.0 \n\n" "GB_CommandProgCPP_team3\n\n" "© 2023 All rights reserved\n\n"));
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
 }

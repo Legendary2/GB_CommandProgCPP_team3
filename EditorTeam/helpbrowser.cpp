@@ -3,9 +3,9 @@
 HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
                          QWidget *pwgt)
     : QWidget(pwgt) {
-  QPushButton *pressBack = new QPushButton("Back", this);
-  QPushButton *pressForward = new QPushButton("Forward", this);
-  QPushButton *pressHome = new QPushButton("Home", this);
+  QPushButton *pressBack = new QPushButton(tr("Back"), this);
+  QPushButton *pressForward = new QPushButton(tr("Forward"), this);
+  QPushButton *pressHome = new QPushButton(tr("Home"), this);
   QTextBrowser *txtBrowser = new QTextBrowser(this);
 
   connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
