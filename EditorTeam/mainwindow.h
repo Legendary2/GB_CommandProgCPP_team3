@@ -99,6 +99,7 @@ private:
   QAction *switchFontAction;
 
   // Элементы подменю 'Format'
+  QAction *crossedTextFormatAction;
   QAction *underlineTextFormatAction;
 
   // Элементы подменю 'Settings'
@@ -144,12 +145,14 @@ private slots:
   void onChangeStyle();
   void onHelp();
   void onAbout();
+  void onCrossedTextFormat();
   void onUnderlineTextFormat();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
   // содержимого textEdit */
   void onTextModified();
+
 
   void setMainToolBar();
 

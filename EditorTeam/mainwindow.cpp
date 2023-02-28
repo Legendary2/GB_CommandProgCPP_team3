@@ -9,6 +9,8 @@
 #include <QRegularExpressionValidator>
 #include <QStyle>
 #include <QTextBlockFormat>
+#include <QTextCursor>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
@@ -89,6 +91,11 @@ void MainWindow::createActions() {
   // 'Format'
   createAction(&underlineTextFormatAction, NULL,
                &MainWindow::onUnderlineTextFormat);
+  createAction(&crossedTextFormatAction, NULL,
+                     &::MainWindow::onCrossedTextFormat);
+                     formatMenu = new QMenu(this);
+        menuBar()->addMenu(formatMenu);
+        formatMenu->addAction(crossedTextFormatAction);
 
   // 'Settings'
   createAction(&changeLangAction, changeLanguageIconPath,
@@ -203,6 +210,8 @@ void MainWindow::retranslateActions() {
   // 'Format'
   retranslateAction(&underlineTextFormatAction,
                     UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
+  retranslateAction(&crossedTextFormatAction,
+                          CROSSED_TEXT_FORMAT_ACTION_STR_PAIR);                  
 
   // 'Settings'
   retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
@@ -514,7 +523,22 @@ bool MainWindow::textChangedWarning() {
   }
 }
 
-void MainWindow::inflatePopupMenu() {
+
+void MainWindow::onCrossedTextFormat()
+{
+    QTextCharFormat crossedFormat;
+    if (textEdit->textCursor().hasSelection())
+    {
+        if (!textEdit->textCursor().charFormat().fontStrikeOut())
+            crossedFormat.setFontStrikeOut(true);
+        else
+            crossedFormat.setFontStrikeOut(false);
+        textEdit->textCursor().setCharFormat(crossedFormat);
+    }
+}
+
+void MainWindow::inflatePopupMenu() 
+{
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
@@ -562,7 +586,6 @@ void MainWindow::onUnderlineTextFormat() {
       chFormat.setFontUnderline(false);
     textEdit->textCursor().setCharFormat(chFormat);
   }
-}
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {

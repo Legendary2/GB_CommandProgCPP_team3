@@ -58,6 +58,9 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
 
 // 'Format' - menu actions constants
 static const QPair<const char *, const char *>
+    CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed text"),
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed text")};
     UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR{
         QT_TRANSLATE_NOOP("MainWindow", "Underline font"),
         QT_TRANSLATE_NOOP("MainWindow", "Underline font")};
