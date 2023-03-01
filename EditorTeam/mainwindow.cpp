@@ -11,7 +11,6 @@
 #include <QTextBlockFormat>
 #include <QTextCursor>
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), isTextModified(false),
       newDataLoaded(false),
@@ -89,13 +88,14 @@ void MainWindow::createActions() {
                &MainWindow::onSwitchFont);
 
   // 'Format'
-  createAction(&underlineTextFormatAction, NULL,
+  createAction(&underlineTextFormatAction, underlineTextFormatIconPath,
                &MainWindow::onUnderlineTextFormat);
-  createAction(&crossedTextFormatAction, NULL,
-                     &::MainWindow::onCrossedTextFormat);
-                     formatMenu = new QMenu(this);
-        menuBar()->addMenu(formatMenu);
-        formatMenu->addAction(crossedTextFormatAction);
+  createAction(&crossedTextFormatAction, crossedTextFormatIconPath,
+               &::MainWindow::onCrossedTextFormat);
+  createAction(&boldTextFormatAction, boldTextFormatIconPath,
+               &MainWindow::onBoldTextFormat);
+  createAction(&italicTextFormatAction, italicTextFormatIconPath,
+               &MainWindow::onItalicTextFormat);
 
   // 'Settings'
   createAction(&changeLangAction, changeLanguageIconPath,
@@ -152,6 +152,9 @@ void MainWindow::createMenus() {
   formatMenu = new QMenu(this);
   menuBar()->addMenu(formatMenu);
   formatMenu->addAction(underlineTextFormatAction);
+  formatMenu->addAction(crossedTextFormatAction);
+  formatMenu->addAction(boldTextFormatAction);
+  formatMenu->addAction(italicTextFormatAction);
 
   // 'Settings'
   settingsMenu = new QMenu(this);
@@ -211,7 +214,10 @@ void MainWindow::retranslateActions() {
   retranslateAction(&underlineTextFormatAction,
                     UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
   retranslateAction(&crossedTextFormatAction,
-                          CROSSED_TEXT_FORMAT_ACTION_STR_PAIR);                  
+                    CROSSED_TEXT_FORMAT_ACTION_STR_PAIR);
+  retranslateAction(&boldTextFormatAction, BOLD_TEXT_FORMAT_ACTION_STR_PAIR);
+  retranslateAction(&italicTextFormatAction,
+                    ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
 
   // 'Settings'
   retranslateAction(&changeLangAction, CHANGE_LANG_ACTION_STR_PAIR);
@@ -523,22 +529,18 @@ bool MainWindow::textChangedWarning() {
   }
 }
 
-
-void MainWindow::onCrossedTextFormat()
-{
-    QTextCharFormat crossedFormat;
-    if (textEdit->textCursor().hasSelection())
-    {
-        if (!textEdit->textCursor().charFormat().fontStrikeOut())
-            crossedFormat.setFontStrikeOut(true);
-        else
-            crossedFormat.setFontStrikeOut(false);
-        textEdit->textCursor().setCharFormat(crossedFormat);
-    }
+void MainWindow::onCrossedTextFormat() {
+  QTextCharFormat crossedFormat;
+  if (textEdit->textCursor().hasSelection()) {
+    if (!textEdit->textCursor().charFormat().fontStrikeOut())
+      crossedFormat.setFontStrikeOut(true);
+    else
+      crossedFormat.setFontStrikeOut(false);
+    textEdit->textCursor().mergeCharFormat(crossedFormat);
+  }
 }
 
-void MainWindow::inflatePopupMenu() 
-{
+void MainWindow::inflatePopupMenu() {
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
@@ -584,8 +586,41 @@ void MainWindow::onUnderlineTextFormat() {
       chFormat.setFontUnderline(true);
     else
       chFormat.setFontUnderline(false);
-    textEdit->textCursor().setCharFormat(chFormat);
+    textEdit->textCursor().mergeCharFormat(chFormat);
   }
+}
+
+void MainWindow::onBoldTextFormat() {
+
+  QTextCharFormat charFormat;
+  QTextCursor innerCursor = textEdit->textCursor();
+  if (innerCursor.selectionEnd() != innerCursor.position()) {
+    innerCursor.movePosition(QTextCursor::NextCharacter,
+                             QTextCursor::KeepAnchor);
+  }
+  if (innerCursor.charFormat().fontWeight() != QFont::Bold)
+    charFormat.setFontWeight(QFont::Bold);
+  else
+    charFormat.setFontWeight(QFont::Normal);
+
+  textEdit->textCursor().mergeCharFormat(charFormat);
+}
+
+void MainWindow::onItalicTextFormat() {
+
+  QTextCharFormat charFormat;
+  QTextCursor innerCursor = textEdit->textCursor();
+  if (innerCursor.selectionEnd() != innerCursor.position()) {
+    innerCursor.movePosition(QTextCursor::NextCharacter,
+                             QTextCursor::KeepAnchor);
+  }
+  if (!innerCursor.charFormat().fontItalic())
+    charFormat.setFontItalic(true);
+  else
+    charFormat.setFontItalic(false);
+
+  textEdit->textCursor().mergeCharFormat(charFormat);
+}
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {

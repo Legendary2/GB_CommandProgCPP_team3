@@ -59,11 +59,22 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
 // 'Format' - menu actions constants
 static const QPair<const char *, const char *>
     CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
-        QT_TRANSLATE_NOOP("MainWindow", "Crossed text"),
-        QT_TRANSLATE_NOOP("MainWindow", "Crossed text")};
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal text"),
+        QT_TRANSLATE_NOOP("MainWindow",
+                          "Switch between crossed and normal font")};
+static const QPair<const char *, const char *>
     UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR{
-        QT_TRANSLATE_NOOP("MainWindow", "Underline font"),
-        QT_TRANSLATE_NOOP("MainWindow", "Underline font")};
+        QT_TRANSLATE_NOOP("MainWindow", "Underline/normal font"),
+        QT_TRANSLATE_NOOP("MainWindow",
+                          "Switch between underline and normal font")};
+static const QPair<const char *, const char *> BOLD_TEXT_FORMAT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Bold/normal font"),
+    QT_TRANSLATE_NOOP("MainWindow", "Switch between bold and normal font")};
+static const QPair<const char *, const char *>
+    ITALIC_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Italic/normal font"),
+        QT_TRANSLATE_NOOP("MainWindow",
+                          "Switch between italic and normal font")};
 
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_LANG_ACTION_STR_PAIR{

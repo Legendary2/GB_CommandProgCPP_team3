@@ -63,8 +63,8 @@ private:
   void retranslateGUI();
 
   /*! GubaydullinRG Переменная, хранящая скопированный функцией
-     * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
-     * onApplyTextFormat() */
+   * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
+   * onApplyTextFormat() */
   QTextCharFormat copiedTxtFormat;
 
   /*! GubaydullinRG
@@ -101,6 +101,8 @@ private:
   // Элементы подменю 'Format'
   QAction *crossedTextFormatAction;
   QAction *underlineTextFormatAction;
+  QAction *boldTextFormatAction;
+  QAction *italicTextFormatAction;
 
   // Элементы подменю 'Settings'
   QAction *changeLangAction;
@@ -147,12 +149,13 @@ private slots:
   void onAbout();
   void onCrossedTextFormat();
   void onUnderlineTextFormat();
+  void onBoldTextFormat();
+  void onItalicTextFormat();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
   // содержимого textEdit */
   void onTextModified();
-
 
   void setMainToolBar();
 
