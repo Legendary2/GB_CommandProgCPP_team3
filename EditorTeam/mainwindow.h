@@ -3,6 +3,7 @@
 
 #include "filehandler.h"
 #include "helpbrowser.h"
+#include "settingskeeper.h"
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
@@ -24,6 +25,9 @@ public:
 private:
   Ui::MainWindow *ui;
 
+  // Указатель на диалоговое окно настроек
+  SettingsKeeper *settingsKeeper;
+
   /* Флаг "Содержимое textEdit изменено?" */
   bool isTextModified = false;
 
@@ -35,9 +39,6 @@ private:
 
   QSharedPointer<HelpBrowser> hb;
 
-  /*! KuznecovAG
-    Переменная для текущего стиля (пока только white и grey) */
-  QString currentStyle = "white";
   // Тулбар главной панели
   QToolBar *mainToolBar;
 
@@ -105,9 +106,9 @@ private:
   QAction *italicTextFormatAction;
 
   // Элементы подменю 'Settings'
-  QAction *changeLangAction;
+  // QAction *changeLangAction;
   QAction *changeKeyBindAction;
-  QAction *changeStyleAction;
+  QAction *settingsAction;
 
   // Поле для размещения редактируемого текста
   QTextEdit *textEdit;
@@ -142,7 +143,6 @@ private slots:
   void onAlignTextLeft();
   void onAlignTextCenter();
   void onSwitchFont();
-  void onChangeLang();
   void onChangeKeyBind();
   void onChangeStyle();
   void onHelp();
@@ -151,6 +151,10 @@ private slots:
   void onUnderlineTextFormat();
   void onBoldTextFormat();
   void onItalicTextFormat();
+  void onSettingsInvoke();
+  void onSettingsApplyClicked();
+  void onSettingsCancelClicked();
+  void onSettingsOkClicked();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения

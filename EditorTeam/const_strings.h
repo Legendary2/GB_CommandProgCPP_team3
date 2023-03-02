@@ -1,6 +1,7 @@
 #ifndef CONST_STRINGS_H
 #define CONST_STRINGS_H
 
+#include <QMap>
 #include <QPair>
 #include <QString>
 
@@ -77,15 +78,12 @@ static const QPair<const char *, const char *>
                           "Switch between italic and normal font")};
 
 // 'Settings' - menu actions constants
-static const QPair<const char *, const char *> CHANGE_LANG_ACTION_STR_PAIR{
-    QT_TRANSLATE_NOOP("MainWindow", "Language"),
-    QT_TRANSLATE_NOOP("MainWindow", "Change application language")};
 static const QPair<const char *, const char *> CHANGE_KEY_BIND_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Key bindings"),
     QT_TRANSLATE_NOOP("MainWindow", "Edit key bindings settings")};
-static const QPair<const char *, const char *> CHANGE_STYLE_ACTION_STR_PAIR{
-    QT_TRANSLATE_NOOP("MainWindow", "Change style"),
-    QT_TRANSLATE_NOOP("MainWindow", "Change application style")};
+static const QPair<const char *, const char *> SETTINGS_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Settings management"),
+    QT_TRANSLATE_NOOP("MainWindow", "Change app settings")};
 
 // '?' - menu actions constants
 static const QPair<const char *, const char *> HELP_ACTION_STR_PAIR{
@@ -119,33 +117,71 @@ static const char *NO_FILE_OPENED_STR{
     QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
 
 // Icons
-const QString aboutIconPath{":/images/about.png"};
-const QString alignCenterIconPath{":/images/align_center.png"};
-const QString alignLeftIconPath{":/images/align_left.png"};
-const QString alignRightIconPath{":/images/align_right.png"};
-const QString closeIconPath{":/images/close.png"};
-const QString copyIconPath{":/images/copy.png"};
-const QString copyTextFormatIconPath{":/images/copy_format.png"};
-const QString cutIconPath{":/images/cut.png"};
-const QString exitIconPath{":/images/exit.png"};
-const QString switchFontIconPath{":/images/font.png"};
-const QString helpIconPath{":/images/help.png"};
-const QString keyBindsIconPath{":/images/keybinds.png"};
-const QString changeLanguageIconPath{":/images/language.png"};
-const QString newIconPath{":/images/new.png"};
-const QString openIconPath{":/images/open.png"};
-const QString applyTextFormatIconPath{":/images/paste_format.png"};
-const QString printIconPath{":/images/print.png"};
-const QString pasteIconPath{":/images/paste.png"};
-const QString saveIconPath{":/images/save.png"};
-const QString saveAsIconPath{":/images/save_as.png"};
-const QString selectAllIconPath{":/images/select_all.png"};
-const QString changeStyleIconPath{":/images/style.png"};
-const QString logoIconPath{":/images/icon_64.png"};
-const QString appIconPath{":/images/icon_128.png"};
-const QString boldTextFormatIconPath{":/images/bold.png"};
-const QString crossedTextFormatIconPath{":/images/crossed.png"};
-const QString italicTextFormatIconPath{":/images/italic.png"};
-const QString underlineTextFormatIconPath{":/images/underline.png"};
+static const QString aboutIconPath{":/images/about.png"};
+static const QString alignCenterIconPath{":/images/align_center.png"};
+static const QString alignLeftIconPath{":/images/align_left.png"};
+static const QString alignRightIconPath{":/images/align_right.png"};
+static const QString cancelIconPath{":/images/cancel.png"};
+static const QString closeIconPath{":/images/close.png"};
+static const QString copyIconPath{":/images/copy.png"};
+static const QString copyTextFormatIconPath{":/images/copy_format.png"};
+static const QString cutIconPath{":/images/cut.png"};
+static const QString exitIconPath{":/images/exit.png"};
+static const QString greyStyleIconPath{":/images/grey_style.png"};
+static const QString switchFontIconPath{":/images/font.png"};
+static const QString helpIconPath{":/images/help.png"};
+static const QString keyBindsIconPath{":/images/keybinds.png"};
+static const QString newIconPath{":/images/new.png"};
+static const QString openIconPath{":/images/open.png"};
+static const QString okIconPath{":/images/ok.png"};
+static const QString applyTextFormatIconPath{":/images/paste_format.png"};
+static const QString printIconPath{":/images/print.png"};
+static const QString pasteIconPath{":/images/paste.png"};
+static const QString russiaIconPath{":/images/russia.png"};
+static const QString saveIconPath{":/images/save.png"};
+static const QString saveAsIconPath{":/images/save_as.png"};
+static const QString selectAllIconPath{":/images/select_all.png"};
+static const QString settingsIconPath{":/images/settings.png"};
+static const QString logoIconPath{":/images/icon_64.png"};
+static const QString appIconPath{":/images/icon_128.png"};
+static const QString boldTextFormatIconPath{":/images/bold.png"};
+static const QString crossedTextFormatIconPath{":/images/crossed.png"};
+static const QString italicTextFormatIconPath{":/images/italic.png"};
+static const QString underlineTextFormatIconPath{":/images/underline.png"};
+static const QString usaIconPath{":/images/usa.png"};
+static const QString whiteStyleIconPath{":/images/white_style.png"};
+
+// Language
+static const QString RUS_LANG_STR{"ru_RU"};
+static const QString ENG_LANG_STR{"en_US"};
+
+static const QMap<QString, QString> LANGS_MAP{
+    {RUS_LANG_STR, ":/translation/l10n_ru.qm"},
+    {ENG_LANG_STR, ":/translation/l10n_en.qm"}};
+
+// Theme
+static const QString WHITE_STYLE_STR{"white"};
+static const QString GRAY_STYLE_STR{"grey"};
+
+static const QMap<QString, QString> STYLES_MAP{
+    {WHITE_STYLE_STR, ":/themes/white.qss"},
+    {GRAY_STYLE_STR, ":/themes/grey.qss"}};
+
+// Settings file name
+static const QString SETTINGS_STORAGE{"settings.conf"};
+
+// Setttings dialog GUI
+static const QString LANG_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Language")};
+static const QString STYLE_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Style")};
+
+static const QPair<const char *, const char *> OK_SETTINGS_BTN_PAIR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "OK"),
+    QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes and close dialog")};
+static const QPair<const char *, const char *> APPLY_SETTINGS_BTN_PAIR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "APPLY"),
+    QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes")};
+static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "Cancel"),
+    QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
 
 #endif // CONST_STRINGS_H
