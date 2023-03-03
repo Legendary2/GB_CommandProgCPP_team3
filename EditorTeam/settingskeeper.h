@@ -4,6 +4,7 @@
 #include "const_strings.h"
 #include <QComboBox>
 #include <QDialog>
+#include <QFormLayout> //
 #include <QLabel>
 #include <QPushButton>
 #include <QSettings>
@@ -42,6 +43,9 @@ private:
   QPushButton *cancelButton;
 
   virtual void showEvent(QShowEvent *) override;
+
+  QFormLayout *formLayout; //
+  QHBoxLayout *hboxLayout;
 
 signals:
   void applyButtonClicked();

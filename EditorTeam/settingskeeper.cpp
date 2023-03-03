@@ -28,7 +28,6 @@ void SettingsKeeper::showEvent(QShowEvent *event) {
 }
 
 SettingsKeeper::SettingsKeeper(QWidget *parent)
-    //: QDialog(parent), settings(iniFileName, QSettings::IniFormat),
     : QDialog(parent), settings(SETTINGS_STORAGE),
       langComboBox(new QComboBox(this)), styleComboBox(new QComboBox(this)),
       langLabel(new QLabel(this)), styleLabel(new QLabel(this)),
@@ -37,7 +36,8 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
       applyButton(new QPushButton(QIcon(okIconPath),
                                   APPLY_SETTINGS_BTN_PAIR.first, this)),
       cancelButton(new QPushButton(QIcon(cancelIconPath),
-                                   CANCEL_SETTINGS_BTN_PAIR.first, this)) {
+                                   CANCEL_SETTINGS_BTN_PAIR.first, this)),
+      formLayout(new QFormLayout), hboxLayout(new QHBoxLayout) {
 
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
@@ -48,8 +48,6 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   styleComboBox->addItem(QIcon(greyStyleIconPath), GRAY_STYLE_STR);
 
   load();
-
-  QFormLayout *formLayout = new QFormLayout(this);
 
   formLayout->addRow(langLabel, langComboBox);
   formLayout->addRow(styleLabel, styleComboBox);
@@ -67,7 +65,6 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
     emit okButtonClicked();
   });
 
-  QHBoxLayout *hboxLayout = new QHBoxLayout(this);
   hboxLayout->addWidget(applyButton);
   hboxLayout->addWidget(cancelButton);
   hboxLayout->addWidget(okButton);
@@ -78,7 +75,11 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   retranslateGUI();
 }
 
-SettingsKeeper::~SettingsKeeper() { save(); }
+SettingsKeeper::~SettingsKeeper() {
+  save();
+  delete hboxLayout;
+  delete formLayout;
+}
 
 const QString &SettingsKeeper::getLang() const { return lang; }
 

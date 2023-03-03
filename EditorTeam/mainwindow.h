@@ -25,6 +25,8 @@ public:
 private:
   Ui::MainWindow *ui;
 
+  QBoxLayout *boxLayout;
+
   // Указатель на диалоговое окно настроек
   SettingsKeeper *settingsKeeper;
 

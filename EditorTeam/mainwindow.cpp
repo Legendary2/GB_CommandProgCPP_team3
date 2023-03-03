@@ -12,6 +12,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
+      boxLayout(new QBoxLayout(QBoxLayout::TopToBottom)),
       settingsKeeper(new SettingsKeeper(this)), isTextModified(false),
       newDataLoaded(false),
       srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
@@ -31,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
   onSettingsApplyClicked();
 
   // Добавление поля для размещения редактируемого текста
-  QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
   textEdit = new QTextEdit(this);
   boxLayout->addWidget(textEdit, 0);
   ui->centralwidget->setLayout(boxLayout);
@@ -57,7 +57,10 @@ MainWindow::MainWindow(QWidget *parent)
   onNew();
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+  delete ui;
+  delete boxLayout;
+}
 
 void MainWindow::createAction(QAction **action, const QString &iconPath,
                               void (MainWindow::*funcSlot)()) {
