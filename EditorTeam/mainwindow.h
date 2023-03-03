@@ -78,6 +78,7 @@ private:
   Контекстное для textEdit меню */
   QMenu *popupMenu;
   QComboBox *fontSizeComboBox;
+  QComboBox *fontSizeComboBox2;
   QLabel *fontSizeLabel;
   void inflatePopupMenu();
 
@@ -151,6 +152,7 @@ private slots:
   void onUnderlineTextFormat();
   void onBoldTextFormat();
   void onItalicTextFormat();
+  void onSelectionChanged();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
@@ -164,6 +166,8 @@ private slots:
   и реакция на выбор элемента в popupComboBox */
   void onPopupMenuCalled(QPoint);
   void onPopupComboBoxIndexChanged(int);
+  void onfontSizeComboBoxChanged(int);
+
 
   void onCopy();
   void onCut();
