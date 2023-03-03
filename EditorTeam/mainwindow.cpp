@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Функция настроек и заполнения тулбара
     setMainToolBar();
-
     retranslateGUI();
 
     // Добавление поля для размещения редактируемого текста
@@ -139,6 +138,7 @@ void MainWindow::createMenus()
 
     retranslateMenus();
 }
+
 
 void MainWindow::changeEvent(QEvent *event)
 {
@@ -388,10 +388,9 @@ void MainWindow::onHelp()
 void MainWindow::onAbout()
 {
     QMessageBox msgBox;
-    msgBox.setWindowTitle(tr("About EditorTeam"));
+    msgBox.setWindowTitle(tr("About THare"));
     msgBox.setIconPixmap(appIconPath);
-
-    msgBox.setInformativeText(tr("EditorTeam v 0.1.0 \n\n" "GB_CommandProgCPP_team3\n\n" "© 2023 All rights reserved\n\n"));
+    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n" "GB_CommandProgCPP_team3\n\n" "© 2023 All rights reserved\n\n"));
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
 
