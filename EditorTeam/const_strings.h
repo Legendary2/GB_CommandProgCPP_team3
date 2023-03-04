@@ -174,6 +174,15 @@ static const QString SETTINGS_STORAGE{"settings.conf"};
 static const QString LANG_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Language")};
 static const QString STYLE_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Style")};
 
+static const QString KEYBINDS_GROUPBOX_STR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "Key binds:")};
+static const QString KEYBINDS_ACTION_LABEL_STR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "Action")};
+static const QString KEYBINDS_MOD_LABEL_STR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "Mod")};
+static const QString KEYBINDS_KEY_LABEL_STR{
+    QT_TRANSLATE_NOOP("SettingsDialog", "Key")};
+
 static const QPair<const char *, const char *> OK_SETTINGS_BTN_PAIR{
     QT_TRANSLATE_NOOP("SettingsDialog", "OK"),
     QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes and close dialog")};

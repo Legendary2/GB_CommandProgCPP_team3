@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QFormLayout> //
+#include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
 #include <QSettings>
@@ -35,8 +36,16 @@ private:
   QComboBox *langComboBox;
   QComboBox *styleComboBox;
 
+  QComboBox *keyBindActionComboBox;
+  QComboBox *keyBindModComboBox;
+  QComboBox *keyBindKeyComboBox;
+
   QLabel *langLabel;
   QLabel *styleLabel;
+
+  QLabel *keyBindActionLabel;
+  QLabel *keyBindModLabel;
+  QLabel *keyBindKeyLabel;
 
   QPushButton *okButton;
   QPushButton *applyButton;
@@ -44,8 +53,10 @@ private:
 
   virtual void showEvent(QShowEvent *) override;
 
-  QFormLayout *formLayout; //
+  QFormLayout *formLayout;
   QHBoxLayout *hboxLayout;
+
+  QGroupBox *keyBindsGroupBox;
 
 signals:
   void applyButtonClicked();

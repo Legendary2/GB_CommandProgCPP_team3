@@ -1,5 +1,6 @@
 #include "settingskeeper.h"
 #include <QFormLayout>
+#include <QGroupBox>
 #include <QLabel>
 
 void SettingsKeeper::save() {
@@ -30,14 +31,19 @@ void SettingsKeeper::showEvent(QShowEvent *event) {
 SettingsKeeper::SettingsKeeper(QWidget *parent)
     : QDialog(parent), settings(SETTINGS_STORAGE),
       langComboBox(new QComboBox(this)), styleComboBox(new QComboBox(this)),
-      langLabel(new QLabel(this)), styleLabel(new QLabel(this)),
+      keyBindActionComboBox(new QComboBox(this)),
+      keyBindModComboBox(new QComboBox(this)),
+      keyBindKeyComboBox(new QComboBox(this)), langLabel(new QLabel(this)),
+      styleLabel(new QLabel(this)), keyBindActionLabel(new QLabel(this)),
+      keyBindModLabel(new QLabel(this)), keyBindKeyLabel(new QLabel(this)),
       okButton(
           new QPushButton(QIcon(okIconPath), OK_SETTINGS_BTN_PAIR.first, this)),
       applyButton(new QPushButton(QIcon(okIconPath),
                                   APPLY_SETTINGS_BTN_PAIR.first, this)),
       cancelButton(new QPushButton(QIcon(cancelIconPath),
                                    CANCEL_SETTINGS_BTN_PAIR.first, this)),
-      formLayout(new QFormLayout), hboxLayout(new QHBoxLayout) {
+      formLayout(new QFormLayout), hboxLayout(new QHBoxLayout),
+      keyBindsGroupBox(new QGroupBox(this)) {
 
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
@@ -69,7 +75,14 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   hboxLayout->addWidget(cancelButton);
   hboxLayout->addWidget(okButton);
 
+  QFormLayout *keyBindLayout = new QFormLayout(keyBindsGroupBox);
+
+  keyBindLayout->addRow(keyBindActionLabel, keyBindActionComboBox);
+  keyBindLayout->addRow(keyBindModLabel, keyBindModComboBox);
+  keyBindLayout->addRow(keyBindKeyLabel, keyBindKeyComboBox);
+
   mainLayout->addLayout(formLayout);
+  mainLayout->addWidget(keyBindsGroupBox);
   mainLayout->addLayout(hboxLayout);
 
   retranslateGUI();
@@ -88,6 +101,12 @@ const QString &SettingsKeeper::getStyle() const { return style; }
 void SettingsKeeper::retranslateGUI() {
   langLabel->setText(LANG_STR);
   styleLabel->setText(STYLE_STR);
+
+  keyBindsGroupBox->setTitle(KEYBINDS_GROUPBOX_STR); // to retranslateGUI
+
+  keyBindActionLabel->setText(KEYBINDS_ACTION_LABEL_STR);
+  keyBindModLabel->setText(KEYBINDS_MOD_LABEL_STR);
+  keyBindKeyLabel->setText(KEYBINDS_KEY_LABEL_STR);
 
   okButton->setText(OK_SETTINGS_BTN_PAIR.first);
   okButton->setToolTip(OK_SETTINGS_BTN_PAIR.second);
