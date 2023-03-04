@@ -244,16 +244,6 @@ void MainWindow::retranslateMenus() {
   questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
 
-void MainWindow::changeEvent(QEvent *event)
-{
-    if (event->type() == QEvent::LanguageChange)
-    {
-        retranslateMenus();
-        retranslateActions();
-    }
-    QMainWindow::changeEvent(event);
-}
-
 void MainWindow::retranslateGUI() {
   if (translator->language() == "ru_RU")
     translator->load(":/translation/l10n_en.qm");
