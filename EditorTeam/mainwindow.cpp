@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
   /*! GubaydullinRG
    *  На старте приложения создаём пустой документ */
   onNew();
+  applyTextFormatAction->setEnabled(false);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -293,6 +294,54 @@ void MainWindow::changePopupMenuAccess() {
   }
 }
 
+//
+const std::optional<QTextCharFormat> MainWindow::getCurrentCharFormat() const {
+
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  if (formatsCheckCursor.isNull() || textEdit->isHidden()) {
+    return std::nullopt;
+  }
+
+  if (!formatsCheckCursor.hasSelection())
+    return formatsCheckCursor.charFormat();
+
+  QTextCharFormat charFormat;
+
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+
+    charFormat = textEdit->textCursor().charFormat();
+
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+
+      if (charFormat != formatsCheckCursor.charFormat())
+        return {std::nullopt};
+
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
+    }
+
+  } else {
+
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
+
+    charFormat = formatsCheckCursor.charFormat();
+
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
+
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
+
+      if (charFormat != formatsCheckCursor.charFormat())
+        return {std::nullopt};
+    }
+  }
+  return charFormat;
+}
+
 void MainWindow::onSave() {
   if (srcHandler->save(textEdit->toPlainText())) {
     isTextModified = false;
@@ -333,47 +382,19 @@ void MainWindow::onExit() {
 }
 
 void MainWindow::onCopyTextFormat() {
+  std::optional<QTextCharFormat> charFormatStorage = getCurrentCharFormat();
 
-  QTextCharFormat charFormat;
-  QTextCursor formatsCheckCursor = textEdit->textCursor();
-  bool formatsDiffer{false};
-
-  if (textEdit->textCursor().selectionEnd() ==
-      textEdit->textCursor().position()) {
-    charFormat = textEdit->textCursor().charFormat();
-    while (formatsCheckCursor.position() >
-           textEdit->textCursor().selectionStart()) {
-      if (charFormat != formatsCheckCursor.charFormat()) {
-        formatsDiffer = true;
-        break;
-      }
-      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
-                                      QTextCursor::KeepAnchor);
-    }
-  } else {
-    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                    QTextCursor::KeepAnchor);
-    charFormat = formatsCheckCursor.charFormat();
-    while (formatsCheckCursor.position() <
-           textEdit->textCursor().selectionEnd()) {
-      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                      QTextCursor::KeepAnchor);
-      if (charFormat != formatsCheckCursor.charFormat()) {
-        formatsDiffer = true;
-        break;
-      }
-    }
+  if (charFormatStorage.has_value()) {
+    copiedTxtFormat = charFormatStorage.value();
+    applyTextFormatAction->setEnabled(true);
   }
-
-  if (!formatsDiffer)
-    copiedTxtFormat = charFormat;
 }
 
 void MainWindow::onApplyTextFormat() {
-  if (!copiedTxtFormat.isValid())
+  if (!copiedTxtFormat.isValid()) {
+    applyTextFormatAction->setEnabled(false);
     return;
-  if (textEdit->textCursor().isNull())
-    return;
+  }
 
   textEdit->textCursor().setCharFormat(copiedTxtFormat);
 }
@@ -437,6 +458,7 @@ void MainWindow::onNew() {
   saveAction->setEnabled(false);
   isTextModified = false;
   newDataLoaded = true;
+  copyTextFormatAction->setEnabled(true);
 }
 
 void MainWindow::onOpen() {
@@ -452,6 +474,7 @@ void MainWindow::onOpen() {
     textEdit->setPlainText(srcHandler->getData());
     saveAction->setEnabled(false);
     isTextModified = false;
+    copyTextFormatAction->setEnabled(true);
   }
 }
 
@@ -469,6 +492,8 @@ void MainWindow::onClose() {
   newDataLoaded = false;
 
   changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
+  copyTextFormatAction->setEnabled(false);
+  applyTextFormatAction->setEnabled(false);
 }
 
 void MainWindow::onHelp() {
