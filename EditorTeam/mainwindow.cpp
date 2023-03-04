@@ -244,6 +244,16 @@ void MainWindow::retranslateMenus() {
   questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
 
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange)
+    {
+        retranslateMenus();
+        retranslateActions();
+    }
+    QMainWindow::changeEvent(event);
+}
+
 void MainWindow::retranslateGUI() {
   if (translator->language() == "ru_RU")
     translator->load(":/translation/l10n_en.qm");
@@ -501,20 +511,14 @@ void MainWindow::onHelp() {
   hb->show();
 }
 
-void MainWindow::onAbout() {
-  QMessageBox msgBox;
-  msgBox.setWindowTitle("О программе");
-  msgBox.setIconPixmap(appIconPath);
-
-  msgBox.setInformativeText(" ПО Текстовый редактор v 0.0 \n\n"
-
-                            "  GB_CommandProgCPP_team3\n\n"
-
-                            "© 2008-2022 The Qt Company Ltd.\n "
-                            "     Все права защищены.\n\n");
-  msgBox.setDefaultButton(QMessageBox::Ok);
-
-  msgBox.exec();
+void MainWindow::onAbout()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("About THare"));
+    msgBox.setIconPixmap(appIconPath);
+    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n" "GB_CommandProgCPP_team3\n\n" "© 2023 All rights reserved\n\n"));
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();
 }
 
 /*! GubaydullinRG
