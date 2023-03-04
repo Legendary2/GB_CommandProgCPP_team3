@@ -70,10 +70,12 @@ class MainWindow : public QMainWindow
      * onApplyTextFormat() */
     QTextCharFormat copiedTxtFormat;
 
-    /*! GubaydullinRG
-        Включение/отключение доступности элементов меню */
-    void changeFileMenuAccess(const QString &, bool, bool, bool);
-    void changePopupMenuAccess();
+  /*! GubaydullinRG
+      Включение/отключение доступности элементов меню */
+  void changeFileMenuAccess(const QString &, bool, bool, bool);
+  void changePopupMenuAccess();
+
+  const std::optional<QTextCharFormat> getCurrentCharFormat() const;
 
     bool textChangedWarning(); // Окно предупреждения
 
