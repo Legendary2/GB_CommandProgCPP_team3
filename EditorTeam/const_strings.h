@@ -6,6 +6,7 @@
 
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
+static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};
 static const char *SETTINGS_MENU_STR{
     QT_TRANSLATE_NOOP("MainWindow", "&Settings")};
 static const char *QUESTION_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "?")};
@@ -55,6 +56,26 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Switch font"),
     QT_TRANSLATE_NOOP("MainWindow", "Switch font")};
 
+// 'Format' - menu actions constants
+static const QPair<const char *, const char *>
+    CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal text"),
+        QT_TRANSLATE_NOOP("MainWindow",
+                          "Switch between crossed and normal font")};
+static const QPair<const char *, const char *>
+    UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Underline/normal font"),
+        QT_TRANSLATE_NOOP("MainWindow",
+                          "Switch between underline and normal font")};
+static const QPair<const char *, const char *> BOLD_TEXT_FORMAT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Bold/normal font"),
+    QT_TRANSLATE_NOOP("MainWindow", "Switch between bold and normal font")};
+static const QPair<const char *, const char *>
+    ITALIC_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Italic/normal font"),
+        QT_TRANSLATE_NOOP("MainWindow",
+                          "Switch between italic and normal font")};
+
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_LANG_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Language"),
@@ -74,13 +95,38 @@ static const QPair<const char *, const char *> ABOUT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "About"),
     QT_TRANSLATE_NOOP("MainWindow", "Short info about application")};
 
+// Popup actions
+static const QPair<const char *, const char *> COPY_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Copy"),
+    QT_TRANSLATE_NOOP("MainWindow", "Copy selected text to clipboard")};
+static const QPair<const char *, const char *> CUT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Cut"),
+    QT_TRANSLATE_NOOP("MainWindow", "Cut selected text to clipboard")};
+static const QPair<const char *, const char *> PASTE_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Paste"),
+    QT_TRANSLATE_NOOP("MainWindow", "Paste from clipboard")};
+static const QPair<const char *, const char *> SELECT_ALL_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Select all"),
+    QT_TRANSLATE_NOOP("MainWindow", "Select all text")};
+
+// font size on popupMenu
+static const char *POPUP_FONT_SIZE_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "Choose font size from 8 to 50:"});
+
+// Window title constants
+static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
+static const char *NO_FILE_OPENED_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
+
 // Icons
 const QString aboutIconPath{":/images/about.png"};
 const QString alignCenterIconPath{":/images/align_center.png"};
 const QString alignLeftIconPath{":/images/align_left.png"};
 const QString alignRightIconPath{":/images/align_right.png"};
 const QString closeIconPath{":/images/close.png"};
+const QString copyIconPath{":/images/copy.png"};
 const QString copyTextFormatIconPath{":/images/copy_format.png"};
+const QString cutIconPath{":/images/cut.png"};
 const QString exitIconPath{":/images/exit.png"};
 const QString switchFontIconPath{":/images/font.png"};
 const QString helpIconPath{":/images/help.png"};
@@ -90,10 +136,16 @@ const QString newIconPath{":/images/new.png"};
 const QString openIconPath{":/images/open.png"};
 const QString applyTextFormatIconPath{":/images/paste_format.png"};
 const QString printIconPath{":/images/print.png"};
+const QString pasteIconPath{":/images/paste.png"};
 const QString saveIconPath{":/images/save.png"};
 const QString saveAsIconPath{":/images/save_as.png"};
+const QString selectAllIconPath{":/images/select_all.png"};
 const QString changeStyleIconPath{":/images/style.png"};
 const QString logoIconPath{":/images/icon_64.png"};
 const QString appIconPath{":/images/icon_128.png"};
+const QString boldTextFormatIconPath{":/images/bold.png"};
+const QString crossedTextFormatIconPath{":/images/crossed.png"};
+const QString italicTextFormatIconPath{":/images/italic.png"};
+const QString underlineTextFormatIconPath{":/images/underline.png"};
 
 #endif // CONST_STRINGS_H
