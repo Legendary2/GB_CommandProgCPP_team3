@@ -6,7 +6,9 @@
 
 [Рабочий процесс команды №3](https://drive.google.com/file/d/1KAaR9hctvW2iiWwgqO0asiC_NJ4L_I4n/view?usp=share_link)
 
-[Release Notes](https://github.com/Legendary2/GB_CommandProgCPP_team3/releases/tag/v.0.1.0)
+[First Release Notes](https://github.com/Legendary2/GB_CommandProgCPP_team3/releases/tag/v.0.1.0)
+
+[Second Release Notes](https://github.com/Legendary2/GB_CommandProgCPP_team3/releases/tag/v.0.5.0)
 
 # 1. Инструкция по развертыванию ПО "THare".
 ## 1.1 Требуемое ПО
