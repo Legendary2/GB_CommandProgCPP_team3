@@ -72,6 +72,8 @@ private:
   void changeFileMenuAccess(const QString &, bool, bool, bool);
   void changePopupMenuAccess();
 
+  const std::optional<QTextCharFormat> getCurrentCharFormat() const;
+
   bool textChangedWarning(); // Окно предупреждения
 
   /*! GubaydullinRG
