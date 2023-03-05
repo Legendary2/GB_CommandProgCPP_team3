@@ -4,6 +4,15 @@
 #include <QPair>
 #include <QString>
 
+static const int DEFAULT_FONT_SIZE = 12;
+static const int MIN_VALUE_VALIDATOR_FONTS_SIZE = 4;
+static const int MAX_VALUE_VALIDATOR_FONTS_SIZE = 200;
+
+static const int MIN_VALUE_FONTS_SIZE = 8;
+static const int MAX_VALUE_FONTS_SIZE = 50;
+
+static const int STEP_FONT_SIZE = 2;
+
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
 static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};

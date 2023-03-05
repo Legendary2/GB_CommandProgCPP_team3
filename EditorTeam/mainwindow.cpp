@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
     connect(textEdit, &QTextEdit::selectionChanged, this,
             &MainWindow::onSelectionChanged);
-    textEdit->setFontPointSize(12);
+    textEdit->setFontPointSize(DEFAULT_FONT_SIZE);
 
     /*! GubaydullinRG
           Заполнение контекстного меню для textEdit */
@@ -55,10 +55,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     retranslateGUI();
 
-  /*! GubaydullinRG
-   *  На старте приложения создаём пустой документ */
-  onNew();
-  applyTextFormatAction->setEnabled(false);
+    /*! GubaydullinRG
+     *  На старте приложения создаём пустой документ */
+    onNew();
+    applyTextFormatAction->setEnabled(false);
+    textEdit->setFocus();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -322,51 +323,57 @@ void MainWindow::changePopupMenuAccess()
 }
 
 //
-const std::optional<QTextCharFormat> MainWindow::getCurrentCharFormat() const {
+const std::optional<QTextCharFormat> MainWindow::getCurrentCharFormat() const
+{
 
-  QTextCursor formatsCheckCursor = textEdit->textCursor();
-  if (formatsCheckCursor.isNull() || textEdit->isHidden()) {
-    return std::nullopt;
-  }
-
-  if (!formatsCheckCursor.hasSelection())
-    return formatsCheckCursor.charFormat();
-
-  QTextCharFormat charFormat;
-
-  if (textEdit->textCursor().selectionEnd() ==
-      textEdit->textCursor().position()) {
-
-    charFormat = textEdit->textCursor().charFormat();
-
-    while (formatsCheckCursor.position() >
-           textEdit->textCursor().selectionStart()) {
-
-      if (charFormat != formatsCheckCursor.charFormat())
-        return {std::nullopt};
-
-      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
-                                      QTextCursor::KeepAnchor);
+    QTextCursor formatsCheckCursor = textEdit->textCursor();
+    if (formatsCheckCursor.isNull() || textEdit->isHidden())
+    {
+        return std::nullopt;
     }
 
-  } else {
+    if (!formatsCheckCursor.hasSelection())
+        return formatsCheckCursor.charFormat();
 
-    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                    QTextCursor::KeepAnchor);
+    QTextCharFormat charFormat;
 
-    charFormat = formatsCheckCursor.charFormat();
+    if (textEdit->textCursor().selectionEnd() ==
+        textEdit->textCursor().position())
+    {
 
-    while (formatsCheckCursor.position() <
-           textEdit->textCursor().selectionEnd()) {
+        charFormat = textEdit->textCursor().charFormat();
 
-      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                      QTextCursor::KeepAnchor);
+        while (formatsCheckCursor.position() >
+               textEdit->textCursor().selectionStart())
+        {
 
-      if (charFormat != formatsCheckCursor.charFormat())
-        return {std::nullopt};
+            if (charFormat != formatsCheckCursor.charFormat())
+                return {std::nullopt};
+
+            formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                            QTextCursor::KeepAnchor);
+        }
     }
-  }
-  return charFormat;
+    else
+    {
+
+        formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                        QTextCursor::KeepAnchor);
+
+        charFormat = formatsCheckCursor.charFormat();
+
+        while (formatsCheckCursor.position() <
+               textEdit->textCursor().selectionEnd())
+        {
+
+            formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                            QTextCursor::KeepAnchor);
+
+            if (charFormat != formatsCheckCursor.charFormat())
+                return {std::nullopt};
+        }
+    }
+    return charFormat;
 }
 
 void MainWindow::onSave()
@@ -416,20 +423,24 @@ void MainWindow::onExit()
     QApplication::exit(0);
 }
 
-void MainWindow::onCopyTextFormat() {
-  std::optional<QTextCharFormat> charFormatStorage = getCurrentCharFormat();
+void MainWindow::onCopyTextFormat()
+{
+    std::optional<QTextCharFormat> charFormatStorage = getCurrentCharFormat();
 
-  if (charFormatStorage.has_value()) {
-    copiedTxtFormat = charFormatStorage.value();
-    applyTextFormatAction->setEnabled(true);
-  }
+    if (charFormatStorage.has_value())
+    {
+        copiedTxtFormat = charFormatStorage.value();
+        applyTextFormatAction->setEnabled(true);
+    }
 }
 
-void MainWindow::onApplyTextFormat() {
-  if (!copiedTxtFormat.isValid()) {
-    applyTextFormatAction->setEnabled(false);
-    return;
-  }
+void MainWindow::onApplyTextFormat()
+{
+    if (!copiedTxtFormat.isValid())
+    {
+        applyTextFormatAction->setEnabled(false);
+        return;
+    }
 
     textEdit->textCursor().setCharFormat(copiedTxtFormat);
 }
@@ -496,12 +507,12 @@ void MainWindow::onChangeStyle()
 void MainWindow::onNew()
 {
 
-  onClose();
-  changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
-  saveAction->setEnabled(false);
-  isTextModified = false;
-  newDataLoaded = true;
-  copyTextFormatAction->setEnabled(true);
+    onClose();
+    changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
+    saveAction->setEnabled(false);
+    isTextModified = false;
+    newDataLoaded = true;
+    copyTextFormatAction->setEnabled(true);
 }
 
 void MainWindow::onOpen()
@@ -514,14 +525,15 @@ void MainWindow::onOpen()
         }
     }
 
-  if (srcHandler->open()) {
-    newDataLoaded = true;
-    changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
-    textEdit->setPlainText(srcHandler->getData());
-    saveAction->setEnabled(false);
-    isTextModified = false;
-    copyTextFormatAction->setEnabled(true);
-  }
+    if (srcHandler->open())
+    {
+        newDataLoaded = true;
+        changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
+        textEdit->setPlainText(srcHandler->getData());
+        saveAction->setEnabled(false);
+        isTextModified = false;
+        copyTextFormatAction->setEnabled(true);
+    }
 }
 
 void MainWindow::onClose()
@@ -540,9 +552,9 @@ void MainWindow::onClose()
     isTextModified = false;
     newDataLoaded = false;
 
-  changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
-  copyTextFormatAction->setEnabled(false);
-  applyTextFormatAction->setEnabled(false);
+    changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
+    copyTextFormatAction->setEnabled(false);
+    applyTextFormatAction->setEnabled(false);
 }
 
 void MainWindow::onHelp()
@@ -556,7 +568,9 @@ void MainWindow::onAbout()
     QMessageBox msgBox;
     msgBox.setWindowTitle(tr("About THare"));
     msgBox.setIconPixmap(appIconPath);
-    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n" "GB_CommandProgCPP_team3\n\n" "© 2023 All rights reserved\n\n"));
+    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n"
+                                 "GB_CommandProgCPP_team3\n\n"
+                                 "© 2023 All rights reserved\n\n"));
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
 }
@@ -713,13 +727,15 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
 {
     fontSizeComboBox2 = new QComboBox(this);
     fontSizeComboBox2->setEditable(true);
-    fontSizeComboBox2->setValidator(new QIntValidator(4, 200, this));
+    fontSizeComboBox2->setValidator(new QIntValidator(
+        MIN_VALUE_VALIDATOR_FONTS_SIZE, MAX_VALUE_VALIDATOR_FONTS_SIZE, this));
     fontSizeComboBox2->view()->setAutoScroll(true);
-    for (int i = 8; i <= 70; i += 2)
+    for (int i = MIN_VALUE_FONTS_SIZE; i <= MAX_VALUE_FONTS_SIZE;
+         i += STEP_FONT_SIZE)
     {
         fontSizeComboBox2->addItem(QString::number(i));
     }
-    fontSizeComboBox2->setCurrentText("12");
+    fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
     connect(fontSizeComboBox2, SIGNAL(currentIndexChanged(int)),
             SLOT(onfontSizeComboBoxChanged(int)));
 
@@ -834,6 +850,24 @@ void MainWindow::onSelectAll() { textEdit->selectAll(); }
 
 void MainWindow::onSelectionChanged()
 {
-    auto curentFontSize = textEdit->textCursor().charFormat().fontPointSize();
-    fontSizeComboBox2->setCurrentText(QString::number(curentFontSize));
+    if (textEdit->textCursor().hasSelection())
+    {
+        std::optional<QTextCharFormat> charFormatStorage =
+            getCurrentCharFormat();
+        if (charFormatStorage.has_value())
+        {
+            auto curentFontSize = charFormatStorage.value().fontPointSize();
+            fontSizeComboBox2->setCurrentText(QString::number(curentFontSize));
+        }
+        else
+        {
+            fontSizeComboBox2->clearEditText();
+        }
+    }
+    else
+    {
+        auto curentFontSize =
+            textEdit->textCursor().charFormat().fontPointSize();
+        fontSizeComboBox2->setCurrentText(QString::number(curentFontSize));
+    }
 }
