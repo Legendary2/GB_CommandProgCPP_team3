@@ -7,9 +7,13 @@
 class HelpBrowser : public QWidget {
   Q_OBJECT
 
+private:
+  QHBoxLayout *hboxLayout;
+
 public:
   HelpBrowser(const QString &strPath, const QString &strFileName,
               QWidget *pwgt = 0);
+  ~HelpBrowser();
 };
 
 #endif // HELPBROWSER_H
