@@ -39,6 +39,21 @@ MainWindow::MainWindow(QWidget *parent)
     Привязка события изменения содержимого textEdit к вызову
     слота onTextModified() */
     connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+
+    //Lyashenko_AN----------------------------------------------------------
+    //Вызов справки через F1
+    keyF1 = new QShortcut(this);
+    keyF1 -> setKey(Qt::Key_F1);
+    connect(keyF1, SIGNAL(activated()), this, SLOT(onHelp()));
+    //Exit из программы
+    keyExit = new QShortcut(this);
+    keyExit ->setKey(Qt::CTRL + Qt::Key_Q);
+    connect(keyExit, SIGNAL(activated()), this, SLOT(onExit()));
+    //Open file
+    keyOpenFile = new QShortcut(this);
+    keyOpenFile -> setKey(Qt::CTRL + Qt::Key_O);
+    connect(keyOpenFile, SIGNAL(activated()), this, SLOT(onOpen()));
+    //----------------------------------------------------------------------
 }
 
 MainWindow::~MainWindow() { delete ui; }

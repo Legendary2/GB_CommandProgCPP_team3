@@ -2,11 +2,14 @@
 #define MAINWINDOW_H
 
 #include "helpbrowser.h"
+#include "shortquitEditor.h"
+
 #include <QFile>
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -95,6 +98,12 @@ class MainWindow : public QMainWindow
     //Элементы подменю '?'
     QAction *helpAction;
     QAction *aboutAction;
+
+    //Lyashenko_AN Вызов справки по F1
+    QShortcut *keyF1;
+    //Lyashenko_AN Выход
+    QShortcut *keyExit;
+    QShortcut *keyOpenFile;
 
   private slots:
     //Основные функции приложения

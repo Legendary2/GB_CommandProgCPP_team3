@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
 	helpbrowser.cpp
 	helpbrowser.h
 	const_strings.h
+
+        shortquitEditor.h
 )
 
 set(TS_SRC_FILES
