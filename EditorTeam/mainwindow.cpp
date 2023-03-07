@@ -353,33 +353,19 @@ bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
   switch (fontFeature) {
 
   case FontFeature::DoesntMatter:
-    if (charFormatFirst == charFormatSecond)
-      return true;
-    break;
+    return charFormatFirst == charFormatSecond;
   case FontFeature::Bold:
-    if (charFormatFirst.fontWeight() == charFormatSecond.fontWeight())
-      return true;
-    break;
+    return charFormatFirst.fontWeight() == charFormatSecond.fontWeight();
   case FontFeature::Crossed:
-    if (charFormatFirst.fontStrikeOut() == charFormatSecond.fontStrikeOut())
-      return true;
-    break;
+    return charFormatFirst.fontStrikeOut() == charFormatSecond.fontStrikeOut();
   case FontFeature::FontFamily:
-    if (charFormatFirst.font() == charFormatSecond.font())
-      return true;
-    break;
+    return charFormatFirst.font() == charFormatSecond.font();
   case FontFeature::Italic:
-    if (charFormatFirst.fontItalic() == charFormatSecond.fontItalic())
-      return true;
-    break;
+    return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
   case FontFeature::Underlined:
-    if (charFormatFirst.fontUnderline() == charFormatSecond.fontUnderline())
-      return true;
-    break;
+    return charFormatFirst.fontUnderline() == charFormatSecond.fontUnderline();
   case FontFeature::Size:
-    if (charFormatFirst.fontPointSize() == charFormatSecond.fontPointSize())
-      return true;
-    break;
+    return charFormatFirst.fontPointSize() == charFormatSecond.fontPointSize();
   default:
     return false;
   }
