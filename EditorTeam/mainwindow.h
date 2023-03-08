@@ -92,6 +92,10 @@ private:
   QAction *closeAction;
   QAction *saveAction;
   QAction *saveAsAction;
+  //-----------------------------------
+  //LyashenkoAN save pdf
+  QAction *saveActionPdf;
+  //-----------------------------------
   QAction *printAction;
   QAction *exitAction;
 
@@ -177,6 +181,10 @@ private slots:
   void onCut();
   void onPaste();
   void onSelectAll();
+
+  //LyashenkoAN Сохранить в формате *.pdf
+  void onSavePdf();
+
 };
 
 #endif // MAINWINDOW_H

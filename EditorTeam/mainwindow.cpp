@@ -79,6 +79,7 @@ void MainWindow::createActions() {
   createAction(&closeAction, closeIconPath, &MainWindow::onClose);
   createAction(&saveAction, saveIconPath, &MainWindow::onSave);
   createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
+  createAction(&saveActionPdf, saveAsIconPath,&MainWindow::onSavePdf);//Add LyashenkoAN
   createAction(&printAction, printIconPath, &MainWindow::onPrint);
   createAction(&exitAction, exitIconPath, &MainWindow::onExit);
 
@@ -137,6 +138,10 @@ void MainWindow::createMenus() {
   saveAction->setEnabled(false); // На старте нам некуда сохранять
   fileMenu->addAction(saveAsAction);
   saveAsAction->setShortcut(QKeySequence("CTRL+S"));
+  //-----------------------------------
+  fileMenu->addAction(saveActionPdf); //Add LyashenkoAN
+  saveActionPdf->setShortcut(QKeySequence("CTRL+T"));
+  //-----------------------------------
   fileMenu->addSeparator();
   fileMenu->addAction(printAction);
   printAction->setShortcut(QKeySequence("CTRL+P"));
@@ -174,7 +179,7 @@ void MainWindow::createMenus() {
   questionMenu = new QMenu(this);
   menuBar()->addMenu(questionMenu);
   questionMenu->addAction(helpAction);
-  helpAction->setShortcut(QKeySequence("CTRL+H"));
+  helpAction->setShortcut(QKeySequence("F1"));
   questionMenu->addSeparator();
   questionMenu->addAction(aboutAction);
   aboutAction->setShortcut(QKeySequence("CTRL+Q"));
@@ -730,3 +735,7 @@ void MainWindow::onPaste() {
 }
 
 void MainWindow::onSelectAll() { textEdit->selectAll(); }
+void MainWindow::onSavePdf()
+{
+
+}
