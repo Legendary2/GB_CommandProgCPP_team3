@@ -127,7 +127,7 @@ private:
   QAction *helpAction;
   QAction *aboutAction;
 
-  //treeView
+  // Элементы древа каталогов
   QString currentFile, teamPath;
   QFileSystemModel *dirModel;
   QPushButton *FindTreeButton;
