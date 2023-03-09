@@ -7,6 +7,12 @@
 #include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
+#include <QLabel>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QTreeWidget>
+#include <QDockWidget>
+#include <QFileSystemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -47,6 +53,7 @@ private:
   QMenu *formatMenu; // Добавил, чтобы было куда меню делать
   QMenu *settingsMenu;
   QMenu *questionMenu;
+  QMenu *treeMenu;
 
   // Вспомогательные методы для выноса части
   // кода за пределы конструктора
@@ -120,12 +127,25 @@ private:
   QAction *helpAction;
   QAction *aboutAction;
 
+  //treeView
+  QString currentFile, teamPath;
+  QFileSystemModel *dirModel;
+  QPushButton *FindTreeButton;
+  QTextEdit *infoText;
+  QLabel *statusLabel;
+  QLineEdit  *searchTreeEdit;
+  QTreeView *treeView;
+  QDockWidget *viewWidget;
+
   // popup
   QWidgetAction *popupWidgetAction;
   QAction *copyAction;
   QAction *cutAction;
   QAction *pasteAction;
   QAction *selectAllAction;
+
+  //Добавление Label для вывода пути к файлу
+  QLabel *myLabel;
 
 private slots:
   // Основные функции приложения

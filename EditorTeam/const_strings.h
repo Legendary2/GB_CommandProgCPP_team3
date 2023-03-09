@@ -10,6 +10,7 @@ static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};
 static const char *SETTINGS_MENU_STR{
     QT_TRANSLATE_NOOP("MainWindow", "&Settings")};
 static const char *QUESTION_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "?")};
+static const char *TREEVIEW_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "TreeView")};
 
 // 'File' - menu actions constants
 static const QPair<const char *, const char *> NEW_ACTION_STR_PAIR{
@@ -94,6 +95,11 @@ static const QPair<const char *, const char *> HELP_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> ABOUT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "About"),
     QT_TRANSLATE_NOOP("MainWindow", "Short info about application")};
+
+// TreeView - menu actions constants
+static const QPair<const char *, const char *> TREE_VIEW_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "TreeView"),
+    QT_TRANSLATE_NOOP("MainWindow", "Show tree view of catalogues")};
 
 // Popup actions
 static const QPair<const char *, const char *> COPY_ACTION_STR_PAIR{
