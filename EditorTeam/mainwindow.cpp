@@ -35,6 +35,30 @@ MainWindow::MainWindow(QWidget *parent)
   textEdit = new QTextEdit(this);
   boxLayout->addWidget(textEdit, 0);
   ui->centralwidget->setLayout(boxLayout);
+          
+  // Древо каталогов
+  teamPath = "C:/";
+  dirModel = new QFileSystemModel(this);
+  dirModel->setRootPath(teamPath);
+  treeView = new QTreeView;
+  treeView->setModel(dirModel);
+  viewWidget = new QDockWidget{this};
+  viewWidget->setWidget(treeView);
+
+  // Окошко поиска и кнопка 'Find'
+  searchTreeEdit = new QLineEdit ;
+  FindTreeButton = new QPushButton(this);
+  FindTreeButton->setText(tr("Find"));
+  QWidget *searchArea = new QWidget(this);
+  QGridLayout *layout = new QGridLayout(this);
+  layout->addWidget(searchTreeEdit, 0, 0, 1, 3);
+  layout->addWidget(FindTreeButton, 0, 5);
+  searchArea->setLayout(layout);
+  viewWidget->setTitleBarWidget(searchArea);
+  QString searchedPart = searchTreeEdit->text();
+  treeView->keyboardSearch(searchedPart);
+  addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
+  connect(FindTreeButton, SIGNAL(clicked()), this, SLOT(findFileSlot()));
 
   /*! GubaydullinRG
   Привязка события изменения содержимого textEdit к вызову
@@ -108,37 +132,7 @@ void MainWindow::createActions() {
   // '?'
   createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
   createAction(&aboutAction, aboutIconPath, &MainWindow::onAbout);
-
-  // 'TreeView'
-  teamPath = "C:/";
-  dirModel = new QFileSystemModel(this);
-  dirModel->setRootPath(teamPath);
-  treeView = new QTreeView;
-  treeView->setModel(dirModel);
-  viewWidget = new QDockWidget{this};
-  viewWidget->setWidget(treeView);
-
-  // search line with button'
-  searchTreeEdit = new QLineEdit ;
-  FindTreeButton = new QPushButton(this);
-  FindTreeButton->setText(tr("Find"));
-  QWidget *searchArea = new QWidget(this);
-  QGridLayout *layout = new QGridLayout(this);
-  layout->addWidget(searchTreeEdit, 0, 0, 1, 3);
-  layout->addWidget(FindTreeButton, 0, 5);
-  searchArea->setLayout(layout);
-  viewWidget->setTitleBarWidget(searchArea);
-  QString searchedPart = searchTreeEdit->text();
-  treeView->keyboardSearch(searchedPart);
-  addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
-  connect(FindTreeButton, SIGNAL(clicked()), this, SLOT(findFileSlot()));
-
-  // dock widget with info area
-  auto info_view_widget = new QDockWidget{this};
-  infoText = new QTextEdit(this);
-  info_view_widget->setTitleBarWidget(infoText);
-  addDockWidget(Qt::BottomDockWidgetArea, info_view_widget);
-
+    
   // popup menu
   createAction(&copyAction, copyIconPath, &MainWindow::onCopy);
   createAction(&cutAction, cutIconPath, &MainWindow::onCut);
