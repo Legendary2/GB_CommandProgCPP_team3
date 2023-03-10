@@ -2,10 +2,10 @@
 
 HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
                          QWidget *pwgt)
-    : QWidget(pwgt) {
-  QPushButton *pressBack = new QPushButton(tr("Back"), this);
-  QPushButton *pressForward = new QPushButton(tr("Forward"), this);
-  QPushButton *pressHome = new QPushButton(tr("Home"), this);
+    : QWidget(pwgt), hboxLayout(new QHBoxLayout) {
+  QPushButton *pressBack = new QPushButton("Back", this);
+  QPushButton *pressForward = new QPushButton("Forward", this);
+  QPushButton *pressHome = new QPushButton("Home", this);
   QTextBrowser *txtBrowser = new QTextBrowser(this);
 
   connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
@@ -20,7 +20,6 @@ HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
   txtBrowser->setSource(QString(strFileName));
 
   QVBoxLayout *vboxLayout = new QVBoxLayout(this);
-  QHBoxLayout *hboxLayout = new QHBoxLayout(this);
 
   hboxLayout->addWidget(pressBack);
   hboxLayout->addWidget(pressForward);
@@ -29,3 +28,5 @@ HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
   vboxLayout->addWidget(txtBrowser);
   setLayout(vboxLayout);
 }
+
+HelpBrowser::~HelpBrowser() { delete hboxLayout; }

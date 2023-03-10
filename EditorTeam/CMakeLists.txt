@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
 set(PROJECT_SOURCES
@@ -20,11 +20,15 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-	helpbrowser.cpp
-	helpbrowser.h
-	const_strings.h
-
-        shortquitEditor.h
+	    helpbrowser.cpp
+	    helpbrowser.h
+	    const_strings.h
+            shortquitEditor.h
+        idevhandler.h
+        filehandler.h
+        filehandler.cpp
+                settingskeeper.cpp
+                settingskeeper.h
 )
 
 set(TS_SRC_FILES
@@ -68,7 +72,7 @@ add_custom_command(
         ${QM_FILES}
     )
 
-target_link_libraries(${APP_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${APP_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::PrintSupport)
 
 install(TARGETS ${EXE_NAME}
     BUNDLE DESTINATION .
