@@ -738,8 +738,16 @@ void MainWindow::onSelectAll() { textEdit->selectAll(); }
 
 void MainWindow::onSavePdf()    //запись содержимого экрана в ПДФ
 {
-QTextDocument txtDoc;
+QPrinter savePdf(QPrinter::PrinterResolution);
+savePdf.setOutputFormat(QPrinter::PdfFormat);
+savePdf.setOutputFileName(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
 
+QTextDocument doc;
+doc.setPlainText(textEdit ->toPlainText());
+
+doc.print(&savePdf);
+
+/*
 QPrinter prntPdf(QPrinter::ScreenResolution);
 prntPdf.setOutputFormat(QPrinter::PdfFormat);                                       //Формат вывода ПДФ в файл
 prntPdf.setOutputFileName(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), " ", "*.pdf"));
@@ -754,5 +762,7 @@ QTextOption textOption(Qt::AlignAbsolute);
 
 painter.drawText(QRect(QPoint(30, 30), QPoint(prntPdf.width(), prntPdf.height())), textEdit ->toPlainText(), textOption);
 
+QTextDocument txtDoc;
 txtDoc.print(&prntPdf);
+*/
 }
