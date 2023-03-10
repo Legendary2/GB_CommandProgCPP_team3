@@ -75,7 +75,10 @@ private:
   void changeFileMenuAccess(const QString &, bool, bool, bool);
   void changePopupMenuAccess();
 
-  const std::optional<QTextCharFormat> getCurrentCharFormat() const;
+  const std::optional<QTextCharFormat>
+  getCurrentCharFormat(const FontFeature) const;
+  bool fontFeatureEquals(const QTextCharFormat &, const QTextCharFormat &,
+                         const FontFeature) const;
 
   bool textChangedWarning(); // Окно предупреждения
 

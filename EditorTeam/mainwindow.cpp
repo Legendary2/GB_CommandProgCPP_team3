@@ -296,8 +296,8 @@ void MainWindow::changePopupMenuAccess() {
   }
 }
 
-//
-const std::optional<QTextCharFormat> MainWindow::getCurrentCharFormat() const {
+const std::optional<QTextCharFormat>
+MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const {
 
   QTextCursor formatsCheckCursor = textEdit->textCursor();
   if (formatsCheckCursor.isNull() || textEdit->isHidden()) {
@@ -312,13 +312,14 @@ const std::optional<QTextCharFormat> MainWindow::getCurrentCharFormat() const {
   if (textEdit->textCursor().selectionEnd() ==
       textEdit->textCursor().position()) {
 
-    charFormat = textEdit->textCursor().charFormat();
+    charFormat = textEdit->textCursor().charFormat(); // a
 
     while (formatsCheckCursor.position() >
            textEdit->textCursor().selectionStart()) {
 
-      if (charFormat != formatsCheckCursor.charFormat())
-        return {std::nullopt};
+      if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
+                             fontFeature))
+        return std::nullopt;
 
       formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
                                       QTextCursor::KeepAnchor);
@@ -337,11 +338,39 @@ const std::optional<QTextCharFormat> MainWindow::getCurrentCharFormat() const {
       formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
                                       QTextCursor::KeepAnchor);
 
-      if (charFormat != formatsCheckCursor.charFormat())
+      if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
+                             fontFeature))
         return {std::nullopt};
     }
   }
   return charFormat;
+}
+
+bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
+                                   const QTextCharFormat &charFormatSecond,
+                                   const FontFeature fontFeature) const {
+
+  switch (fontFeature) {
+
+  case FontFeature::DoesntMatter:
+    return charFormatFirst == charFormatSecond;
+  case FontFeature::Bold:
+    return charFormatFirst.fontWeight() == charFormatSecond.fontWeight();
+  case FontFeature::Crossed:
+    return charFormatFirst.fontStrikeOut() == charFormatSecond.fontStrikeOut();
+  case FontFeature::FontFamily:
+    return charFormatFirst.font() == charFormatSecond.font();
+  case FontFeature::Italic:
+    return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
+  case FontFeature::Underlined:
+    return charFormatFirst.fontUnderline() == charFormatSecond.fontUnderline();
+  case FontFeature::Size:
+    return charFormatFirst.fontPointSize() == charFormatSecond.fontPointSize();
+  default:
+    return false;
+  }
+
+  return false;
 }
 
 void MainWindow::onSave() {
@@ -384,7 +413,8 @@ void MainWindow::onExit() {
 }
 
 void MainWindow::onCopyTextFormat() {
-  std::optional<QTextCharFormat> charFormatStorage = getCurrentCharFormat();
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::DoesntMatter);
 
   if (charFormatStorage.has_value()) {
     copiedTxtFormat = charFormatStorage.value();
@@ -495,14 +525,15 @@ void MainWindow::onHelp() {
   hb->show();
 }
 
-void MainWindow::onAbout()
-{
-    QMessageBox msgBox;
-    msgBox.setWindowTitle(tr("About THare"));
-    msgBox.setIconPixmap(appIconPath);
-    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n" "GB_CommandProgCPP_team3\n\n" "© 2023 All rights reserved\n\n"));
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+void MainWindow::onAbout() {
+  QMessageBox msgBox;
+  msgBox.setWindowTitle(tr("About THare"));
+  msgBox.setIconPixmap(appIconPath);
+  msgBox.setInformativeText(tr("THare v 0.5.0 \n\n"
+                               "GB_CommandProgCPP_team3\n\n"
+                               "© 2023 All rights reserved\n\n"));
+  msgBox.setDefaultButton(QMessageBox::Ok);
+  msgBox.exec();
 }
 
 /*! GubaydullinRG
@@ -605,16 +636,16 @@ void MainWindow::onUnderlineTextFormat() {
 
 void MainWindow::onBoldTextFormat() {
 
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::Bold);
+
   QTextCharFormat charFormat;
-  QTextCursor innerCursor = textEdit->textCursor();
-  if (innerCursor.selectionEnd() != innerCursor.position()) {
-    innerCursor.movePosition(QTextCursor::NextCharacter,
-                             QTextCursor::KeepAnchor);
-  }
-  if (innerCursor.charFormat().fontWeight() != QFont::Bold)
-    charFormat.setFontWeight(QFont::Bold);
-  else
+
+  if (charFormatStorage.has_value() &&
+      charFormatStorage.value().fontWeight() == QFont::Bold)
     charFormat.setFontWeight(QFont::Normal);
+  else
+    charFormat.setFontWeight(QFont::Bold);
 
   textEdit->textCursor().mergeCharFormat(charFormat);
 }
