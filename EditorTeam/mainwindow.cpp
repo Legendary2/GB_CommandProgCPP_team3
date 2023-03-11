@@ -647,7 +647,10 @@ void MainWindow::onBoldTextFormat() {
   else
     charFormat.setFontWeight(QFont::Bold);
 
-  textEdit->textCursor().mergeCharFormat(charFormat);
+  if (textEdit->textCursor().hasSelection())
+    textEdit->textCursor().mergeCharFormat(charFormat);
+  else
+    textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onItalicTextFormat() {
