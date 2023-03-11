@@ -459,9 +459,14 @@ void MainWindow::onSwitchFont() {
   bool ok;
   QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
   if (ok) {
-    QTextCharFormat textCharFormat;
-    textCharFormat.setFont(font);
-    textEdit->textCursor().setCharFormat(textCharFormat);
+
+    QTextCharFormat charFormat;
+    charFormat.setFont(font);
+
+    if (textEdit->textCursor().hasSelection())
+      textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+      textEdit->mergeCurrentCharFormat(charFormat);
   }
 }
 
