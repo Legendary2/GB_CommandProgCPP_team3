@@ -113,8 +113,6 @@ private:
   QAction *italicTextFormatAction;
 
   // Элементы подменю 'Settings'
-  // QAction *changeLangAction;
-  QAction *changeKeyBindAction;
   QAction *settingsAction;
 
   // Поле для размещения редактируемого текста

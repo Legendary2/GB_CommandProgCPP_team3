@@ -78,9 +78,6 @@ static const QPair<const char *, const char *>
                           "Switch between italic and normal font")};
 
 // 'Settings' - menu actions constants
-static const QPair<const char *, const char *> CHANGE_KEY_BIND_ACTION_STR_PAIR{
-    QT_TRANSLATE_NOOP("MainWindow", "Key bindings"),
-    QT_TRANSLATE_NOOP("MainWindow", "Edit key bindings settings")};
 static const QPair<const char *, const char *> SETTINGS_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Settings management"),
     QT_TRANSLATE_NOOP("MainWindow", "Change app settings")};

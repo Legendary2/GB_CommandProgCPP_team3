@@ -107,8 +107,6 @@ void MainWindow::createActions() {
                &MainWindow::onItalicTextFormat);
 
   // 'Settings'
-  createAction(&changeKeyBindAction, keyBindsIconPath,
-               &MainWindow::onChangeKeyBind);
   createAction(&settingsAction, settingsIconPath,
                &MainWindow::onSettingsInvoke);
 
@@ -166,7 +164,6 @@ void MainWindow::createMenus() {
   // 'Settings'
   settingsMenu = new QMenu(this);
   menuBar()->addMenu(settingsMenu);
-  settingsMenu->addAction(changeKeyBindAction);
   settingsMenu->addSeparator();
   settingsMenu->addAction(settingsAction);
 
@@ -225,7 +222,6 @@ void MainWindow::retranslateActions() {
                     ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
 
   // 'Settings'
-  retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
   retranslateAction(&settingsAction, SETTINGS_ACTION_STR_PAIR);
 
   // '?'
@@ -671,6 +667,7 @@ void MainWindow::onSettingsInvoke() { settingsKeeper->exec(); }
 void MainWindow::onSettingsApplyClicked() {
   retranslateGUI();
   onChangeStyle();
+  onChangeKeyBind();
 }
 
 void MainWindow::onSettingsCancelClicked() { settingsKeeper->hide(); }
