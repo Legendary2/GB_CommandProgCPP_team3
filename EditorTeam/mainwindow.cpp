@@ -9,6 +9,7 @@
 #include <QStyle>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QColorDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
@@ -105,6 +106,8 @@ void MainWindow::createActions() {
                &MainWindow::onBoldTextFormat);
   createAction(&italicTextFormatAction, italicTextFormatIconPath,
                &MainWindow::onItalicTextFormat);
+  createAction(&textColorFormatAction, textColorFormatIconPath,   // Добавить картинку
+               &MainWindow::onTextColorFormat);
 
   // 'Settings'
   createAction(&changeKeyBindAction, keyBindsIconPath,
@@ -162,6 +165,7 @@ void MainWindow::createMenus() {
   formatMenu->addAction(crossedTextFormatAction);
   formatMenu->addAction(boldTextFormatAction);
   formatMenu->addAction(italicTextFormatAction);
+  formatMenu->addAction(textColorFormatAction);
 
   // 'Settings'
   settingsMenu = new QMenu(this);
@@ -223,6 +227,8 @@ void MainWindow::retranslateActions() {
   retranslateAction(&boldTextFormatAction, BOLD_TEXT_FORMAT_ACTION_STR_PAIR);
   retranslateAction(&italicTextFormatAction,
                     ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
+  retranslateAction(&textColorFormatAction,
+                    TEXT_COLOR_FORMAT_ACTION_STR_PAIR);
 
   // 'Settings'
   retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -678,6 +684,60 @@ void MainWindow::onSettingsCancelClicked() { settingsKeeper->hide(); }
 void MainWindow::onSettingsOkClicked() {
   onSettingsApplyClicked();
   onSettingsCancelClicked();
+}
+
+void MainWindow::onTextColorFormat()
+{
+    QTextCharFormat charFormat;
+    QColor color;
+    QTextCursor cursor = textEdit->textCursor();
+
+    /* До вызова диалога с выбором цвета, проверяем направление выделения и
+     * различия цветов в выделенном тексте (по аналогии с getCurrentCharFormat()),
+     * после чего вызываем окно выбора цвета и применяем выбранный цвет
+    */
+    if (textEdit->textCursor().hasSelection()) {
+        if (textEdit->textCursor().selectionEnd() ==
+            textEdit->textCursor().position()) {
+
+            color = textEdit->textCursor().charFormat().foreground().color();
+            while (cursor.position() > textEdit->textCursor().selectionStart()) {
+
+                if (cursor.charFormat().foreground() != color && color != Qt::black)
+                  brush = Qt::white;
+
+              cursor.movePosition(QTextCursor::PreviousCharacter,
+                                              QTextCursor::KeepAnchor);
+            }
+          }
+        else {
+            cursor.movePosition(QTextCursor::NextCharacter,
+                                            QTextCursor::KeepAnchor);
+            color = cursor.charFormat().foreground().color();
+            while (cursor.position() < textEdit->textCursor().selectionEnd()) {
+                cursor.movePosition(QTextCursor::NextCharacter,
+                                                QTextCursor::KeepAnchor);
+                if (cursor.charFormat().foreground() != color &&
+                        cursor.charFormat().foreground().color() != Qt::black)
+                    brush = Qt::white;
+            }
+        }
+        if (brush != Qt::white)
+            brush = color;
+    }
+    else
+        brush = textEdit->textCursor().charFormat().foreground();
+
+    QColor chosenColor = QColorDialog::getColor(brush.color(), this);
+
+    if (chosenColor.isValid()) {
+        charFormat.setForeground(chosenColor);
+        if (textEdit->textCursor().hasSelection())
+            textEdit->textCursor().mergeCharFormat(charFormat);
+        else
+            textEdit->mergeCurrentCharFormat(charFormat);
+    }
+    brush = Qt::black;
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара

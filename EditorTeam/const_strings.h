@@ -76,6 +76,10 @@ static const QPair<const char *, const char *>
         QT_TRANSLATE_NOOP("MainWindow", "Italic/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between italic and normal font")};
+static const QPair<const char *, const char *>
+    TEXT_COLOR_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Text color"),
+        QT_TRANSLATE_NOOP("MainWindow", "Choose text color")};
 
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_KEY_BIND_ACTION_STR_PAIR{
@@ -147,6 +151,7 @@ static const QString appIconPath{":/images/icon_128.png"};
 static const QString boldTextFormatIconPath{":/images/bold.png"};
 static const QString crossedTextFormatIconPath{":/images/crossed.png"};
 static const QString italicTextFormatIconPath{":/images/italic.png"};
+static const QString textColorFormatIconPath{""}; // <-----------------------------------------Указать путь к иконке
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
