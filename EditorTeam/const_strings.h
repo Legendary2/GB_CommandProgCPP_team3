@@ -60,7 +60,7 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
 // 'Format' - menu actions constants
 static const QPair<const char *, const char *>
     CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
-        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal text"),
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between crossed and normal font")};
 static const QPair<const char *, const char *>
@@ -109,7 +109,8 @@ static const char *POPUP_FONT_SIZE_STR{
     QT_TRANSLATE_NOOP("MainWindow", "Choose font size from 8 to 50:"});
 
 // Window title constants
-static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
+static const char *NEW_DOC_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "New document*")};
 static const char *NO_FILE_OPENED_STR{
     QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
 
@@ -157,38 +158,15 @@ static const QMap<QString, QString> LANGS_MAP{
     {ENG_LANG_STR, ":/translation/l10n_en.qm"}};
 
 // Theme
-static const QString WHITE_STYLE_STR{"white"};
-static const QString GRAY_STYLE_STR{"grey"};
-
-static const QMap<QString, QString> STYLES_MAP{
-    {WHITE_STYLE_STR, ":/themes/white.qss"},
-    {GRAY_STYLE_STR, ":/themes/grey.qss"}};
+static const QMap<int, QString> STYLES_MAP{{0, ":/themes/white.qss"},
+                                           {1, ":/themes/grey.qss"}};
 
 // Settings file name
 static const QString SETTINGS_STORAGE{"settings.conf"};
 
 // Setttings dialog GUI
-static const QString LANG_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Language")};
-static const QString STYLE_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Style")};
-
-static const QString KEYBINDS_GROUPBOX_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Key binds:")};
-static const QString KEYBINDS_ACTION_LABEL_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Action")};
-static const QString KEYBINDS_MOD_LABEL_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Mod")};
-static const QString KEYBINDS_KEY_LABEL_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Key")};
-
-static const QPair<const char *, const char *> OK_SETTINGS_BTN_PAIR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "OK"),
-    QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes and close dialog")};
-static const QPair<const char *, const char *> APPLY_SETTINGS_BTN_PAIR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "APPLY"),
-    QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes")};
-static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Cancel"),
-    QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
+static const char *LANG_STR{"Language"};
+static const char *STYLE_STR{"Style"};
 
 // Особенности шрифта
 enum class FontFeature {

@@ -2,6 +2,7 @@
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QLineEdit>
 
 void SettingsKeeper::save() {
   settings.setValue(LANG_STR, lang);
@@ -10,20 +11,20 @@ void SettingsKeeper::save() {
 
 void SettingsKeeper::load() {
   lang = settings.value(LANG_STR, RUS_LANG_STR).toString();
-  style = settings.value(STYLE_STR, WHITE_STYLE_STR).toString();
+  style = settings.value(STYLE_STR, 0).toInt();
 
   langComboBox->setCurrentText(lang);
-  styleComboBox->setCurrentText(style);
+  styleComboBox->setCurrentIndex(style);
 }
 
 void SettingsKeeper::setLangAndStyle() {
   lang = langComboBox->currentText();
-  style = styleComboBox->currentText();
+  style = styleComboBox->currentIndex();
 }
 
 void SettingsKeeper::showEvent(QShowEvent *event) {
   langComboBox->setCurrentText(lang);
-  styleComboBox->setCurrentText(style);
+  styleComboBox->setCurrentIndex(style);
 
   QDialog::showEvent(event);
 }
@@ -36,12 +37,9 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
       keyBindKeyComboBox(new QComboBox(this)), langLabel(new QLabel(this)),
       styleLabel(new QLabel(this)), keyBindActionLabel(new QLabel(this)),
       keyBindModLabel(new QLabel(this)), keyBindKeyLabel(new QLabel(this)),
-      okButton(
-          new QPushButton(QIcon(okIconPath), OK_SETTINGS_BTN_PAIR.first, this)),
-      applyButton(new QPushButton(QIcon(okIconPath),
-                                  APPLY_SETTINGS_BTN_PAIR.first, this)),
-      cancelButton(new QPushButton(QIcon(cancelIconPath),
-                                   CANCEL_SETTINGS_BTN_PAIR.first, this)),
+      okButton(new QPushButton(QIcon(okIconPath), NULL, this)),
+      applyButton(new QPushButton(QIcon(okIconPath), NULL, this)),
+      cancelButton(new QPushButton(QIcon(cancelIconPath), NULL, this)),
       formLayout(new QFormLayout), hboxLayout(new QHBoxLayout),
       keyBindsGroupBox(new QGroupBox(this)) {
 
@@ -50,8 +48,8 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   langComboBox->addItem(QIcon(russiaIconPath), RUS_LANG_STR);
   langComboBox->addItem(QIcon(usaIconPath), ENG_LANG_STR);
 
-  styleComboBox->addItem(QIcon(whiteStyleIconPath), WHITE_STYLE_STR);
-  styleComboBox->addItem(QIcon(greyStyleIconPath), GRAY_STYLE_STR);
+  styleComboBox->addItem(QIcon(whiteStyleIconPath), NULL);
+  styleComboBox->addItem(QIcon(greyStyleIconPath), NULL);
 
   load();
 
@@ -84,8 +82,6 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   mainLayout->addLayout(formLayout);
   mainLayout->addWidget(keyBindsGroupBox);
   mainLayout->addLayout(hboxLayout);
-
-  retranslateGUI();
 }
 
 SettingsKeeper::~SettingsKeeper() {
@@ -96,24 +92,29 @@ SettingsKeeper::~SettingsKeeper() {
 
 const QString &SettingsKeeper::getLang() const { return lang; }
 
-const QString &SettingsKeeper::getStyle() const { return style; }
+const int SettingsKeeper::getStyle() const { return style; }
 
 void SettingsKeeper::retranslateGUI() {
-  langLabel->setText(LANG_STR);
-  styleLabel->setText(STYLE_STR);
+  langLabel->setText(tr("Language"));
+  styleLabel->setText(tr("Style"));
 
-  keyBindsGroupBox->setTitle(KEYBINDS_GROUPBOX_STR); // to retranslateGUI
+  styleComboBox->setItemText(0, tr("Light theme"));
+  styleComboBox->setItemText(1, tr("Dark theme"));
 
-  keyBindActionLabel->setText(KEYBINDS_ACTION_LABEL_STR);
-  keyBindModLabel->setText(KEYBINDS_MOD_LABEL_STR);
-  keyBindKeyLabel->setText(KEYBINDS_KEY_LABEL_STR);
+  keyBindsGroupBox->setTitle(tr("Key binds:"));
 
-  okButton->setText(OK_SETTINGS_BTN_PAIR.first);
-  okButton->setToolTip(OK_SETTINGS_BTN_PAIR.second);
+  keyBindActionLabel->setText(tr("Action"));
+  keyBindModLabel->setText(tr("Mod"));
+  keyBindKeyLabel->setText(tr("Key"));
 
-  applyButton->setText(APPLY_SETTINGS_BTN_PAIR.first);
-  applyButton->setToolTip(APPLY_SETTINGS_BTN_PAIR.second);
+  okButton->setText(tr("OK"));
+  okButton->setToolTip(tr("Apply changes and close dialog"));
 
-  cancelButton->setText(CANCEL_SETTINGS_BTN_PAIR.first);
-  cancelButton->setToolTip(CANCEL_SETTINGS_BTN_PAIR.second);
+  applyButton->setText(tr("Apply"));
+  applyButton->setToolTip(tr("Apply changes"));
+
+  cancelButton->setText(tr("Cancel"));
+  cancelButton->setToolTip(tr("Discard changes and close dialog"));
+
+  setWindowTitle(tr("Settings management"));
 }

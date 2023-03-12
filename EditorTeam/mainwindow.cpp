@@ -246,14 +246,39 @@ void MainWindow::retranslateMenus() {
 void MainWindow::retranslateGUI() {
 
   std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
+
   QApplication::installTranslator(translator);
 
   retranslateMenus();
   retranslateActions();
 
+  if (titleHasCertainString(true))
+    setWindowTitle(QString(tr(NEW_DOC_STR)));
+  if (titleHasCertainString(false))
+    setWindowTitle(QString(tr(NO_FILE_OPENED_STR)));
+
   fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
 
   settingsKeeper->retranslateGUI();
+}
+
+bool MainWindow::titleHasCertainString(bool newDoc) const {
+
+  QString currentWindowTitle = windowTitle();
+
+  const char *inputStr = newDoc ? NEW_DOC_STR : NO_FILE_OPENED_STR;
+
+  QTranslator localRUTranslator;
+  if (!localRUTranslator.load(LANGS_MAP[RUS_LANG_STR]))
+    return false;
+  QString testStrRU = localRUTranslator.translate("MainWindow", inputStr);
+
+  QTranslator localENTranslator;
+  if (!localENTranslator.load(LANGS_MAP[ENG_LANG_STR]))
+    return false;
+  QString testStrEN = localENTranslator.translate("MainWindow", inputStr);
+
+  return (currentWindowTitle == testStrRU || currentWindowTitle == testStrEN);
 }
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
@@ -542,7 +567,7 @@ void MainWindow::onTextModified() {
   if (!newDataLoaded) {
     if (srcName.isEmpty()) {
       if (textEdit->isHidden())
-        setWindowTitle(QString(NEW_DOC_STR).append("*"));
+        setWindowTitle(QString(tr(NEW_DOC_STR)));
     } else {
       saveAction->setEnabled(true);
       setWindowTitle(srcName.append("*"));

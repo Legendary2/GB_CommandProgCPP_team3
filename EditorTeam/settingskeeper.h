@@ -4,7 +4,7 @@
 #include "const_strings.h"
 #include <QComboBox>
 #include <QDialog>
-#include <QFormLayout> //
+#include <QFormLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
@@ -18,13 +18,13 @@ public:
   ~SettingsKeeper();
 
   const QString &getLang() const;
-  const QString &getStyle() const;
+  const int getStyle() const;
 
   void retranslateGUI();
 
 private:
   QString lang;
-  QString style;
+  int style;
 
   QSettings settings;
 

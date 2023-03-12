@@ -64,6 +64,7 @@ private:
   void retranslateActions();
   void retranslateMenus();
   void retranslateGUI();
+  bool titleHasCertainString(bool) const;
 
   /*! GubaydullinRG Переменная, хранящая скопированный функцией
    * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
