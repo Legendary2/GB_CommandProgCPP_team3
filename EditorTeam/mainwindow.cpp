@@ -711,7 +711,10 @@ void MainWindow::onUnderlineTextFormat()
     else
         charFormat.setFontUnderline(true);
 
-    textEdit->textCursor().mergeCharFormat(charFormat);
+    if (textEdit->textCursor().hasSelection())
+        textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+        textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onBoldTextFormat()
