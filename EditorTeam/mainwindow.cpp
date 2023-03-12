@@ -679,18 +679,20 @@ void MainWindow::onBoldTextFormat() {
 
 void MainWindow::onItalicTextFormat() {
 
-  QTextCharFormat charFormat;
-  QTextCursor innerCursor = textEdit->textCursor();
-  if (innerCursor.selectionEnd() != innerCursor.position()) {
-    innerCursor.movePosition(QTextCursor::NextCharacter,
-                             QTextCursor::KeepAnchor);
-  }
-  if (!innerCursor.charFormat().fontItalic())
-    charFormat.setFontItalic(true);
-  else
-    charFormat.setFontItalic(false);
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::Italic);
 
-  textEdit->textCursor().mergeCharFormat(charFormat);
+  QTextCharFormat charFormat;
+
+  if (charFormatStorage.has_value() && charFormatStorage.value().fontItalic())
+    charFormat.setFontItalic(false);
+  else
+    charFormat.setFontItalic(true);
+
+  if (textEdit->textCursor().hasSelection())
+    textEdit->textCursor().mergeCharFormat(charFormat);
+  else
+    textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onSettingsInvoke() { settingsKeeper->exec(); }
