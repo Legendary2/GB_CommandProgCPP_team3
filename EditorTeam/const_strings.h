@@ -6,6 +6,7 @@
 #include <QString>
 
 static const int DEFAULT_FONT_SIZE = 12;
+static const QString DEFAULT_FONT_FAMILY = "Sans Serif";
 static const int MIN_VALUE_VALIDATOR_FONTS_SIZE = 4;
 static const int MAX_VALUE_VALIDATOR_FONTS_SIZE = 200;
 
@@ -203,14 +204,15 @@ static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
     QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
 
 // Особенности шрифта
-enum class FontFeature {
-  DoesntMatter,
-  Bold,
-  Crossed,
-  FontFamily,
-  Italic,
-  Size,
-  Underlined
+enum class FontFeature
+{
+    DoesntMatter,
+    Bold,
+    Crossed,
+    FontFamily,
+    Italic,
+    Size,
+    Underlined
 };
 
 #endif // CONST_STRINGS_H

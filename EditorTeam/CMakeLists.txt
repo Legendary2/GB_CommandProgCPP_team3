@@ -26,8 +26,8 @@ set(PROJECT_SOURCES
         idevhandler.h
         filehandler.h
         filehandler.cpp
-                settingskeeper.cpp
-                settingskeeper.h
+        settingskeeper.cpp
+        settingskeeper.h
 )
 
 set(TS_SRC_FILES

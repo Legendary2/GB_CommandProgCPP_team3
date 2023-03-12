@@ -11,16 +11,21 @@
 #include <QTextCursor>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
-      boxLayout(new QBoxLayout(QBoxLayout::TopToBottom)),
-      settingsKeeper(new SettingsKeeper(this)), isTextModified(false),
-      newDataLoaded(false),
-      srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
-      hb(QSharedPointer<HelpBrowser>(
-          new HelpBrowser(":/helpfiles", "index.htm"))),
-      translator(new QTranslator(this)), popupMenu(new QMenu(this)),
-      fontSizeLabel(new QLabel(this)), fontSizeComboBox(new QComboBox(this)) {
-  ui->setupUi(this);
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , boxLayout(new QBoxLayout(QBoxLayout::TopToBottom))
+    , settingsKeeper(new SettingsKeeper(this))
+    , isTextModified(false)
+    , newDataLoaded(false)
+    , srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this)))
+    , hb(QSharedPointer<HelpBrowser>(
+          new HelpBrowser(":/helpfiles", "index.htm")))
+    , translator(new QTranslator(this))
+    , popupMenu(new QMenu(this))
+    , fontSizeLabel(new QLabel(this))
+    , fontSizeComboBox(new QComboBox(this))
+{
+    ui->setupUi(this);
 
     // Заполнение главного меню
     createActions();
@@ -29,29 +34,39 @@ MainWindow::MainWindow(QWidget *parent)
     // Функция настроек и заполнения тулбара
     setMainToolBar();
 
-  onSettingsApplyClicked();
+    onSettingsApplyClicked();
 
-  // Добавление поля для размещения редактируемого текста
-  textEdit = new QTextEdit(this);
-  boxLayout->addWidget(textEdit, 0);
-  ui->centralwidget->setLayout(boxLayout);
+    // Добавление поля для размещения редактируемого текста
+    textEdit = new QTextEdit(this);
+
+    QFont qf;
+    qf.setPointSize(DEFAULT_FONT_SIZE);
+    qf.setFamily(DEFAULT_FONT_FAMILY);
+    textEdit->setFont(qf);
+
+    boxLayout->addWidget(textEdit, 0);
+    ui->centralwidget->setLayout(boxLayout);
 
     /*! GubaydullinRG
     Привязка события изменения содержимого textEdit к вызову
     слота onTextModified() */
     connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
-    textEdit->setFontPointSize(DEFAULT_FONT_SIZE);
 
-  connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
-          SLOT(onSettingsApplyClicked()));
-  connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
-          SLOT(onSettingsCancelClicked()));
-  connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
-          SLOT(onSettingsOkClicked()));
+    connect(textEdit, &QTextEdit::selectionChanged, this,
+            &MainWindow::onSelectionChanged);
+    connect(textEdit, &QTextEdit::cursorPositionChanged, this,
+            &MainWindow::onSelectionChanged);
 
-  /*! GubaydullinRG
-        Заполнение контекстного меню для textEdit */
-  inflatePopupMenu();
+    connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
+            SLOT(onSettingsApplyClicked()));
+    connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
+            SLOT(onSettingsCancelClicked()));
+    connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
+            SLOT(onSettingsOkClicked()));
+
+    /*! GubaydullinRG
+          Заполнение контекстного меню для textEdit */
+    inflatePopupMenu();
 
     /*! GubaydullinRG
      *  На старте приложения создаём пустой документ */
@@ -60,9 +75,10 @@ MainWindow::MainWindow(QWidget *parent)
     textEdit->setFocus();
 }
 
-MainWindow::~MainWindow() {
-  delete ui;
-  delete boxLayout;
+MainWindow::~MainWindow()
+{
+    delete ui;
+    delete boxLayout;
 }
 
 void MainWindow::createAction(QAction **action, const QString &iconPath,
@@ -110,11 +126,11 @@ void MainWindow::createActions()
     createAction(&italicTextFormatAction, italicTextFormatIconPath,
                  &MainWindow::onItalicTextFormat);
 
-  // 'Settings'
-  createAction(&changeKeyBindAction, keyBindsIconPath,
-               &MainWindow::onChangeKeyBind);
-  createAction(&settingsAction, settingsIconPath,
-               &MainWindow::onSettingsInvoke);
+    // 'Settings'
+    createAction(&changeKeyBindAction, keyBindsIconPath,
+                 &MainWindow::onChangeKeyBind);
+    createAction(&settingsAction, settingsIconPath,
+                 &MainWindow::onSettingsInvoke);
 
     // '?'
     createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
@@ -168,12 +184,12 @@ void MainWindow::createMenus()
     formatMenu->addAction(boldTextFormatAction);
     formatMenu->addAction(italicTextFormatAction);
 
-  // 'Settings'
-  settingsMenu = new QMenu(this);
-  menuBar()->addMenu(settingsMenu);
-  settingsMenu->addAction(changeKeyBindAction);
-  settingsMenu->addSeparator();
-  settingsMenu->addAction(settingsAction);
+    // 'Settings'
+    settingsMenu = new QMenu(this);
+    menuBar()->addMenu(settingsMenu);
+    settingsMenu->addAction(changeKeyBindAction);
+    settingsMenu->addSeparator();
+    settingsMenu->addAction(settingsAction);
 
     // '?'
     questionMenu = new QMenu(this);
@@ -235,9 +251,9 @@ void MainWindow::retranslateActions()
     retranslateAction(&italicTextFormatAction,
                       ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
 
-  // 'Settings'
-  retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
-  retranslateAction(&settingsAction, SETTINGS_ACTION_STR_PAIR);
+    // 'Settings'
+    retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
+    retranslateAction(&settingsAction, SETTINGS_ACTION_STR_PAIR);
 
     // '?'
     retranslateAction(&helpAction, HELP_ACTION_STR_PAIR);
@@ -259,17 +275,18 @@ void MainWindow::retranslateMenus()
     questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
 
-void MainWindow::retranslateGUI() {
+void MainWindow::retranslateGUI()
+{
 
-  std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
-  QApplication::installTranslator(translator);
+    std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
+    QApplication::installTranslator(translator);
 
     retranslateMenus();
     retranslateActions();
 
-  fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
+    fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
 
-  settingsKeeper->retranslateGUI();
+    settingsKeeper->retranslateGUI();
 }
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
@@ -317,7 +334,8 @@ void MainWindow::changePopupMenuAccess()
 }
 
 const std::optional<QTextCharFormat>
-MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const {
+MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const
+{
 
     QTextCursor formatsCheckCursor = textEdit->textCursor();
     if (formatsCheckCursor.isNull() || textEdit->isHidden())
@@ -334,15 +352,15 @@ MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const {
         textEdit->textCursor().position())
     {
 
-    charFormat = textEdit->textCursor().charFormat(); // a
+        charFormat = textEdit->textCursor().charFormat(); // a
 
         while (formatsCheckCursor.position() >
                textEdit->textCursor().selectionStart())
         {
 
-      if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
-                             fontFeature))
-        return std::nullopt;
+            if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
+                                   fontFeature))
+                return std::nullopt;
 
             formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
                                             QTextCursor::KeepAnchor);
@@ -363,39 +381,45 @@ MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const {
             formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
                                             QTextCursor::KeepAnchor);
 
-      if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
-                             fontFeature))
-        return {std::nullopt};
+            if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
+                                   fontFeature))
+                return {std::nullopt};
+        }
     }
-  }
-  return charFormat;
+    return charFormat;
 }
 
 bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
                                    const QTextCharFormat &charFormatSecond,
-                                   const FontFeature fontFeature) const {
+                                   const FontFeature fontFeature) const
+{
 
-  switch (fontFeature) {
+    switch (fontFeature)
+    {
 
-  case FontFeature::DoesntMatter:
-    return charFormatFirst == charFormatSecond;
-  case FontFeature::Bold:
-    return charFormatFirst.fontWeight() == charFormatSecond.fontWeight();
-  case FontFeature::Crossed:
-    return charFormatFirst.fontStrikeOut() == charFormatSecond.fontStrikeOut();
-  case FontFeature::FontFamily:
-    return charFormatFirst.font() == charFormatSecond.font();
-  case FontFeature::Italic:
-    return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
-  case FontFeature::Underlined:
-    return charFormatFirst.fontUnderline() == charFormatSecond.fontUnderline();
-  case FontFeature::Size:
-    return charFormatFirst.fontPointSize() == charFormatSecond.fontPointSize();
-  default:
+    case FontFeature::DoesntMatter:
+        return charFormatFirst == charFormatSecond;
+    case FontFeature::Bold:
+        return charFormatFirst.fontWeight() == charFormatSecond.fontWeight();
+    case FontFeature::Crossed:
+        return charFormatFirst.fontStrikeOut() ==
+               charFormatSecond.fontStrikeOut();
+    case FontFeature::FontFamily:
+        return charFormatFirst.font().family() ==
+               charFormatSecond.font().family();
+    case FontFeature::Italic:
+        return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
+    case FontFeature::Underlined:
+        return charFormatFirst.fontUnderline() ==
+               charFormatSecond.fontUnderline();
+    case FontFeature::Size:
+        return charFormatFirst.fontPointSize() ==
+               charFormatSecond.fontPointSize();
+    default:
+        return false;
+    }
+
     return false;
-  }
-
-  return false;
 }
 
 void MainWindow::onSave()
@@ -445,9 +469,10 @@ void MainWindow::onExit()
     QApplication::exit(0);
 }
 
-void MainWindow::onCopyTextFormat() {
-  std::optional<QTextCharFormat> charFormatStorage =
-      getCurrentCharFormat(FontFeature::DoesntMatter);
+void MainWindow::onCopyTextFormat()
+{
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::DoesntMatter);
 
     if (charFormatStorage.has_value())
     {
@@ -508,22 +533,24 @@ void MainWindow::onSwitchFont()
 
 void MainWindow::onChangeKeyBind() {}
 
-void MainWindow::onChangeStyle() {
-  QFile qss(STYLES_MAP[settingsKeeper->getStyle()]);
-  if (!qss.open(QIODevice::ReadOnly))
-    return;
+void MainWindow::onChangeStyle()
+{
+    QFile qss(STYLES_MAP[settingsKeeper->getStyle()]);
+    if (!qss.open(QIODevice::ReadOnly))
+        return;
 
-  qApp->setStyleSheet(qss.readAll());
-  qss.close();
+    qApp->setStyleSheet(qss.readAll());
+    qss.close();
 }
 
-void MainWindow::onNew() {
-  onClose();
-  changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
-  saveAction->setEnabled(false);
-  isTextModified = false;
-  newDataLoaded = true;
-  copyTextFormatAction->setEnabled(true);
+void MainWindow::onNew()
+{
+    onClose();
+    changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
+    saveAction->setEnabled(false);
+    isTextModified = false;
+    newDataLoaded = true;
+    copyTextFormatAction->setEnabled(true);
 }
 
 void MainWindow::onOpen()
@@ -574,15 +601,16 @@ void MainWindow::onHelp()
     hb->show();
 }
 
-void MainWindow::onAbout() {
-  QMessageBox msgBox;
-  msgBox.setWindowTitle(tr("About THare"));
-  msgBox.setIconPixmap(appIconPath);
-  msgBox.setInformativeText(tr("THare v 0.5.0 \n\n"
-                               "GB_CommandProgCPP_team3\n\n"
-                               "© 2023 All rights reserved\n\n"));
-  msgBox.setDefaultButton(QMessageBox::Ok);
-  msgBox.exec();
+void MainWindow::onAbout()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("About THare"));
+    msgBox.setIconPixmap(appIconPath);
+    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n"
+                                 "GB_CommandProgCPP_team3\n\n"
+                                 "© 2023 All rights reserved\n\n"));
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.exec();
 }
 
 /*! GubaydullinRG
@@ -697,18 +725,19 @@ void MainWindow::onUnderlineTextFormat()
     }
 }
 
-void MainWindow::onBoldTextFormat() {
+void MainWindow::onBoldTextFormat()
+{
 
-  std::optional<QTextCharFormat> charFormatStorage =
-      getCurrentCharFormat(FontFeature::Bold);
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Bold);
 
-  QTextCharFormat charFormat;
+    QTextCharFormat charFormat;
 
-  if (charFormatStorage.has_value() &&
-      charFormatStorage.value().fontWeight() == QFont::Bold)
-    charFormat.setFontWeight(QFont::Normal);
-  else
-    charFormat.setFontWeight(QFont::Bold);
+    if (charFormatStorage.has_value() &&
+        charFormatStorage.value().fontWeight() == QFont::Bold)
+        charFormat.setFontWeight(QFont::Normal);
+    else
+        charFormat.setFontWeight(QFont::Bold);
 
     textEdit->textCursor().mergeCharFormat(charFormat);
 }
@@ -733,20 +762,23 @@ void MainWindow::onItalicTextFormat()
 
 void MainWindow::onSettingsInvoke() { settingsKeeper->exec(); }
 
-void MainWindow::onSettingsApplyClicked() {
-  retranslateGUI();
-  onChangeStyle();
+void MainWindow::onSettingsApplyClicked()
+{
+    retranslateGUI();
+    onChangeStyle();
 }
 
 void MainWindow::onSettingsCancelClicked() { settingsKeeper->hide(); }
 
-void MainWindow::onSettingsOkClicked() {
-  onSettingsApplyClicked();
-  onSettingsCancelClicked();
+void MainWindow::onSettingsOkClicked()
+{
+    onSettingsApplyClicked();
+    onSettingsCancelClicked();
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {
+    /* Создаем ComboBox для изменения размера шрифта */
     fontSizeComboBox2 = new QComboBox(this);
     fontSizeComboBox2->setEditable(true);
     fontSizeComboBox2->setValidator(new QIntValidator(
@@ -758,9 +790,27 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
         fontSizeComboBox2->addItem(QString::number(i));
     }
     fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
+    fontSizeComboBox2->setCurrentIndex(
+        fontSizeComboBox2->findText(QString::number(DEFAULT_FONT_SIZE)));
     connect(fontSizeComboBox2, SIGNAL(currentIndexChanged(int)),
             SLOT(onfontSizeComboBoxChanged(int)));
 
+    /* Создаем ComboBox для изменения шрифта */
+    fontFamiliesComboBox = new QComboBox(this);
+    fontFamiliesComboBox->setEditable(true);
+    fontFamiliesComboBox->view()->setAutoScroll(true);
+    auto qsl = QFontDatabase::families();
+    for (auto i = 0; i < qsl.size(); i++)
+    {
+        fontFamiliesComboBox->addItem(qsl[i]);
+    }
+    fontFamiliesComboBox->setCurrentText(DEFAULT_FONT_FAMILY);
+    fontFamiliesComboBox->setCurrentIndex(
+        fontFamiliesComboBox->findText(DEFAULT_FONT_FAMILY));
+    connect(fontFamiliesComboBox, SIGNAL(currentIndexChanged(int)),
+            SLOT(onfontFamiliesComboBoxChanged(int)));
+
+    /* Создаем ToolBar */
     mainToolBar = addToolBar("");
     mainToolBar->setFloatable(false);
     mainToolBar->setMovable(false);
@@ -780,6 +830,7 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
     mainToolBar->addAction(alignTextCenterAction);
     mainToolBar->addAction(alignTextRightAction);
     mainToolBar->addSeparator();
+    mainToolBar->addWidget(fontFamiliesComboBox);
     mainToolBar->addWidget(fontSizeComboBox2);
     mainToolBar->addAction(boldTextFormatAction);
     mainToolBar->addAction(italicTextFormatAction);
@@ -838,23 +889,36 @@ void MainWindow::onPopupMenuCalled(QPoint pos)
 void MainWindow::onPopupComboBoxIndexChanged(int /* index */)
 {
 
-  QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
-  textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
-  textEdit->textCursor().mergeCharFormat(textCharFormat);
+    QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
+    textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
+    textEdit->textCursor().mergeCharFormat(textCharFormat);
 
     popupMenu->close();
 }
 
 void MainWindow::onfontSizeComboBoxChanged(int /* index */)
 {
-
-    QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
+    QTextCharFormat textCharFormat;
     textCharFormat.setFontPointSize(
         fontSizeComboBox2->currentText().toDouble());
-    textEdit->textCursor().setCharFormat(textCharFormat);
+    textEdit->textCursor().mergeCharFormat(textCharFormat);
     if (!(textEdit->textCursor().hasSelection()))
     {
         textEdit->setFontPointSize(fontSizeComboBox2->currentText().toDouble());
+    }
+}
+
+void MainWindow::onfontFamiliesComboBoxChanged(int /* index */)
+{
+    QTextCharFormat textCharFormat;
+    QStringList temp;
+    temp.append(fontFamiliesComboBox->currentText());
+
+    textCharFormat.setFontFamilies(temp);
+    textEdit->textCursor().mergeCharFormat(textCharFormat);
+    if (!(textEdit->textCursor().hasSelection()))
+    {
+        textEdit->setFontFamily(fontFamiliesComboBox->currentText());
     }
 }
 
@@ -869,3 +933,51 @@ void MainWindow::onPaste()
 }
 
 void MainWindow::onSelectAll() { textEdit->selectAll(); }
+
+void MainWindow::onSelectionChanged()
+{
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Size);
+
+    if (charFormatStorage.has_value())
+    {
+        QFont qf = charFormatStorage->font();
+        fontSizeComboBox2->setCurrentText(QString::number(qf.pointSize()));
+        fontSizeComboBox2->setCurrentIndex(
+            fontSizeComboBox2->findText(QString::number(qf.pointSize())));
+    }
+    else
+    {
+        fontSizeComboBox2->setCurrentText("");
+    }
+
+    charFormatStorage = getCurrentCharFormat(FontFeature::FontFamily);
+
+    if (charFormatStorage.has_value())
+    {
+        QFont qf = charFormatStorage->font();
+        fontFamiliesComboBox->setCurrentText(qf.family());
+        fontFamiliesComboBox->setCurrentIndex(
+            fontFamiliesComboBox->findText(qf.family()));
+    }
+    else
+    {
+        fontFamiliesComboBox->setCurrentText("");
+    }
+
+    if (textEdit->document()->characterCount() <= 1)
+    {
+        fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
+        fontSizeComboBox2->setCurrentIndex(
+            fontSizeComboBox2->findText(QString::number(DEFAULT_FONT_SIZE)));
+
+        fontFamiliesComboBox->setCurrentText(DEFAULT_FONT_FAMILY);
+        fontFamiliesComboBox->setCurrentIndex(
+            fontFamiliesComboBox->findText(DEFAULT_FONT_FAMILY));
+
+        QFont qf;
+        qf.setPointSize(DEFAULT_FONT_SIZE);
+        qf.setFamily(DEFAULT_FONT_FAMILY);
+        textEdit->setFont(qf);
+    }
+}
