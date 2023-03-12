@@ -41,6 +41,8 @@ private:
 
   QSharedPointer<HelpBrowser> hb;
 
+  QBrush brush = Qt::black; // Кисть для цвета текста
+
   // Тулбар главной панели
   QToolBar *mainToolBar;
 
@@ -111,6 +113,7 @@ private:
   QAction *underlineTextFormatAction;
   QAction *boldTextFormatAction;
   QAction *italicTextFormatAction;
+  QAction *textColorFormatAction;
 
   // Элементы подменю 'Settings'
   // QAction *changeLangAction;
@@ -162,6 +165,7 @@ private slots:
   void onSettingsApplyClicked();
   void onSettingsCancelClicked();
   void onSettingsOkClicked();
+  void onTextColorFormat();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
