@@ -105,6 +105,8 @@ void MainWindow::createActions() {
                &MainWindow::onBoldTextFormat);
   createAction(&italicTextFormatAction, italicTextFormatIconPath,
                &MainWindow::onItalicTextFormat);
+  createAction(&highlightTextFormatAction, highlightStyleIconPath,
+               &MainWindow::onHighlightTextFormat);
 
   // 'Settings'
   createAction(&changeKeyBindAction, keyBindsIconPath,
@@ -162,6 +164,7 @@ void MainWindow::createMenus() {
   formatMenu->addAction(crossedTextFormatAction);
   formatMenu->addAction(boldTextFormatAction);
   formatMenu->addAction(italicTextFormatAction);
+  formatMenu->addAction(highlightTextFormatAction);
 
   // 'Settings'
   settingsMenu = new QMenu(this);
@@ -223,6 +226,8 @@ void MainWindow::retranslateActions() {
   retranslateAction(&boldTextFormatAction, BOLD_TEXT_FORMAT_ACTION_STR_PAIR);
   retranslateAction(&italicTextFormatAction,
                     ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
+  retranslateAction(&highlightTextFormatAction,
+                    HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR);
 
   // 'Settings'
   retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -366,6 +371,8 @@ bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
     return charFormatFirst.fontUnderline() == charFormatSecond.fontUnderline();
   case FontFeature::Size:
     return charFormatFirst.fontPointSize() == charFormatSecond.fontPointSize();
+  case FontFeature::Highlight:
+    return charFormatFirst.background().color() == charFormatSecond.background().color();
   default:
     return false;
   }
@@ -678,6 +685,47 @@ void MainWindow::onSettingsCancelClicked() { settingsKeeper->hide(); }
 void MainWindow::onSettingsOkClicked() {
   onSettingsApplyClicked();
   onSettingsCancelClicked();
+}
+
+void MainWindow::onHighlightTextFormat()
+{
+    QTextCharFormat charFormat;
+    QColor color;
+
+// Проверяем направление выделения и отличия в цвете
+    std::optional<QTextCharFormat> charFormatStorage =
+            getCurrentCharFormat(FontFeature::Highlight);
+
+    if (charFormatStorage.has_value())
+        color = charFormatStorage->background().color();
+    else
+        hlBrush = Qt::black;
+
+// Определяем цвет кисти для палитры диалога
+    if (textEdit->textCursor().hasSelection()) {
+        if (hlBrush == Qt::black)
+            hlBrush = Qt::white;
+        else {
+            if (color == Qt::black)
+                color = Qt::white;
+
+            hlBrush = color;
+        }
+    }
+    else {
+        hlBrush = textEdit->textCursor().charFormat().background().color();
+    }
+
+    QColor chosenColor = QColorDialog::getColor(hlBrush.color(), this);
+// Если цвет выбран, то красим фон текст
+    if (chosenColor.isValid()) {
+        charFormat.setBackground(chosenColor);
+        if (textEdit->textCursor().hasSelection())
+            textEdit->textCursor().mergeCharFormat(charFormat);
+        else
+            textEdit->mergeCurrentCharFormat(charFormat);
+    }
+    hlBrush = Qt::white;
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
