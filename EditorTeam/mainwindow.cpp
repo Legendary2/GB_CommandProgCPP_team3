@@ -798,6 +798,7 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
     /* Создаем ComboBox для изменения шрифта */
     fontFamiliesComboBox = new QComboBox(this);
     fontFamiliesComboBox->setEditable(true);
+    fontFamiliesComboBox->lineEdit()->setReadOnly(true);
     fontFamiliesComboBox->view()->setAutoScroll(true);
     auto qsl = QFontDatabase::families();
     for (auto i = 0; i < qsl.size(); i++)
