@@ -738,31 +738,12 @@ void MainWindow::onSelectAll() { textEdit->selectAll(); }
 
 void MainWindow::onSavePdf()    //запись содержимого экрана в ПДФ
 {
-QPrinter savePdf(QPrinter::PrinterResolution);
-savePdf.setOutputFormat(QPrinter::PdfFormat);
-savePdf.setOutputFileName(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
+    QTextDocument doc;
+    doc.setPlainText(textEdit ->toPlainText());
 
-QTextDocument doc;
-doc.setPlainText(textEdit ->toPlainText());
+    QPdfWriter pdfWriter(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
 
-doc.print(&savePdf);
-
-/*
-QPrinter prntPdf(QPrinter::ScreenResolution);
-prntPdf.setOutputFormat(QPrinter::PdfFormat);                                       //Формат вывода ПДФ в файл
-prntPdf.setOutputFileName(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), " ", "*.pdf"));
-
-QPainter painter(&prntPdf);
-
-QFont font;
-font.setPixelSize(15);
-painter.setFont(font);
-
-QTextOption textOption(Qt::AlignAbsolute);
-
-painter.drawText(QRect(QPoint(30, 30), QPoint(prntPdf.width(), prntPdf.height())), textEdit ->toPlainText(), textOption);
-
-QTextDocument txtDoc;
-txtDoc.print(&prntPdf);
-*/
+    QPainter painter(&pdfWriter);
+    painter.scale(20.0, 20.0); //Под А4.
+    doc.drawContents(&painter);
 }
