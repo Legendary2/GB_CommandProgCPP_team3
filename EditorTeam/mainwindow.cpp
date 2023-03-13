@@ -158,6 +158,7 @@ void MainWindow::createMenus() {
   fileMenu->addAction(newAction);
   newAction->setShortcut(QKeySequence("CTRL+N"));
   fileMenu->addAction(openAction);
+  openAction->setShortcut(QKeySequence("CTRL+O"));
   fileMenu->addAction(openForRead);
   openForRead->setShortcut(QKeySequence("CTRL+R"));
   fileMenu->addAction(closeAction);
@@ -172,6 +173,7 @@ void MainWindow::createMenus() {
   printAction->setShortcut(QKeySequence("CTRL+P"));
   fileMenu->addSeparator();
   fileMenu->addAction(exitAction);
+  exitAction->setShortcut(QKeySequence("CTRL+Q"));
 
   // 'Edit'
   editMenu = new QMenu(this);
@@ -522,7 +524,7 @@ void MainWindow::onNew() {
 }
 
 void MainWindow::onOpen() {
-  textEdit -> setReadOnly(true);
+  textEdit -> setReadOnly(false);
   if (isTextModified) {
     if (textChangedWarning()) {
       onSave();
@@ -540,7 +542,7 @@ void MainWindow::onOpen() {
 }
 
 void MainWindow::onClose() {
-  textEdit -> setReadOnly(true);
+  textEdit -> setReadOnly(false);
   if (isTextModified) {
     if (textChangedWarning()) { // Юзер согласился сохраниться
       onSave();
