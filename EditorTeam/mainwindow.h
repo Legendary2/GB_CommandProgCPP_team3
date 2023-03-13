@@ -155,6 +155,11 @@ private:
   //Добавление Label для вывода пути к файлу
   QLabel *myLabel;
 
+  //LyashenkoAN----------------------------------------
+  //File open read
+  QAction *openForRead;
+  //---------------------------------------------------
+
 private slots:
   // Основные функции приложения
   void onNew();
@@ -200,6 +205,12 @@ private slots:
   void onCut();
   void onPaste();
   void onSelectAll();
+
+  //LyashenkoAN----------------------------------------
+  //File open read
+  void openFileToRead();
+  //---------------------------------------------------
+
 };
 
 #endif // MAINWINDOW_H

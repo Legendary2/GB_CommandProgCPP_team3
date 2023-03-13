@@ -100,6 +100,10 @@ void MainWindow::createActions() {
   // 'File'
   createAction(&newAction, newIconPath, &MainWindow::onNew);
   createAction(&openAction, openIconPath, &MainWindow::onOpen);
+  //LyashenkoAN---------------------------------------------------------
+  //File open read
+  createAction(&openForRead, openIconPath, &MainWindow::openFileToRead);
+  //--------------------------------------------------------------------
   createAction(&closeAction, closeIconPath, &MainWindow::onClose);
   createAction(&saveAction, saveIconPath, &MainWindow::onSave);
   createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
@@ -154,6 +158,8 @@ void MainWindow::createMenus() {
   fileMenu->addAction(newAction);
   newAction->setShortcut(QKeySequence("CTRL+N"));
   fileMenu->addAction(openAction);
+  fileMenu->addAction(openForRead);
+  openForRead->setShortcut(QKeySequence("CTRL+R"));
   fileMenu->addAction(closeAction);
   closeAction->setEnabled(false); // На старте нам нечего закрывать
   fileMenu->addSeparator();
@@ -198,10 +204,10 @@ void MainWindow::createMenus() {
   questionMenu = new QMenu(this);
   menuBar()->addMenu(questionMenu);
   questionMenu->addAction(helpAction);
-  helpAction->setShortcut(QKeySequence("CTRL+H"));
+  helpAction->setShortcut(QKeySequence("F1"));
   questionMenu->addSeparator();
   questionMenu->addAction(aboutAction);
-  aboutAction->setShortcut(QKeySequence("CTRL+Q"));
+  aboutAction->setShortcut(QKeySequence("F11"));
 
   retranslateMenus();
 }
@@ -506,6 +512,7 @@ void MainWindow::onChangeStyle() {
 }
 
 void MainWindow::onNew() {
+  textEdit -> setReadOnly(false);
   onClose();
   changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
   saveAction->setEnabled(false);
@@ -515,6 +522,7 @@ void MainWindow::onNew() {
 }
 
 void MainWindow::onOpen() {
+  textEdit -> setReadOnly(true);
   if (isTextModified) {
     if (textChangedWarning()) {
       onSave();
@@ -532,6 +540,7 @@ void MainWindow::onOpen() {
 }
 
 void MainWindow::onClose() {
+  textEdit -> setReadOnly(true);
   if (isTextModified) {
     if (textChangedWarning()) { // Юзер согласился сохраниться
       onSave();
@@ -795,3 +804,14 @@ void MainWindow::onPaste() {
 }
 
 void MainWindow::onSelectAll() { textEdit->selectAll(); }
+
+void MainWindow::openFileToRead(){
+    QFile file;
+    file.setFileName(QFileDialog::getOpenFileName(0, "Открыть", "", "*.txt"));
+    if((file.exists())&&(file.open(QIODevice::ReadOnly)))
+    {
+        textEdit -> setText(file.readAll());
+        textEdit -> setReadOnly(true);
+        file.close();
+    }
+}

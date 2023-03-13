@@ -18,7 +18,12 @@ static const QPair<const char *, const char *> NEW_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Create new file")};
 static const QPair<const char *, const char *> OPEN_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Open"),
-    QT_TRANSLATE_NOOP("MainWindow", "Open a file")};
+    QT_TRANSLATE_NOOP("MainWindow", "Open a file")
+    //LyashenkoAN----------------------------------------
+    //File open read
+    QT_TRANSLATE_NOOP("MainWindow", "Open file read")};
+    //---------------------------------------------------
+
 static const QPair<const char *, const char *> CLOSE_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Close"),
     QT_TRANSLATE_NOOP("MainWindow", "Close a file")};
