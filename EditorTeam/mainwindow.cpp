@@ -11,62 +11,207 @@
 #include <QTextCursor>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , boxLayout(new QBoxLayout(QBoxLayout::TopToBottom))
-    , settingsKeeper(new SettingsKeeper(this))
-    , isTextModified(false)
-    , newDataLoaded(false)
-    , srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this)))
-    , hb(QSharedPointer<HelpBrowser>(
-          new HelpBrowser(":/helpfiles", "index.htm")))
-    , translator(new QTranslator(this))
-    , popupMenu(new QMenu(this))
-    , fontSizeLabel(new QLabel(this))
-    , fontSizeComboBox(new QComboBox(this))
-{
-    ui->setupUi(this);
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+      boxLayout(new QBoxLayout(QBoxLayout::TopToBottom)),
+      settingsKeeper(new SettingsKeeper(this)), isTextModified(false),
+      newDataLoaded(false),
+      srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
+      hb(QSharedPointer<HelpBrowser>(
+          new HelpBrowser(":/helpfiles", "index.htm"))),
+      translator(new QTranslator(this)), popupMenu(new QMenu(this)),
+      fontSizeLabel(new QLabel(this)), fontSizeComboBox(new QComboBox(this)) {
+  ui->setupUi(this);
 
-    // Заполнение главного меню
-    createActions();
-    createMenus();
+  // Заполнение главного меню
+  createActions();
+  createMenus();
 
-    // Функция настроек и заполнения тулбара
-    setMainToolBar();
+  // Функция настроек и заполнения тулбара
+  setMainToolBar();
 
-    onSettingsApplyClicked();
+  onSettingsApplyClicked();
 
-    // Добавление поля для размещения редактируемого текста
-    textEdit = new QTextEdit(this);
-    boxLayout->addWidget(textEdit, 0);
-    ui->centralwidget->setLayout(boxLayout);
+  // Добавление поля для размещения редактируемого текста
+  textEdit = new QTextEdit(this);
+  boxLayout->addWidget(textEdit, 0);
+  ui->centralwidget->setLayout(boxLayout);
+          
+  // Древо каталогов
+  teamPath = "C:/";
+  dirModel = new QFileSystemModel(this);
+  dirModel->setRootPath(teamPath);
+  treeView = new QTreeView;
+  treeView->setModel(dirModel);
+  viewWidget = new QDockWidget{this};
+  viewWidget->setWidget(treeView);
 
-    /*! GubaydullinRG
-    Привязка события изменения содержимого textEdit к вызову
-    слота onTextModified() */
-    connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+  // Окошко поиска и кнопка 'Find'
+  searchTreeEdit = new QLineEdit ;
+  FindTreeButton = new QPushButton(this);
+  FindTreeButton->setText(tr("Find"));
+  QWidget *searchArea = new QWidget(this);
+  QGridLayout *layout = new QGridLayout(this);
+  layout->addWidget(searchTreeEdit, 0, 0, 1, 3);
+  layout->addWidget(FindTreeButton, 0, 5);
+  searchArea->setLayout(layout);
+  viewWidget->setTitleBarWidget(searchArea);
+  QString searchedPart = searchTreeEdit->text();
+  treeView->keyboardSearch(searchedPart);
+  addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
+  connect(FindTreeButton, SIGNAL(clicked()), this, SLOT(findFileSlot()));
 
-    connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
-            SLOT(onSettingsApplyClicked()));
-    connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
-            SLOT(onSettingsCancelClicked()));
-    connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
-            SLOT(onSettingsOkClicked()));
+  /*! GubaydullinRG
+  Привязка события изменения содержимого textEdit к вызову
+  слота onTextModified() */
+  connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 
-    /*! GubaydullinRG
-          Заполнение контекстного меню для textEdit */
-    inflatePopupMenu();
+  connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
+          SLOT(onSettingsApplyClicked()));
+  connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
+          SLOT(onSettingsCancelClicked()));
+  connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
+          SLOT(onSettingsOkClicked()));
 
-    /*! GubaydullinRG
-     *  На старте приложения создаём пустой документ */
-    onNew();
-    applyTextFormatAction->setEnabled(false);
+  /*! GubaydullinRG
+        Заполнение контекстного меню для textEdit */
+  inflatePopupMenu();
+
+  /*! GubaydullinRG
+   *  На старте приложения создаём пустой документ */
+  onNew();
+  applyTextFormatAction->setEnabled(false);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-    delete boxLayout;
+MainWindow::~MainWindow() {
+  delete ui;
+  delete boxLayout;
+}
+
+void MainWindow::createAction(QAction **action, const QString &iconPath,
+                              void (MainWindow::*funcSlot)()) {
+  *action = new QAction(this);
+
+  (*action)->setIcon(QIcon(iconPath));
+
+  connect(*action, &QAction::triggered, this, funcSlot);
+}
+
+void MainWindow::createActions() {
+  // 'File'
+  createAction(&newAction, newIconPath, &MainWindow::onNew);
+  createAction(&openAction, openIconPath, &MainWindow::onOpen);
+  createAction(&closeAction, closeIconPath, &MainWindow::onClose);
+  createAction(&saveAction, saveIconPath, &MainWindow::onSave);
+  createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
+  createAction(&printAction, printIconPath, &MainWindow::onPrint);
+  createAction(&exitAction, exitIconPath, &MainWindow::onExit);
+
+  // 'Edit'
+  createAction(&copyTextFormatAction, copyTextFormatIconPath,
+               &MainWindow::onCopyTextFormat);
+  createAction(&applyTextFormatAction, applyTextFormatIconPath,
+               &MainWindow::onApplyTextFormat);
+  createAction(&alignTextLeftAction, alignLeftIconPath,
+               &MainWindow::onAlignTextLeft);
+  createAction(&alignTextCenterAction, alignCenterIconPath,
+               &MainWindow::onAlignTextCenter);
+  createAction(&alignTextRightAction, alignRightIconPath,
+               &MainWindow::onAlignTextRight);
+  createAction(&switchFontAction, switchFontIconPath,
+               &MainWindow::onSwitchFont);
+
+  // 'Format'
+  createAction(&underlineTextFormatAction, underlineTextFormatIconPath,
+               &MainWindow::onUnderlineTextFormat);
+  createAction(&crossedTextFormatAction, crossedTextFormatIconPath,
+               &::MainWindow::onCrossedTextFormat);
+  createAction(&boldTextFormatAction, boldTextFormatIconPath,
+               &MainWindow::onBoldTextFormat);
+  createAction(&italicTextFormatAction, italicTextFormatIconPath,
+               &MainWindow::onItalicTextFormat);
+
+  // 'Settings'
+  createAction(&changeKeyBindAction, keyBindsIconPath,
+               &MainWindow::onChangeKeyBind);
+  createAction(&settingsAction, settingsIconPath,
+               &MainWindow::onSettingsInvoke);
+
+  // '?'
+  createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
+  createAction(&aboutAction, aboutIconPath, &MainWindow::onAbout);
+    
+  // popup menu
+  createAction(&copyAction, copyIconPath, &MainWindow::onCopy);
+  createAction(&cutAction, cutIconPath, &MainWindow::onCut);
+  createAction(&pasteAction, pasteIconPath, &MainWindow::onPaste);
+  createAction(&selectAllAction, selectAllIconPath, &MainWindow::onSelectAll);
+}
+
+void MainWindow::createMenus() {
+  // 'File'
+  fileMenu = new QMenu(this);
+  menuBar()->addMenu(fileMenu);
+  fileMenu->addAction(newAction);
+  newAction->setShortcut(QKeySequence("CTRL+N"));
+  fileMenu->addAction(openAction);
+  fileMenu->addAction(closeAction);
+  closeAction->setEnabled(false); // На старте нам нечего закрывать
+  fileMenu->addSeparator();
+  fileMenu->addAction(saveAction);
+  saveAction->setEnabled(false); // На старте нам некуда сохранять
+  fileMenu->addAction(saveAsAction);
+  saveAsAction->setShortcut(QKeySequence("CTRL+S"));
+  fileMenu->addSeparator();
+  fileMenu->addAction(printAction);
+  printAction->setShortcut(QKeySequence("CTRL+P"));
+  fileMenu->addSeparator();
+  fileMenu->addAction(exitAction);
+
+  // 'Edit'
+  editMenu = new QMenu(this);
+  menuBar()->addMenu(editMenu);
+  editMenu->addAction(copyTextFormatAction);
+  editMenu->addAction(applyTextFormatAction);
+  editMenu->addSeparator();
+  editMenu->addAction(alignTextRightAction);
+  editMenu->addAction(alignTextLeftAction);
+  editMenu->addAction(alignTextCenterAction);
+  editMenu->addSeparator();
+  editMenu->addAction(switchFontAction);
+
+  // 'Format'
+  formatMenu = new QMenu(this);
+  menuBar()->addMenu(formatMenu);
+  formatMenu->addAction(underlineTextFormatAction);
+  formatMenu->addAction(crossedTextFormatAction);
+  formatMenu->addAction(boldTextFormatAction);
+  formatMenu->addAction(italicTextFormatAction);
+
+  // 'Settings'
+  settingsMenu = new QMenu(this);
+  menuBar()->addMenu(settingsMenu);
+  settingsMenu->addAction(changeKeyBindAction);
+  settingsMenu->addSeparator();
+  settingsMenu->addAction(settingsAction);
+
+  // '?'
+  questionMenu = new QMenu(this);
+  menuBar()->addMenu(questionMenu);
+  questionMenu->addAction(helpAction);
+  helpAction->setShortcut(QKeySequence("CTRL+H"));
+  questionMenu->addSeparator();
+  questionMenu->addAction(aboutAction);
+  aboutAction->setShortcut(QKeySequence("CTRL+Q"));
+
+  retranslateMenus();
+}
+
+void MainWindow::changeEvent(QEvent *event) {
+  if (event->type() == QEvent::LanguageChange) {
+    retranslateMenus();
+    retranslateActions();
+  }
+  QMainWindow::changeEvent(event);
 }
 
 void MainWindow::createAction(QAction **action, const QString &iconPath,
@@ -506,16 +651,19 @@ void MainWindow::onAlignTextCenter()
     textEdit->setTextCursor(center);
 }
 
-void MainWindow::onSwitchFont()
-{
-    bool ok;
-    QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
-    if (ok)
-    {
-        QTextCharFormat textCharFormat;
-        textCharFormat.setFont(font);
-        textEdit->textCursor().setCharFormat(textCharFormat);
-    }
+void MainWindow::onSwitchFont() {
+  bool ok;
+  QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
+  if (ok) {
+
+    QTextCharFormat charFormat;
+    charFormat.setFont(font);
+
+    if (textEdit->textCursor().hasSelection())
+      textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+      textEdit->mergeCurrentCharFormat(charFormat);
+  }
 }
 
 void MainWindow::onChangeKeyBind() {}
@@ -730,26 +878,29 @@ void MainWindow::onBoldTextFormat()
         charFormat.setFontWeight(QFont::Normal);
     else
         charFormat.setFontWeight(QFont::Bold);
-
+        
+  if (textEdit->textCursor().hasSelection())
     textEdit->textCursor().mergeCharFormat(charFormat);
+  else
+    textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onItalicTextFormat()
 {
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::Italic);
 
-    QTextCharFormat charFormat;
-    QTextCursor innerCursor = textEdit->textCursor();
-    if (innerCursor.selectionEnd() != innerCursor.position())
-    {
-        innerCursor.movePosition(QTextCursor::NextCharacter,
-                                 QTextCursor::KeepAnchor);
-    }
-    if (!innerCursor.charFormat().fontItalic())
-        charFormat.setFontItalic(true);
-    else
-        charFormat.setFontItalic(false);
+  QTextCharFormat charFormat;
 
+  if (charFormatStorage.has_value() && charFormatStorage.value().fontItalic())
+    charFormat.setFontItalic(false);
+  else
+    charFormat.setFontItalic(true);
+
+  if (textEdit->textCursor().hasSelection())
     textEdit->textCursor().mergeCharFormat(charFormat);
+  else
+    textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onSettingsInvoke() { settingsKeeper->exec(); }
