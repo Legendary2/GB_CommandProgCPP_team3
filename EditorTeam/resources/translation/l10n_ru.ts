@@ -41,6 +41,29 @@
     </message>
 </context>
 <context>
+    <name>HelpBrowser</name>
+    <message>
+        <location filename="helpbrowser.cpp" line="6"/>
+        <source>Back</source>
+        <translation>Назад</translation>
+    </message>
+    <message>
+        <location filename="helpbrowser.cpp" line="7"/>
+        <source>Forward</source>
+        <translation>Вперёд</translation>
+    </message>
+    <message>
+        <location filename="helpbrowser.cpp" line="8"/>
+        <source>Home</source>
+        <translation>Домой</translation>
+    </message>
+    <message>
+        <location filename="helpbrowser.cpp" line="31"/>
+        <source>Help</source>
+        <translation>Помощь</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>

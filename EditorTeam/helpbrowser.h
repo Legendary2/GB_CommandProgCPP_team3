@@ -10,10 +10,16 @@ class HelpBrowser : public QWidget {
 private:
   QHBoxLayout *hboxLayout;
 
+  QPushButton *pressBack;
+  QPushButton *pressForward;
+  QPushButton *pressHome;
+
 public:
   HelpBrowser(const QString &strPath, const QString &strFileName,
               QWidget *pwgt = 0);
   ~HelpBrowser();
+
+  void retranslateGUI();
 };
 
 #endif // HELPBROWSER_H

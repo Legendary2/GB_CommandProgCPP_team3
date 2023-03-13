@@ -2,12 +2,10 @@
 
 HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
                          QWidget *pwgt)
-    : QWidget(pwgt), hboxLayout(new QHBoxLayout) {
-  QPushButton *pressBack = new QPushButton("Back", this);
-  QPushButton *pressForward = new QPushButton("Forward", this);
-  QPushButton *pressHome = new QPushButton("Home", this);
+    : QWidget(pwgt), hboxLayout(new QHBoxLayout),
+      pressBack(new QPushButton(this)), pressForward(new QPushButton(this)),
+      pressHome(new QPushButton(this)) {
   QTextBrowser *txtBrowser = new QTextBrowser(this);
-
   connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
   connect(pressForward, SIGNAL(clicked(bool)), txtBrowser, SLOT(forward()));
   connect(pressHome, SIGNAL(clicked(bool)), txtBrowser, SLOT(home()));
@@ -30,3 +28,11 @@ HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
 }
 
 HelpBrowser::~HelpBrowser() { delete hboxLayout; }
+
+void HelpBrowser::retranslateGUI() {
+  pressBack->setText(tr("Back"));
+  pressForward->setText(tr("Forward"));
+  pressHome->setText(tr("Home"));
+
+  setWindowTitle(tr("Help"));
+}

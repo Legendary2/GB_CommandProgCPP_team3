@@ -260,6 +260,8 @@ void MainWindow::retranslateGUI() {
   fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
 
   settingsKeeper->retranslateGUI();
+
+  hb->retranslateGUI();
 }
 
 bool MainWindow::titleHasCertainString(bool newDoc) const {
