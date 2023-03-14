@@ -911,12 +911,15 @@ void MainWindow::onSearchText() { searchForm->exec(); }
 
 void MainWindow::clearHighLight()
 {
+    textEdit->blockSignals(true);
     ui->statusbar->clearMessage();
     searchHighLight->clearText();
+    textEdit->blockSignals(false);
 }
 
 void MainWindow::onSearchFormButtonClicked(QString searchString)
 {
+    textEdit->blockSignals(true);
     searchHighLight->searchText(searchString, searchForm->isСaseInsensitive());
     searchForm->reject();
     searchForm->clearForm();
@@ -937,4 +940,5 @@ void MainWindow::onSearchFormButtonClicked(QString searchString)
                      tr(" matches found");
         ui->statusbar->showMessage(qs);
     }
+    textEdit->blockSignals(false);
 }
