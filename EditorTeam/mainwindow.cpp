@@ -93,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
      *  На старте приложения создаём пустой документ */
     onNew();
     applyTextFormatAction->setEnabled(false);
+    searchTextAction->setEnabled(false);
 
     searchHighLight = new SearchHighLight(textEdit->document());
 
@@ -628,6 +629,7 @@ void MainWindow::onClose()
     changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
     copyTextFormatAction->setEnabled(false);
     applyTextFormatAction->setEnabled(false);
+    searchTextAction->setEnabled(false);
 }
 
 void MainWindow::onHelp()
@@ -672,6 +674,10 @@ void MainWindow::onTextModified()
         isTextModified = true;
     }
     newDataLoaded = false;
+
+    textEdit->document()->characterCount() > 1
+        ? searchTextAction->setEnabled(true)
+        : searchTextAction->setEnabled(false);
 }
 
 bool MainWindow::textChangedWarning()
