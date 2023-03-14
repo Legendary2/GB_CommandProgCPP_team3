@@ -755,15 +755,20 @@ void MainWindow::inflatePopupMenu()
 
 void MainWindow::onUnderlineTextFormat()
 {
-    QTextCharFormat chFormat;
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Underlined);
+    QTextCharFormat charFormat;
+
+    if (charFormatStorage.has_value() &&
+        charFormatStorage.value().fontUnderline())
+        charFormat.setFontUnderline(false);
+    else
+        charFormat.setFontUnderline(true);
+
     if (textEdit->textCursor().hasSelection())
-    {
-        if (!textEdit->textCursor().charFormat().fontUnderline())
-            chFormat.setFontUnderline(true);
-        else
-            chFormat.setFontUnderline(false);
-        textEdit->textCursor().mergeCharFormat(chFormat);
-    }
+        textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+        textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onBoldTextFormat()
@@ -779,18 +784,17 @@ void MainWindow::onBoldTextFormat()
         charFormat.setFontWeight(QFont::Normal);
     else
         charFormat.setFontWeight(QFont::Bold);
-
-    if (textEdit->textCursor().hasSelection())
-        textEdit->textCursor().mergeCharFormat(charFormat);
-    else
-        textEdit->mergeCurrentCharFormat(charFormat);
+        
+  if (textEdit->textCursor().hasSelection())
+    textEdit->textCursor().mergeCharFormat(charFormat);
+  else
+    textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onItalicTextFormat()
 {
-
-    std::optional<QTextCharFormat> charFormatStorage =
-        getCurrentCharFormat(FontFeature::Italic);
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::Italic);
 
     QTextCharFormat charFormat;
 
