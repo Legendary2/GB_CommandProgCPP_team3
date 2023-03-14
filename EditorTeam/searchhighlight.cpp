@@ -4,7 +4,7 @@
 #include <QTextCharFormat>
 
 SearchHighLight::SearchHighLight(QTextDocument *parent)
-    : BaseClass(parent)
+    : QSyntaxHighlighter(parent)
 {
     formatHighLight.setBackground(HIGHLIGHT_COLOR);
 }
