@@ -129,6 +129,7 @@ class MainWindow : public QMainWindow
   QAction *boldTextFormatAction;
   QAction *italicTextFormatAction;
   QAction *highlightTextFormatAction;
+  QAction *textColorFormatAction;
 
     // Элементы подменю 'Settings'
     // QAction *changeLangAction;
@@ -197,6 +198,7 @@ class MainWindow : public QMainWindow
     void onSearchFormButtonClicked(QString);
     void clearHighLight();
   void onHighlightTextFormat();
+  void onTextColorFormat();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения

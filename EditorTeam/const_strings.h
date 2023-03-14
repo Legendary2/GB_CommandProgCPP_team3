@@ -84,6 +84,10 @@ static const QPair<const char *, const char *>
 static const QPair<const char *, const char *> HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Highlight text"),
     QT_TRANSLATE_NOOP("MainWindow", "Text background color")};
+static const QPair<const char *, const char *>
+    TEXT_COLOR_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Text color"),
+        QT_TRANSLATE_NOOP("MainWindow", "Choose text color")};
 
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_KEY_BIND_ACTION_STR_PAIR{
@@ -155,6 +159,7 @@ static const QString appIconPath{":/images/icon_128.png"};
 static const QString boldTextFormatIconPath{":/images/bold.png"};
 static const QString crossedTextFormatIconPath{":/images/crossed.png"};
 static const QString italicTextFormatIconPath{":/images/italic.png"};
+static const QString textColorFormatIconPath{":/images/text_color.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
@@ -216,7 +221,8 @@ enum class FontFeature {
   Italic,
   Size,
   Highlight,
-  Underlined
+  Underlined,
+  ColoredText
 };
 
 static const QBrush HIGHLIGHT_COLOR = QBrush("#a5a500");

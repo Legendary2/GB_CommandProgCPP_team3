@@ -47,5 +47,6 @@
         <file>helpfiles/files.htm</file>
         <file>helpfiles/setting.htm</file>
         <file>images/text_background_color.png</file>
+        <file>images/text_color.png</file>
     </qresource>
 </RCC>
