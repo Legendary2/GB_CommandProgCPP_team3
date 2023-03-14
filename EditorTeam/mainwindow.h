@@ -105,14 +105,18 @@ class MainWindow : public QMainWindow
     QLabel *fontSizeLabel;
     void inflatePopupMenu();
 
-    // Элементы подменю 'File'
-    QAction *newAction;
-    QAction *openAction;
-    QAction *closeAction;
-    QAction *saveAction;
-    QAction *saveAsAction;
-    QAction *printAction;
-    QAction *exitAction;
+  // Элементы подменю 'File'
+  QAction *newAction;
+  QAction *openAction;
+  //LyashenkoAN----------------------------------------
+  //File open read
+  QAction *openForRead;
+  //---------------------------------------------------
+  QAction *closeAction;
+  QAction *saveAction;
+  QAction *saveAsAction;
+  QAction *printAction;
+  QAction *exitAction;
 
     // Элементы подменю 'Edit'
     QAction *searchTextAction;
@@ -213,10 +217,16 @@ class MainWindow : public QMainWindow
     void onPopupMenuCalled(QPoint);
     void onPopupComboBoxIndexChanged(int);
 
-    void onCopy();
-    void onCut();
-    void onPaste();
-    void onSelectAll();
+  void onCopy();
+  void onCut();
+  void onPaste();
+  void onSelectAll();
+
+  //LyashenkoAN----------------------------------------
+  //File open read
+  void openFileToRead();
+  //---------------------------------------------------
+
 };
 
 #endif // MAINWINDOW_H

@@ -118,16 +118,19 @@ void MainWindow::createAction(QAction **action, const QString &iconPath,
     connect(*action, &QAction::triggered, this, funcSlot);
 }
 
-void MainWindow::createActions()
-{
-    // 'File'
-    createAction(&newAction, newIconPath, &MainWindow::onNew);
-    createAction(&openAction, openIconPath, &MainWindow::onOpen);
-    createAction(&closeAction, closeIconPath, &MainWindow::onClose);
-    createAction(&saveAction, saveIconPath, &MainWindow::onSave);
-    createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
-    createAction(&printAction, printIconPath, &MainWindow::onPrint);
-    createAction(&exitAction, exitIconPath, &MainWindow::onExit);
+void MainWindow::createActions() {
+  // 'File'
+  createAction(&newAction, newIconPath, &MainWindow::onNew);
+  createAction(&openAction, openIconPath, &MainWindow::onOpen);
+  //LyashenkoAN---------------------------------------------------------
+  //File open read
+  createAction(&openForRead, openReadOnly, &MainWindow::openFileToRead);
+  //--------------------------------------------------------------------
+  createAction(&closeAction, closeIconPath, &MainWindow::onClose);
+  createAction(&saveAction, saveIconPath, &MainWindow::onSave);
+  createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
+  createAction(&printAction, printIconPath, &MainWindow::onPrint);
+  createAction(&exitAction, exitIconPath, &MainWindow::onExit);
 
     // 'Edit'
     createAction(&searchTextAction, searchTextIconPath,
@@ -176,26 +179,29 @@ void MainWindow::createActions()
     createAction(&selectAllAction, selectAllIconPath, &MainWindow::onSelectAll);
 }
 
-void MainWindow::createMenus()
-{
-    // 'File'
-    fileMenu = new QMenu(this);
-    menuBar()->addMenu(fileMenu);
-    fileMenu->addAction(newAction);
-    newAction->setShortcut(QKeySequence("CTRL+N"));
-    fileMenu->addAction(openAction);
-    fileMenu->addAction(closeAction);
-    closeAction->setEnabled(false); // На старте нам нечего закрывать
-    fileMenu->addSeparator();
-    fileMenu->addAction(saveAction);
-    saveAction->setEnabled(false); // На старте нам некуда сохранять
-    fileMenu->addAction(saveAsAction);
-    saveAsAction->setShortcut(QKeySequence("CTRL+S"));
-    fileMenu->addSeparator();
-    fileMenu->addAction(printAction);
-    printAction->setShortcut(QKeySequence("CTRL+P"));
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
+void MainWindow::createMenus() {
+  // 'File'
+  fileMenu = new QMenu(this);
+  menuBar()->addMenu(fileMenu);
+  fileMenu->addAction(newAction);
+  newAction->setShortcut(QKeySequence("CTRL+N"));
+  fileMenu->addAction(openAction);
+  openAction->setShortcut(QKeySequence("CTRL+O"));
+  fileMenu->addAction(openForRead);
+  openForRead->setShortcut(QKeySequence("CTRL+R"));
+  fileMenu->addAction(closeAction);
+  closeAction->setEnabled(false); // На старте нам нечего закрывать
+  fileMenu->addSeparator();
+  fileMenu->addAction(saveAction);
+  saveAction->setEnabled(false); // На старте нам некуда сохранять
+  fileMenu->addAction(saveAsAction);
+  saveAsAction->setShortcut(QKeySequence("CTRL+S"));
+  fileMenu->addSeparator();
+  fileMenu->addAction(printAction);
+  printAction->setShortcut(QKeySequence("CTRL+P"));
+  fileMenu->addSeparator();
+  fileMenu->addAction(exitAction);
+  exitAction->setShortcut(QKeySequence("CTRL+Q"));
 
     // 'Edit'
     editMenu = new QMenu(this);
@@ -229,14 +235,14 @@ void MainWindow::createMenus()
     settingsMenu->addSeparator();
     settingsMenu->addAction(settingsAction);
 
-    // '?'
-    questionMenu = new QMenu(this);
-    menuBar()->addMenu(questionMenu);
-    questionMenu->addAction(helpAction);
-    helpAction->setShortcut(QKeySequence("CTRL+H"));
-    questionMenu->addSeparator();
-    questionMenu->addAction(aboutAction);
-    aboutAction->setShortcut(QKeySequence("CTRL+Q"));
+  // '?'
+  questionMenu = new QMenu(this);
+  menuBar()->addMenu(questionMenu);
+  questionMenu->addAction(helpAction);
+  helpAction->setShortcut(QKeySequence("F1"));
+  questionMenu->addSeparator();
+  questionMenu->addAction(aboutAction);
+  aboutAction->setShortcut(QKeySequence("F11"));
 
     retranslateMenus();
 }
@@ -259,16 +265,16 @@ void MainWindow::retranslateAction(
     (*action)->setStatusTip(tr(strPair.second));
 }
 
-void MainWindow::retranslateActions()
-{
-    // 'File'
-    retranslateAction(&newAction, NEW_ACTION_STR_PAIR);
-    retranslateAction(&openAction, OPEN_ACTION_STR_PAIR);
-    retranslateAction(&closeAction, CLOSE_ACTION_STR_PAIR);
-    retranslateAction(&saveAction, SAVE_ACTION_STR_PAIR);
-    retranslateAction(&saveAsAction, SAVEAS_ACTION_STR_PAIR);
-    retranslateAction(&printAction, PRINT_ACTION_STR_PAIR);
-    retranslateAction(&exitAction, EXIT_ACTION_STR_PAIR);
+void MainWindow::retranslateActions() {
+  // 'File'
+  retranslateAction(&newAction, NEW_ACTION_STR_PAIR);
+  retranslateAction(&openAction, OPEN_ACTION_STR_PAIR);
+  retranslateAction(&openForRead, OPEN_FILE_READ_ACTION_STR_PAIR);
+  retranslateAction(&closeAction, CLOSE_ACTION_STR_PAIR);
+  retranslateAction(&saveAction, SAVE_ACTION_STR_PAIR);
+  retranslateAction(&saveAsAction, SAVEAS_ACTION_STR_PAIR);
+  retranslateAction(&printAction, PRINT_ACTION_STR_PAIR);
+  retranslateAction(&exitAction, EXIT_ACTION_STR_PAIR);
 
     // 'Edit'
     retranslateAction(&searchTextAction, SEARCH_TEXT_ACTION_STR_PAIR);
@@ -591,25 +597,23 @@ void MainWindow::onChangeStyle()
     qss.close();
 }
 
-void MainWindow::onNew()
-{
-    onClose();
-    changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
-    saveAction->setEnabled(false);
-    isTextModified = false;
-    newDataLoaded = true;
-    copyTextFormatAction->setEnabled(true);
+void MainWindow::onNew() {
+  textEdit -> setReadOnly(false);
+  onClose();
+  changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
+  saveAction->setEnabled(false);
+  isTextModified = false;
+  newDataLoaded = true;
+  copyTextFormatAction->setEnabled(true);
 }
 
-void MainWindow::onOpen()
-{
-    if (isTextModified)
-    {
-        if (textChangedWarning())
-        {
-            onSave();
-        }
+void MainWindow::onOpen() {
+  textEdit -> setReadOnly(false);
+  if (isTextModified) {
+    if (textChangedWarning()) {
+      onSave();
     }
+  }
 
     if (srcHandler->open())
     {
@@ -622,15 +626,13 @@ void MainWindow::onOpen()
     }
 }
 
-void MainWindow::onClose()
-{
-    if (isTextModified)
-    {
-        if (textChangedWarning())
-        { // Юзер согласился сохраниться
-            onSave();
-        }
+void MainWindow::onClose() {
+  textEdit -> setReadOnly(false);
+  if (isTextModified) {
+    if (textChangedWarning()) { // Юзер согласился сохраниться
+      onSave();
     }
+  }
 
     srcHandler->close();
     saveAction->setEnabled(false);
@@ -1046,4 +1048,24 @@ void MainWindow::onSearchFormButtonClicked(QString searchString)
         ui->statusbar->showMessage(qs);
     }
     textEdit->blockSignals(false);
+}
+
+void MainWindow::openFileToRead(){
+
+    onClose();
+    changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
+    saveAction->setEnabled(false);
+    isTextModified = false;
+    newDataLoaded = true;
+    copyTextFormatAction->setEnabled(true);
+
+    QFile file;
+    file.setFileName(QFileDialog::getOpenFileName(0, "Открыть", "", "*.txt"));
+    if((file.exists())&&(file.open(QIODevice::ReadOnly)))
+    {
+        textEdit -> setText(file.readAll());
+        textEdit -> setReadOnly(true);
+        file.close();
+        closeAction->setEnabled(true);
+    }
 }
