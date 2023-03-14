@@ -3,11 +3,19 @@
 
 #include "filehandler.h"
 #include "helpbrowser.h"
+#include "searchform.h"
+#include "searchhighlight.h"
 #include "settingskeeper.h"
+#include <QComboBox>
+#include <QDockWidget>
+#include <QFileSystemModel>
+#include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
+#include <QTreeWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -32,6 +40,10 @@ class MainWindow : public QMainWindow
     // Указатель на диалоговое окно настроек
     SettingsKeeper *settingsKeeper;
 
+    // Указатель на окно поиска
+    SearchForm *searchForm;
+    SearchHighLight *searchHighLight;
+
     /* Флаг "Содержимое textEdit изменено?" */
     bool isTextModified = false;
 
@@ -52,6 +64,7 @@ class MainWindow : public QMainWindow
     QMenu *formatMenu; // Добавил, чтобы было куда меню делать
     QMenu *settingsMenu;
     QMenu *questionMenu;
+    QMenu *treeMenu;
 
     // Вспомогательные методы для выноса части
     // кода за пределы конструктора
@@ -104,6 +117,7 @@ class MainWindow : public QMainWindow
     QAction *exitAction;
 
     // Элементы подменю 'Edit'
+    QAction *searchTextAction;
     QAction *copyTextFormatAction;
     QAction *applyTextFormatAction;
     QAction *alignTextRightAction;
@@ -111,11 +125,13 @@ class MainWindow : public QMainWindow
     QAction *alignTextCenterAction;
     QAction *switchFontAction;
 
-    // Элементы подменю 'Format'
-    QAction *crossedTextFormatAction;
-    QAction *underlineTextFormatAction;
-    QAction *boldTextFormatAction;
-    QAction *italicTextFormatAction;
+  // Элементы подменю 'Format'
+  QAction *crossedTextFormatAction;
+  QAction *underlineTextFormatAction;
+  QAction *boldTextFormatAction;
+  QAction *italicTextFormatAction;
+  QAction *highlightTextFormatAction;
+  QAction *textColorFormatAction;
 
     // Элементы подменю 'Settings'
     // QAction *changeLangAction;
@@ -133,6 +149,16 @@ class MainWindow : public QMainWindow
     QAction *helpAction;
     QAction *aboutAction;
 
+    // Элементы древа каталогов
+    QString currentFile, teamPath;
+    QFileSystemModel *dirModel;
+    QPushButton *FindTreeButton;
+    QTextEdit *infoText;
+    QLabel *statusLabel;
+    QLineEdit *searchTreeEdit;
+    QTreeView *treeView;
+    QDockWidget *viewWidget;
+
     // popup
     QWidgetAction *popupWidgetAction;
     QAction *copyAction;
@@ -140,33 +166,41 @@ class MainWindow : public QMainWindow
     QAction *pasteAction;
     QAction *selectAllAction;
 
-  private slots:
-    // Основные функции приложения
-    void onNew();
-    void onOpen();
-    void onClose();
-    void onSave();
-    void onSaveAs();
-    void onPrint();
-    void onExit();
-    void onCopyTextFormat();
-    void onApplyTextFormat();
-    void onAlignTextRight();
-    void onAlignTextLeft();
-    void onAlignTextCenter();
-    void onSwitchFont();
-    void onChangeKeyBind();
-    void onChangeStyle();
-    void onHelp();
-    void onAbout();
-    void onCrossedTextFormat();
-    void onUnderlineTextFormat();
-    void onBoldTextFormat();
-    void onItalicTextFormat();
-    void onSettingsInvoke();
-    void onSettingsApplyClicked();
-    void onSettingsCancelClicked();
-    void onSettingsOkClicked();
+    //Добавление Label для вывода пути к файлу
+    QLabel *myLabel;
+
+    private slots:
+      // Основные функции приложения
+      void onNew();
+      void onOpen();
+      void onClose();
+      void onSave();
+      void onSaveAs();
+      void onPrint();
+      void onExit();
+      void onCopyTextFormat();
+      void onApplyTextFormat();
+      void onAlignTextRight();
+      void onAlignTextLeft();
+      void onAlignTextCenter();
+      void onSwitchFont();
+      void onChangeKeyBind();
+      void onChangeStyle();
+      void onHelp();
+      void onAbout();
+      void onCrossedTextFormat();
+      void onUnderlineTextFormat();
+      void onBoldTextFormat();
+      void onItalicTextFormat();
+      void onSettingsInvoke();
+      void onSettingsApplyClicked();
+      void onSettingsCancelClicked();
+      void onSettingsOkClicked();
+    void onSearchText();
+    void onSearchFormButtonClicked(QString);
+    void clearHighLight();
+  void onHighlightTextFormat();
+  void onTextColorFormat();
     void onSelectionChanged();
 
     /*! GubaydullinRG
