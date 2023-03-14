@@ -79,7 +79,9 @@ void MainWindow::createActions() {
   createAction(&closeAction, closeIconPath, &MainWindow::onClose);
   createAction(&saveAction, saveIconPath, &MainWindow::onSave);
   createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
-  createAction(&saveActionPdf, saveAsIconPath,&MainWindow::onSavePdf);//Add LyashenkoAN
+
+  createAction(&savePdfAction, savePdfIcon, &MainWindow::onSavePdf);//Add LyashenkoAN
+
   createAction(&printAction, printIconPath, &MainWindow::onPrint);
   createAction(&exitAction, exitIconPath, &MainWindow::onExit);
 
@@ -131,22 +133,26 @@ void MainWindow::createMenus() {
   fileMenu->addAction(newAction);
   newAction->setShortcut(QKeySequence("CTRL+N"));
   fileMenu->addAction(openAction);
+  openAction->setShortcut(QKeySequence("CTRL+O"));
   fileMenu->addAction(closeAction);
+  closeAction->setShortcut(QKeySequence("ESC"));
   closeAction->setEnabled(false); // На старте нам нечего закрывать
   fileMenu->addSeparator();
   fileMenu->addAction(saveAction);
+  saveAction->setShortcut(QKeySequence("CTRL+S"));
   saveAction->setEnabled(false); // На старте нам некуда сохранять
   fileMenu->addAction(saveAsAction);
-  saveAsAction->setShortcut(QKeySequence("CTRL+S"));
+  saveAsAction->setShortcut(QKeySequence("CTRL+ALT+S"));
   //-----------------------------------
-  fileMenu->addAction(saveActionPdf); //Add LyashenkoAN
-  saveActionPdf->setShortcut(QKeySequence("CTRL+T"));
+  fileMenu->addAction(savePdfAction); //Add LyashenkoAN
+  savePdfAction->setShortcut(QKeySequence("CTRL+T"));
   //-----------------------------------
   fileMenu->addSeparator();
   fileMenu->addAction(printAction);
   printAction->setShortcut(QKeySequence("CTRL+P"));
   fileMenu->addSeparator();
   fileMenu->addAction(exitAction);
+  exitAction->setShortcut(QKeySequence("CTRL+Q"));
 
   // 'Edit'
   editMenu = new QMenu(this);
@@ -182,7 +188,7 @@ void MainWindow::createMenus() {
   helpAction->setShortcut(QKeySequence("F1"));
   questionMenu->addSeparator();
   questionMenu->addAction(aboutAction);
-  aboutAction->setShortcut(QKeySequence("CTRL+Q"));
+  aboutAction->setShortcut(QKeySequence("F11"));
 
   retranslateMenus();
 }
@@ -209,6 +215,7 @@ void MainWindow::retranslateActions() {
   retranslateAction(&closeAction, CLOSE_ACTION_STR_PAIR);
   retranslateAction(&saveAction, SAVE_ACTION_STR_PAIR);
   retranslateAction(&saveAsAction, SAVEAS_ACTION_STR_PAIR);
+  retranslateAction(&savePdfAction, SAVE_AS_PDF_ACTION_STR_PAIR);
   retranslateAction(&printAction, PRINT_ACTION_STR_PAIR);
   retranslateAction(&exitAction, EXIT_ACTION_STR_PAIR);
 
@@ -496,7 +503,7 @@ void MainWindow::onClose() {
 }
 
 void MainWindow::onHelp() {
-  hb->resize(600, 400);
+  hb->resize(700, 600);
   hb->show();
 }
 
@@ -747,3 +754,10 @@ void MainWindow::onSavePdf()    //запись содержимого экран
     painter.scale(20.0, 20.0); //Под А4.
     doc.drawContents(&painter);
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    event -> accept();
+    qApp -> quit();
+}
+

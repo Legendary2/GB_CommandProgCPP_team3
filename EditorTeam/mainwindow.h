@@ -94,7 +94,7 @@ private:
   QAction *saveAsAction;
   //-----------------------------------
   //LyashenkoAN save pdf
-  QAction *saveActionPdf;
+  QAction *savePdfAction;
   //-----------------------------------
   QAction *printAction;
   QAction *exitAction;
@@ -184,6 +184,8 @@ private slots:
 
   //LyashenkoAN Сохранить в формате *.pdf
   void onSavePdf();
+  //LyashenkoAN Устранение ошибки при закрытии MainWindow
+  void closeEvent(QCloseEvent *event);
 
 };
 

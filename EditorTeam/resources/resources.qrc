@@ -47,5 +47,6 @@
 	<file>helpfiles/edit.htm</file>
 	<file>helpfiles/files.htm</file>
 	<file>helpfiles/setting.htm</file>
+	<file>helpfiles/format.htm</file>
     </qresource>
 </RCC>
