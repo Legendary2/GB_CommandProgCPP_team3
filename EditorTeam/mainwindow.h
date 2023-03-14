@@ -125,13 +125,13 @@ class MainWindow : public QMainWindow
     QAction *alignTextCenterAction;
     QAction *switchFontAction;
 
-  // Элементы подменю 'Format'
-  QAction *crossedTextFormatAction;
-  QAction *underlineTextFormatAction;
-  QAction *boldTextFormatAction;
-  QAction *italicTextFormatAction;
-  QAction *highlightTextFormatAction;
-  QAction *textColorFormatAction;
+    // Элементы подменю 'Format'
+    QAction *crossedTextFormatAction;
+    QAction *underlineTextFormatAction;
+    QAction *boldTextFormatAction;
+    QAction *italicTextFormatAction;
+    QAction *highlightTextFormatAction;
+    QAction *textColorFormatAction;
 
     // Элементы подменю 'Settings'
     // QAction *changeLangAction;
@@ -169,38 +169,38 @@ class MainWindow : public QMainWindow
     //Добавление Label для вывода пути к файлу
     QLabel *myLabel;
 
-    private slots:
-      // Основные функции приложения
-      void onNew();
-      void onOpen();
-      void onClose();
-      void onSave();
-      void onSaveAs();
-      void onPrint();
-      void onExit();
-      void onCopyTextFormat();
-      void onApplyTextFormat();
-      void onAlignTextRight();
-      void onAlignTextLeft();
-      void onAlignTextCenter();
-      void onSwitchFont();
-      void onChangeKeyBind();
-      void onChangeStyle();
-      void onHelp();
-      void onAbout();
-      void onCrossedTextFormat();
-      void onUnderlineTextFormat();
-      void onBoldTextFormat();
-      void onItalicTextFormat();
-      void onSettingsInvoke();
-      void onSettingsApplyClicked();
-      void onSettingsCancelClicked();
-      void onSettingsOkClicked();
+  private slots:
+    // Основные функции приложения
+    void onNew();
+    void onOpen();
+    void onClose();
+    void onSave();
+    void onSaveAs();
+    void onPrint();
+    void onExit();
+    void onCopyTextFormat();
+    void onApplyTextFormat();
+    void onAlignTextRight();
+    void onAlignTextLeft();
+    void onAlignTextCenter();
+    void onSwitchFont();
+    void onChangeKeyBind();
+    void onChangeStyle();
+    void onHelp();
+    void onAbout();
+    void onCrossedTextFormat();
+    void onUnderlineTextFormat();
+    void onBoldTextFormat();
+    void onItalicTextFormat();
+    void onSettingsInvoke();
+    void onSettingsApplyClicked();
+    void onSettingsCancelClicked();
+    void onSettingsOkClicked();
     void onSearchText();
     void onSearchFormButtonClicked(QString);
     void clearHighLight();
-  void onHighlightTextFormat();
-  void onTextColorFormat();
+    void onHighlightTextFormat();
+    void onTextColorFormat();
     void onSelectionChanged();
 
     /*! GubaydullinRG
