@@ -1,6 +1,7 @@
 #ifndef CONST_STRINGS_H
 #define CONST_STRINGS_H
 
+#include <QBrush>
 #include <QMap>
 #include <QPair>
 #include <QString>
@@ -36,6 +37,10 @@ static const QPair<const char *, const char *> EXIT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Exit application")};
 
 // 'Edit' - menu actions constants
+
+static const QPair<const char *, const char *> SEARCH_TEXT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Search text"),
+    QT_TRANSLATE_NOOP("MainWindow", "Search text")};
 static const QPair<const char *, const char *> COPY_TEXT_FORMAT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Copy text format"),
     QT_TRANSLATE_NOOP("MainWindow", "Copy text format")};
@@ -153,6 +158,7 @@ static const QString italicTextFormatIconPath{":/images/italic.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
+static const QString searchTextIconPath{":/images/search.png"};
 static const QString highlightStyleIconPath{":/images/text_background_color.png"};
 
 // Language
@@ -197,6 +203,10 @@ static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
     QT_TRANSLATE_NOOP("SettingsDialog", "Cancel"),
     QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
 
+// Setttings Search dialog GUI
+static const QString SEARCHFORM_TITLE{
+    QT_TRANSLATE_NOOP("SearchDialog", "Search text")};
+
 // Особенности шрифта
 enum class FontFeature {
   DoesntMatter,
@@ -208,5 +218,7 @@ enum class FontFeature {
   Highlight,
   Underlined
 };
+
+static const QBrush HIGHLIGHT_COLOR = QBrush("#a5a500");
 
 #endif // CONST_STRINGS_H
