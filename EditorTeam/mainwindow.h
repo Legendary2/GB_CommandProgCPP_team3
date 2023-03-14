@@ -99,6 +99,10 @@ private:
   // Элементы подменю 'File'
   QAction *newAction;
   QAction *openAction;
+  //LyashenkoAN----------------------------------------
+  //File open read
+  QAction *openForRead;
+  //---------------------------------------------------
   QAction *closeAction;
   QAction *saveAction;
   QAction *saveAsAction;
@@ -155,10 +159,7 @@ private:
   //Добавление Label для вывода пути к файлу
   QLabel *myLabel;
 
-  //LyashenkoAN----------------------------------------
-  //File open read
-  QAction *openForRead;
-  //---------------------------------------------------
+
 
 private slots:
   // Основные функции приложения

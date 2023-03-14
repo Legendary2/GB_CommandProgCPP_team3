@@ -18,12 +18,10 @@ static const QPair<const char *, const char *> NEW_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Create new file")};
 static const QPair<const char *, const char *> OPEN_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Open"),
-    QT_TRANSLATE_NOOP("MainWindow", "Open a file")
-    //LyashenkoAN----------------------------------------
-    //File open read
-    QT_TRANSLATE_NOOP("MainWindow", "Open file read")};
-    //---------------------------------------------------
-
+    QT_TRANSLATE_NOOP("MainWindow", "Open a file")};
+static const QPair<const char *, const char *> OPENREAD_ACTION_STR_PAIR{
+    "Open file read only", ""};
+    //QT_TRANSLATE_NOOP("MainWindow", "Open file read only")};
 static const QPair<const char *, const char *> CLOSE_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Close"),
     QT_TRANSLATE_NOOP("MainWindow", "Close a file")};
@@ -155,6 +153,7 @@ static const QString italicTextFormatIconPath{":/images/italic.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
+static const QString openReadOnly{":/images/open_read_only.png"};
 
 // Language
 static const QString RUS_LANG_STR{"ru_RU"};

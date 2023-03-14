@@ -102,7 +102,7 @@ void MainWindow::createActions() {
   createAction(&openAction, openIconPath, &MainWindow::onOpen);
   //LyashenkoAN---------------------------------------------------------
   //File open read
-  createAction(&openForRead, openIconPath, &MainWindow::openFileToRead);
+  createAction(&openForRead, openReadOnly, &MainWindow::openFileToRead);
   //--------------------------------------------------------------------
   createAction(&closeAction, closeIconPath, &MainWindow::onClose);
   createAction(&saveAction, saveIconPath, &MainWindow::onSave);
@@ -233,6 +233,7 @@ void MainWindow::retranslateActions() {
   // 'File'
   retranslateAction(&newAction, NEW_ACTION_STR_PAIR);
   retranslateAction(&openAction, OPEN_ACTION_STR_PAIR);
+  retranslateAction(&openForRead, OPENREAD_ACTION_STR_PAIR);
   retranslateAction(&closeAction, CLOSE_ACTION_STR_PAIR);
   retranslateAction(&saveAction, SAVE_ACTION_STR_PAIR);
   retranslateAction(&saveAsAction, SAVEAS_ACTION_STR_PAIR);
@@ -815,5 +816,6 @@ void MainWindow::openFileToRead(){
         textEdit -> setText(file.readAll());
         textEdit -> setReadOnly(true);
         file.close();
+        closeAction->setEnabled(true);
     }
 }
