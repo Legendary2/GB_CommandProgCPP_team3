@@ -1,6 +1,7 @@
 #ifndef CONST_STRINGS_H
 #define CONST_STRINGS_H
 
+#include <QBrush>
 #include <QMap>
 #include <QPair>
 #include <QString>
@@ -36,6 +37,10 @@ static const QPair<const char *, const char *> EXIT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Exit application")};
 
 // 'Edit' - menu actions constants
+
+static const QPair<const char *, const char *> SEARCH_TEXT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Search text"),
+    QT_TRANSLATE_NOOP("MainWindow", "Search text")};
 static const QPair<const char *, const char *> COPY_TEXT_FORMAT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Copy text format"),
     QT_TRANSLATE_NOOP("MainWindow", "Copy text format")};
@@ -76,6 +81,9 @@ static const QPair<const char *, const char *>
         QT_TRANSLATE_NOOP("MainWindow", "Italic/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between italic and normal font")};
+static const QPair<const char *, const char *> HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Highlight text"),
+    QT_TRANSLATE_NOOP("MainWindow", "Text background color")};
 static const QPair<const char *, const char *>
     TEXT_COLOR_FORMAT_ACTION_STR_PAIR{
         QT_TRANSLATE_NOOP("MainWindow", "Text color"),
@@ -155,6 +163,8 @@ static const QString textColorFormatIconPath{":/images/text_color.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
+static const QString searchTextIconPath{":/images/search.png"};
+static const QString highlightStyleIconPath{":/images/text_background_color.png"};
 
 // Language
 static const QString RUS_LANG_STR{"ru_RU"};
@@ -198,6 +208,10 @@ static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
     QT_TRANSLATE_NOOP("SettingsDialog", "Cancel"),
     QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
 
+// Setttings Search dialog GUI
+static const QString SEARCHFORM_TITLE{
+    QT_TRANSLATE_NOOP("SearchDialog", "Search text")};
+
 // Особенности шрифта
 enum class FontFeature {
   DoesntMatter,
@@ -206,8 +220,11 @@ enum class FontFeature {
   FontFamily,
   Italic,
   Size,
+  Highlight,
   Underlined,
   ColoredText
 };
+
+static const QBrush HIGHLIGHT_COLOR = QBrush("#a5a500");
 
 #endif // CONST_STRINGS_H

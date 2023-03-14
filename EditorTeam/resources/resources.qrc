@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>translation/l10n_ru.qm</file>
-        <file>translation/l10n_en.qm</file>
-        <file>themes/white.qss</file>
-        <file>themes/grey.qss</file>
+    <file>translation/l10n_ru.qm</file>
+    <file>translation/l10n_en.qm</file>
+    <file>themes/white.qss</file>
+    <file>themes/grey.qss</file>
         <file>images/app_icon.png</file>
         <file>images/icon_32.png</file>
         <file>images/icon_64.png</file>
@@ -40,11 +40,13 @@
         <file>images/underline.png</file>
         <file>images/usa.png</file>
         <file>images/white_style.png</file>
+	<file>images/search.png</file>
         <file>helpfiles/index.htm</file>
         <file>helpfiles/about.htm</file>
         <file>helpfiles/edit.htm</file>
         <file>helpfiles/files.htm</file>
         <file>helpfiles/setting.htm</file>
+        <file>images/text_background_color.png</file>
         <file>images/text_color.png</file>
     </qresource>
 </RCC>
