@@ -102,6 +102,8 @@ class MainWindow : public QMainWindow
     Контекстное для textEdit меню */
     QMenu *popupMenu;
     QComboBox *fontSizeComboBox;
+    QComboBox *fontSizeComboBox2;
+    QComboBox *fontFamiliesComboBox;
     QLabel *fontSizeLabel;
     void inflatePopupMenu();
 
@@ -167,38 +169,39 @@ class MainWindow : public QMainWindow
     //Добавление Label для вывода пути к файлу
     QLabel *myLabel;
 
-  private slots:
-    // Основные функции приложения
-    void onNew();
-    void onOpen();
-    void onClose();
-    void onSave();
-    void onSaveAs();
-    void onPrint();
-    void onExit();
-    void onCopyTextFormat();
-    void onApplyTextFormat();
-    void onAlignTextRight();
-    void onAlignTextLeft();
-    void onAlignTextCenter();
-    void onSwitchFont();
-    void onChangeKeyBind();
-    void onChangeStyle();
-    void onHelp();
-    void onAbout();
-    void onCrossedTextFormat();
-    void onUnderlineTextFormat();
-    void onBoldTextFormat();
-    void onItalicTextFormat();
-    void onSettingsInvoke();
-    void onSettingsApplyClicked();
-    void onSettingsCancelClicked();
-    void onSettingsOkClicked();
+    private slots:
+      // Основные функции приложения
+      void onNew();
+      void onOpen();
+      void onClose();
+      void onSave();
+      void onSaveAs();
+      void onPrint();
+      void onExit();
+      void onCopyTextFormat();
+      void onApplyTextFormat();
+      void onAlignTextRight();
+      void onAlignTextLeft();
+      void onAlignTextCenter();
+      void onSwitchFont();
+      void onChangeKeyBind();
+      void onChangeStyle();
+      void onHelp();
+      void onAbout();
+      void onCrossedTextFormat();
+      void onUnderlineTextFormat();
+      void onBoldTextFormat();
+      void onItalicTextFormat();
+      void onSettingsInvoke();
+      void onSettingsApplyClicked();
+      void onSettingsCancelClicked();
+      void onSettingsOkClicked();
     void onSearchText();
     void onSearchFormButtonClicked(QString);
     void clearHighLight();
   void onHighlightTextFormat();
   void onTextColorFormat();
+    void onSelectionChanged();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения
@@ -212,6 +215,8 @@ class MainWindow : public QMainWindow
     и реакция на выбор элемента в popupComboBox */
     void onPopupMenuCalled(QPoint);
     void onPopupComboBoxIndexChanged(int);
+    void onfontSizeComboBoxChanged(int);
+    void onfontFamiliesComboBoxChanged(int);
 
     void onCopy();
     void onCut();
