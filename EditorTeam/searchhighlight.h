@@ -7,7 +7,6 @@
 class SearchHighLight : public QSyntaxHighlighter
 {
     Q_OBJECT
-    using BaseClass = QSyntaxHighlighter;
 
   public:
     explicit SearchHighLight(QTextDocument *parent = nullptr);
