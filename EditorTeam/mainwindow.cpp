@@ -700,17 +700,22 @@ bool MainWindow::textChangedWarning()
     }
 }
 
-void MainWindow::onCrossedTextFormat()
-{
-    QTextCharFormat crossedFormat;
+void MainWindow::onCrossedTextFormat() {
+  std::optional<QTextCharFormat> charFormatStorage =
+          getCurrentCharFormat(FontFeature::Crossed);
+
+    QTextCharFormat charFormat;
+
+    if(charFormatStorage.has_value() &&
+            charFormatStorage.value().fontStrikeOut())
+        charFormat.setFontStrikeOut(false);
+    else
+        charFormat.setFontStrikeOut(true);
+
     if (textEdit->textCursor().hasSelection())
-    {
-        if (!textEdit->textCursor().charFormat().fontStrikeOut())
-            crossedFormat.setFontStrikeOut(true);
-        else
-            crossedFormat.setFontStrikeOut(false);
-        textEdit->textCursor().mergeCharFormat(crossedFormat);
-    }
+    textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+    textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::inflatePopupMenu()
