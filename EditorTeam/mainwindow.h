@@ -123,11 +123,12 @@ class MainWindow : public QMainWindow
     QAction *alignTextCenterAction;
     QAction *switchFontAction;
 
-    // Элементы подменю 'Format'
-    QAction *crossedTextFormatAction;
-    QAction *underlineTextFormatAction;
-    QAction *boldTextFormatAction;
-    QAction *italicTextFormatAction;
+  // Элементы подменю 'Format'
+  QAction *crossedTextFormatAction;
+  QAction *underlineTextFormatAction;
+  QAction *boldTextFormatAction;
+  QAction *italicTextFormatAction;
+  QAction *highlightTextFormatAction;
 
     // Элементы подменю 'Settings'
     // QAction *changeLangAction;
@@ -195,6 +196,7 @@ class MainWindow : public QMainWindow
     void onSearchText();
     void onSearchFormButtonClicked(QString);
     void clearHighLight();
+  void onHighlightTextFormat();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения
