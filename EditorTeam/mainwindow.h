@@ -81,6 +81,9 @@ class MainWindow : public QMainWindow
     void retranslateMenus();
     void retranslateGUI();
 
+    //Функция для закрытия программы через крестик
+    void closeEvent(QCloseEvent *) override;
+
     /*! GubaydullinRG Переменная, хранящая скопированный функцией
      * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
      * onApplyTextFormat() */

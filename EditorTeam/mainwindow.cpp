@@ -338,6 +338,11 @@ void MainWindow::retranslateGUI()
     settingsKeeper->retranslateGUI();
 }
 
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    onExit();
+}
+
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
                                       bool hideTextEdit, bool enableSaveAs,
                                       bool enableClose)
