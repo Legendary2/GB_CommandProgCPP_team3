@@ -41,8 +41,6 @@ private:
 
   QSharedPointer<HelpBrowser> hb;
 
-  QBrush hlBrush = Qt::white; // Кисть для цвета фона текста
-
   // Тулбар главной панели
   QToolBar *mainToolBar;
 

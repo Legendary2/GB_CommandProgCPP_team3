@@ -691,6 +691,7 @@ void MainWindow::onHighlightTextFormat()
 {
     QTextCharFormat charFormat;
     QColor color;
+    QBrush hlBrush = Qt::white;
 
 // Проверяем направление выделения и отличия в цвете
     std::optional<QTextCharFormat> charFormatStorage =
@@ -725,7 +726,6 @@ void MainWindow::onHighlightTextFormat()
         else
             textEdit->mergeCurrentCharFormat(charFormat);
     }
-    hlBrush = Qt::white;
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара

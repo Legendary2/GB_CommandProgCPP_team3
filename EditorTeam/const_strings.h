@@ -153,7 +153,7 @@ static const QString italicTextFormatIconPath{":/images/italic.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
-static const QString highlightStyleIconPath{""};  // <---------------------------------------Указать путь к иконке
+static const QString highlightStyleIconPath{":/images/text_background_color.png"};
 
 // Language
 static const QString RUS_LANG_STR{"ru_RU"};
