@@ -19,7 +19,7 @@ static const QPair<const char *, const char *> NEW_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> OPEN_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Open"),
     QT_TRANSLATE_NOOP("MainWindow", "Open a file")};
-static const QPair<const char *, const char *> OPENREAD_ACTION_STR_PAIR{
+static const QPair<const char *, const char *> OPEN_FILE_READ_ACTION_STR_PAIR{
     "Open file read only", ""};
     //QT_TRANSLATE_NOOP("MainWindow", "Open file read only")};
 static const QPair<const char *, const char *> CLOSE_ACTION_STR_PAIR{

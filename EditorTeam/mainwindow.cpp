@@ -233,7 +233,7 @@ void MainWindow::retranslateActions() {
   // 'File'
   retranslateAction(&newAction, NEW_ACTION_STR_PAIR);
   retranslateAction(&openAction, OPEN_ACTION_STR_PAIR);
-  retranslateAction(&openForRead, OPENREAD_ACTION_STR_PAIR);
+  retranslateAction(&openForRead, OPEN_FILE_READ_ACTION_STR_PAIR);
   retranslateAction(&closeAction, CLOSE_ACTION_STR_PAIR);
   retranslateAction(&saveAction, SAVE_ACTION_STR_PAIR);
   retranslateAction(&saveAsAction, SAVEAS_ACTION_STR_PAIR);
