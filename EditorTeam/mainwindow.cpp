@@ -809,6 +809,14 @@ void MainWindow::onPaste() {
 void MainWindow::onSelectAll() { textEdit->selectAll(); }
 
 void MainWindow::openFileToRead(){
+
+    onClose();
+    changeFileMenuAccess(tr(NEW_DOC_STR), false, true, false);
+    saveAction->setEnabled(false);
+    isTextModified = false;
+    newDataLoaded = true;
+    copyTextFormatAction->setEnabled(true);
+
     QFile file;
     file.setFileName(QFileDialog::getOpenFileName(0, "Открыть", "", "*.txt"));
     if((file.exists())&&(file.open(QIODevice::ReadOnly)))
