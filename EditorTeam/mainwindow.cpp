@@ -106,7 +106,7 @@ void MainWindow::createActions() {
                &MainWindow::onBoldTextFormat);
   createAction(&italicTextFormatAction, italicTextFormatIconPath,
                &MainWindow::onItalicTextFormat);
-  createAction(&textColorFormatAction, textColorFormatIconPath,   // Добавить картинку
+  createAction(&textColorFormatAction, textColorFormatIconPath,
                &MainWindow::onTextColorFormat);
 
   // 'Settings'
@@ -692,6 +692,7 @@ void MainWindow::onTextColorFormat()
 {
     QTextCharFormat charFormat;
     QColor color;
+    QBrush brush = Qt::black; // Кисть для цвета текста
 
 // Проверяем направление выделения и отличия в цвете
     std::optional<QTextCharFormat> charFormatStorage =
@@ -722,7 +723,6 @@ void MainWindow::onTextColorFormat()
         else
             textEdit->mergeCurrentCharFormat(charFormat);
     }
-    brush = Qt::black;
 }
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара

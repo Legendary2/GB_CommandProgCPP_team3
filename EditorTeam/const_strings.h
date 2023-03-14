@@ -151,7 +151,7 @@ static const QString appIconPath{":/images/icon_128.png"};
 static const QString boldTextFormatIconPath{":/images/bold.png"};
 static const QString crossedTextFormatIconPath{":/images/crossed.png"};
 static const QString italicTextFormatIconPath{":/images/italic.png"};
-static const QString textColorFormatIconPath{""}; // <-----------------------------------------Указать путь к иконке
+static const QString textColorFormatIconPath{":/images/text_color.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
