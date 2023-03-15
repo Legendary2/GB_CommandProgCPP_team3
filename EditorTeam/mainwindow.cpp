@@ -1081,14 +1081,25 @@ void MainWindow::openFileToRead(){
 
 void MainWindow::onSavePdf()    //запись содержимого экрана в ПДФ
 {
-    QTextDocument doc;
-    doc.setPlainText(textEdit ->toPlainText());
 
-    QPdfWriter pdfWriter(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
+    QGraphicsScene scene;
+    QGraphicsTextItem *textItem= new QGraphicsTextItem(textEdit -> toPlainText());
+    textItem -> setTextInteractionFlags(Qt::TextEditorInteraction);
+    textItem -> setFlags(QGraphicsItem::ItemIsSelectable | textItem -> flags());
 
-    QPainter painter(&pdfWriter);
-    painter.scale(20.0, 20.0); //Под А4.
-    doc.drawContents(&painter);
+    scene.addItem(textItem);
+
+    QPrinter pdfPrinter;
+    pdfPrinter.setOutputFormat(QPrinter::PdfFormat);
+    //pdfPrinter.set   //setPaperSize(QSize(scene -> width(), scene -> heigh()), QPrinter::Point);
+    pdfPrinter.setFullPage(true);
+    pdfPrinter.setOutputFileName(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
+
+    QPainter pdfPainter;
+    pdfPainter.begin(&pdfPrinter);
+    //pdfPainter.scale(20.0, 20.0);
+    scene.render(&pdfPainter);
+    pdfPainter.end();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
