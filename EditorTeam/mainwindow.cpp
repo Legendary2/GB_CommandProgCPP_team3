@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     textEdit = new QTextEdit(this);
     boxLayout->addWidget(textEdit, 0);
     ui->centralwidget->setLayout(boxLayout);
-
+/*
     // Древо каталогов
     teamPath = "C:/";
     dirModel = new QFileSystemModel(this);
@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     treeView->keyboardSearch(searchedPart);
     addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
     connect(FindTreeButton, SIGNAL(clicked()), this, SLOT(findFileSlot()));
-
+*/
     /*! KuznecovAG
     При сигнале от searchForm о нажатии кнопки вызывается слот
     onSearchFormButtonClicked*/
@@ -1082,24 +1082,14 @@ void MainWindow::openFileToRead(){
 void MainWindow::onSavePdf()    //запись содержимого экрана в ПДФ
 {
 
-    QGraphicsScene scene;
-    QGraphicsTextItem *textItem= new QGraphicsTextItem(textEdit -> toPlainText());
-    textItem -> setTextInteractionFlags(Qt::TextEditorInteraction);
-    textItem -> setFlags(QGraphicsItem::ItemIsSelectable | textItem -> flags());
+    QTextDocument doc;
+    doc.setHtml(textEdit ->toHtml());
 
-    scene.addItem(textItem);
+    QPdfWriter pdfWriter(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
 
-    QPrinter pdfPrinter;
-    pdfPrinter.setOutputFormat(QPrinter::PdfFormat);
-    //pdfPrinter.set   //setPaperSize(QSize(scene -> width(), scene -> heigh()), QPrinter::Point);
-    pdfPrinter.setFullPage(true);
-    pdfPrinter.setOutputFileName(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
-
-    QPainter pdfPainter;
-    pdfPainter.begin(&pdfPrinter);
-    //pdfPainter.scale(20.0, 20.0);
-    scene.render(&pdfPainter);
-    pdfPainter.end();
+    QPainter painter(&pdfWriter);
+    painter.scale(20.0, 20.0); //Под А4.
+    doc.drawContents(&painter);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
