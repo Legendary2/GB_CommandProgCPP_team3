@@ -118,6 +118,10 @@ class MainWindow : public QMainWindow
   QAction *closeAction;
   QAction *saveAction;
   QAction *saveAsAction;
+  //-----------------------------------
+  //LyashenkoAN save pdf
+  QAction *savePdfAction;
+  //-----------------------------------
   QAction *printAction;
   QAction *exitAction;
 
@@ -229,6 +233,10 @@ class MainWindow : public QMainWindow
   //File open read
   void openFileToRead();
   //---------------------------------------------------
+
+
+  //LyashenkoAN Сохранить в формате *.pdf
+  void onSavePdf();
 
 };
 

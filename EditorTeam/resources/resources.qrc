@@ -43,6 +43,7 @@
 	<file>images/search.png</file>
 	<file>images/open_read_only.png</file>
 	<file>images/save_to_pdf.png</file>
+	<file>images/save_to_pdf.png</file>
         <file>helpfiles/index.htm</file>
         <file>helpfiles/about.htm</file>
         <file>helpfiles/edit.htm</file>
@@ -50,5 +51,6 @@
         <file>helpfiles/setting.htm</file>
         <file>images/text_background_color.png</file>
         <file>images/text_color.png</file>
+	<file>helpfiles/format.htm</file>
     </qresource>
 </RCC>

@@ -32,6 +32,11 @@ static const QPair<const char *, const char *> SAVE_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> SAVEAS_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Save as"),
     QT_TRANSLATE_NOOP("MainWindow", "Save file as")};
+//LyashenkoAn Save to PDF--------------------------------------------------
+static const QPair<const char *, const char *> SAVE_AS_PDF_ACTION_STR_PAIR{
+    "Save As PDF", ""};
+//    QT_TRANSLATE_NOOP("Save As PDF")};
+//--------------------------------------------------------------------------
 static const QPair<const char *, const char *> PRINT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Print"),
     QT_TRANSLATE_NOOP("MainWindow", "Print file")};
@@ -169,6 +174,10 @@ static const QString whiteStyleIconPath{":/images/white_style.png"};
 static const QString searchTextIconPath{":/images/search.png"};
 static const QString highlightStyleIconPath{":/images/text_background_color.png"};
 static const QString openReadOnly{":/images/open_read_only.png"};
+
+//LyashenkoAN "SAve to PDF
+static const QString savePdfIcon{":/images/save_to_pdf.png"};
+
 
 // Language
 static const QString RUS_LANG_STR{"ru_RU"};

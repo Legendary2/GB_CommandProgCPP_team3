@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     textEdit = new QTextEdit(this);
     boxLayout->addWidget(textEdit, 0);
     ui->centralwidget->setLayout(boxLayout);
-
+/*
     // Древо каталогов
     teamPath = "C:/";
     dirModel = new QFileSystemModel(this);
@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     treeView->keyboardSearch(searchedPart);
     addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
     connect(FindTreeButton, SIGNAL(clicked()), this, SLOT(findFileSlot()));
-
+*/
     /*! KuznecovAG
     При сигнале от searchForm о нажатии кнопки вызывается слот
     onSearchFormButtonClicked*/
@@ -129,6 +129,9 @@ void MainWindow::createActions() {
   createAction(&closeAction, closeIconPath, &MainWindow::onClose);
   createAction(&saveAction, saveIconPath, &MainWindow::onSave);
   createAction(&saveAsAction, saveAsIconPath, &MainWindow::onSaveAs);
+
+  createAction(&savePdfAction, savePdfIcon, &MainWindow::onSavePdf);//Add LyashenkoAN
+
   createAction(&printAction, printIconPath, &MainWindow::onPrint);
   createAction(&exitAction, exitIconPath, &MainWindow::onExit);
 
@@ -190,12 +193,18 @@ void MainWindow::createMenus() {
   fileMenu->addAction(openForRead);
   openForRead->setShortcut(QKeySequence("CTRL+R"));
   fileMenu->addAction(closeAction);
+  closeAction->setShortcut(QKeySequence("ESC"));
   closeAction->setEnabled(false); // На старте нам нечего закрывать
   fileMenu->addSeparator();
   fileMenu->addAction(saveAction);
+  saveAction->setShortcut(QKeySequence("CTRL+S"));
   saveAction->setEnabled(false); // На старте нам некуда сохранять
   fileMenu->addAction(saveAsAction);
-  saveAsAction->setShortcut(QKeySequence("CTRL+S"));
+  saveAsAction->setShortcut(QKeySequence("CTRL+ALT+S"));
+  //-----------------------------------
+  fileMenu->addAction(savePdfAction); //Add LyashenkoAN
+  savePdfAction->setShortcut(QKeySequence("CTRL+T"));
+  //-----------------------------------
   fileMenu->addSeparator();
   fileMenu->addAction(printAction);
   printAction->setShortcut(QKeySequence("CTRL+P"));
@@ -273,6 +282,7 @@ void MainWindow::retranslateActions() {
   retranslateAction(&closeAction, CLOSE_ACTION_STR_PAIR);
   retranslateAction(&saveAction, SAVE_ACTION_STR_PAIR);
   retranslateAction(&saveAsAction, SAVEAS_ACTION_STR_PAIR);
+  retranslateAction(&savePdfAction, SAVE_AS_PDF_ACTION_STR_PAIR);
   retranslateAction(&printAction, PRINT_ACTION_STR_PAIR);
   retranslateAction(&exitAction, EXIT_ACTION_STR_PAIR);
 
@@ -336,11 +346,6 @@ void MainWindow::retranslateGUI()
     fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
 
     settingsKeeper->retranslateGUI();
-}
-
-void MainWindow::closeEvent(QCloseEvent *)
-{
-    onExit();
 }
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
@@ -651,10 +656,9 @@ void MainWindow::onClose() {
     searchTextAction->setEnabled(false);
 }
 
-void MainWindow::onHelp()
-{
-    hb->resize(600, 400);
-    hb->show();
+void MainWindow::onHelp() {
+  hb->resize(700, 600);
+  hb->show();
 }
 
 void MainWindow::onAbout()
@@ -1074,3 +1078,23 @@ void MainWindow::openFileToRead(){
         closeAction->setEnabled(true);
     }
 }
+
+void MainWindow::onSavePdf()    //запись содержимого экрана в ПДФ
+{
+
+    QTextDocument doc;
+    doc.setHtml(textEdit ->toHtml());
+
+    QPdfWriter pdfWriter(QFileDialog::getSaveFileName(this, tr("Save *.pdf"), "", "*.pdf"));
+
+    QPainter painter(&pdfWriter);
+    painter.scale(20.0, 20.0); //Под А4.
+    doc.drawContents(&painter);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    event -> accept();
+    qApp -> quit();
+}
+
