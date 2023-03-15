@@ -194,14 +194,15 @@ static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
     QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
 
 // Особенности шрифта
-enum class FontFeature {
-  DoesntMatter,
-  Bold,
-  Crossed,
-  FontFamily,
-  Italic,
-  Size,
-  Underlined
+enum class FontFeature
+{
+    DoesntMatter,
+    Bold,
+    Crossed,
+    FontFamily,
+    Italic,
+    Size,
+    Underlined
 };
 
 #endif // CONST_STRINGS_H

@@ -11,80 +11,89 @@
 #include <QTextCursor>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
-      boxLayout(new QBoxLayout(QBoxLayout::TopToBottom)),
-      settingsKeeper(new SettingsKeeper(this)), isTextModified(false),
-      newDataLoaded(false),
-      srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this))),
-      hb(QSharedPointer<HelpBrowser>(
-          new HelpBrowser(":/helpfiles", "index.htm"))),
-      translator(new QTranslator(this)), popupMenu(new QMenu(this)),
-      fontSizeLabel(new QLabel(this)), fontSizeComboBox(new QComboBox(this)) {
-  ui->setupUi(this);
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , boxLayout(new QBoxLayout(QBoxLayout::TopToBottom))
+    , settingsKeeper(new SettingsKeeper(this))
+    , isTextModified(false)
+    , newDataLoaded(false)
+    , srcHandler(QSharedPointer<IDevHandler<QString>>(new FileHandler(this)))
+    , hb(QSharedPointer<HelpBrowser>(
+          new HelpBrowser(":/helpfiles", "index.htm")))
+    , translator(new QTranslator(this))
+    , popupMenu(new QMenu(this))
+    , fontSizeLabel(new QLabel(this))
+    , fontSizeComboBox(new QComboBox(this))
+{
+    ui->setupUi(this);
 
-  // Заполнение главного меню
-  createActions();
-  createMenus();
+    // Заполнение главного меню
+    createActions();
+    createMenus();
 
-  // Функция настроек и заполнения тулбара
-  setMainToolBar();
+    // Функция настроек и заполнения тулбара
+    setMainToolBar();
 
-  onSettingsApplyClicked();
+    onSettingsApplyClicked();
 
-  // Добавление поля для размещения редактируемого текста
-  textEdit = new QTextEdit(this);
-  boxLayout->addWidget(textEdit, 0);
-  ui->centralwidget->setLayout(boxLayout);
-          
-  // Древо каталогов
-  teamPath = "C:/";
-  dirModel = new QFileSystemModel(this);
-  dirModel->setRootPath(teamPath);
-  treeView = new QTreeView;
-  treeView->setModel(dirModel);
-  viewWidget = new QDockWidget{this};
-  viewWidget->setWidget(treeView);
+    // Добавление поля для размещения редактируемого текста
+    textEdit = new QTextEdit(this);
+    boxLayout->addWidget(textEdit, 0);
+    ui->centralwidget->setLayout(boxLayout);
 
-  // Окошко поиска и кнопка 'Find'
-  searchTreeEdit = new QLineEdit ;
-  FindTreeButton = new QPushButton(this);
-  FindTreeButton->setText(tr("Find"));
-  QWidget *searchArea = new QWidget(this);
-  QGridLayout *layout = new QGridLayout(this);
-  layout->addWidget(searchTreeEdit, 0, 0, 1, 3);
-  layout->addWidget(FindTreeButton, 0, 5);
-  searchArea->setLayout(layout);
-  viewWidget->setTitleBarWidget(searchArea);
-  QString searchedPart = searchTreeEdit->text();
-  treeView->keyboardSearch(searchedPart);
-  addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
-  connect(FindTreeButton, SIGNAL(clicked()), this, SLOT(findFileSlot()));
+    //    // Древо каталогов
+    //    teamPath = "C:/";
+    //    dirModel = new QFileSystemModel(this);
+    //    dirModel->setRootPath(teamPath);
+    //    treeView = new QTreeView;
+    //    treeView->setModel(dirModel);
+    //    viewWidget = new QDockWidget{this};
+    //    viewWidget->setWidget(treeView);
 
-  /*! GubaydullinRG
-  Привязка события изменения содержимого textEdit к вызову
-  слота onTextModified() */
-  connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
+    //    // Окошко поиска и кнопка 'Find'
+    //    searchTreeEdit = new QLineEdit;
+    //    FindTreeButton = new QPushButton(this);
+    //    FindTreeButton->setText(tr("Find"));
+    //    QWidget *searchArea = new QWidget(this);
+    //    QGridLayout *layout = new QGridLayout(this);
+    //    layout->addWidget(searchTreeEdit, 0, 0, 1, 3);
+    //    layout->addWidget(FindTreeButton, 0, 5);
+    //    searchArea->setLayout(layout);
+    //    viewWidget->setTitleBarWidget(searchArea);
+    //    QString searchedPart = searchTreeEdit->text();
+    //    treeView->keyboardSearch(searchedPart);
+    //    addDockWidget(Qt::LeftDockWidgetArea, viewWidget);
+    //    connect(FindTreeButton, SIGNAL(clicked()), this,
+    //    SLOT(findFileSlot()));
 
-  connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
-          SLOT(onSettingsApplyClicked()));
-  connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
-          SLOT(onSettingsCancelClicked()));
-  connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
-          SLOT(onSettingsOkClicked()));
+    /*! GubaydullinRG
+    Привязка события изменения содержимого textEdit к вызову
+    слота onTextModified() */
+    connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 
-  /*! GubaydullinRG
-        Заполнение контекстного меню для textEdit */
-  inflatePopupMenu();
+    connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
+            SLOT(onSettingsApplyClicked()));
+    connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
+            SLOT(onSettingsCancelClicked()));
+    connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
+            SLOT(onSettingsOkClicked()));
 
-  /*! GubaydullinRG
-   *  На старте приложения создаём пустой документ */
-  onNew();
-  applyTextFormatAction->setEnabled(false);
+    /*! GubaydullinRG
+          Заполнение контекстного меню для textEdit */
+    inflatePopupMenu();
+
+    /*! GubaydullinRG
+     *  На старте приложения создаём пустой документ */
+    // srcHandler->createTempDir();
+    onNew();
+    applyTextFormatAction->setEnabled(false);
 }
 
-MainWindow::~MainWindow() {
-  delete ui;
-  delete boxLayout;
+MainWindow::~MainWindow()
+{
+    // srcHandler->delTempDir();
+    delete ui;
+    delete boxLayout;
 }
 
 void MainWindow::createAction(QAction **action, const QString &iconPath,
@@ -429,7 +438,7 @@ bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
 
 void MainWindow::onSave()
 {
-    if (srcHandler->save(textEdit->toPlainText()))
+    if (srcHandler->save(textEdit->toHtml()))
     {
         isTextModified = false;
 
@@ -444,7 +453,7 @@ void MainWindow::onSave()
 
 void MainWindow::onSaveAs()
 {
-    if (srcHandler->saveAs(textEdit->toPlainText()))
+    if (srcHandler->saveAs(textEdit->toHtml()))
     {
         isTextModified = false;
         ui->statusbar->showMessage(tr("File saved as ") +
@@ -524,19 +533,21 @@ void MainWindow::onAlignTextCenter()
     textEdit->setTextCursor(center);
 }
 
-void MainWindow::onSwitchFont() {
-  bool ok;
-  QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
-  if (ok) {
+void MainWindow::onSwitchFont()
+{
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
+    if (ok)
+    {
 
-    QTextCharFormat charFormat;
-    charFormat.setFont(font);
+        QTextCharFormat charFormat;
+        charFormat.setFont(font);
 
-    if (textEdit->textCursor().hasSelection())
-      textEdit->textCursor().mergeCharFormat(charFormat);
-    else
-      textEdit->mergeCurrentCharFormat(charFormat);
-  }
+        if (textEdit->textCursor().hasSelection())
+            textEdit->textCursor().mergeCharFormat(charFormat);
+        else
+            textEdit->mergeCurrentCharFormat(charFormat);
+    }
 }
 
 void MainWindow::onChangeKeyBind() {}
@@ -575,7 +586,15 @@ void MainWindow::onOpen()
     {
         newDataLoaded = true;
         changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
-        textEdit->setPlainText(srcHandler->getData());
+        QFileInfo qfi(srcHandler->getSourceName());
+        if (qfi.suffix() == "tha")
+        {
+            textEdit->setHtml(srcHandler->getData());
+        }
+        else
+        {
+            textEdit->setPlainText(srcHandler->getData());
+        }
         saveAction->setEnabled(false);
         isTextModified = false;
         copyTextFormatAction->setEnabled(true);
@@ -751,29 +770,29 @@ void MainWindow::onBoldTextFormat()
         charFormat.setFontWeight(QFont::Normal);
     else
         charFormat.setFontWeight(QFont::Bold);
-        
-  if (textEdit->textCursor().hasSelection())
-    textEdit->textCursor().mergeCharFormat(charFormat);
-  else
-    textEdit->mergeCurrentCharFormat(charFormat);
+
+    if (textEdit->textCursor().hasSelection())
+        textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+        textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onItalicTextFormat()
 {
-  std::optional<QTextCharFormat> charFormatStorage =
-      getCurrentCharFormat(FontFeature::Italic);
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Italic);
 
-  QTextCharFormat charFormat;
+    QTextCharFormat charFormat;
 
-  if (charFormatStorage.has_value() && charFormatStorage.value().fontItalic())
-    charFormat.setFontItalic(false);
-  else
-    charFormat.setFontItalic(true);
+    if (charFormatStorage.has_value() && charFormatStorage.value().fontItalic())
+        charFormat.setFontItalic(false);
+    else
+        charFormat.setFontItalic(true);
 
-  if (textEdit->textCursor().hasSelection())
-    textEdit->textCursor().mergeCharFormat(charFormat);
-  else
-    textEdit->mergeCurrentCharFormat(charFormat);
+    if (textEdit->textCursor().hasSelection())
+        textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+        textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onSettingsInvoke() { settingsKeeper->exec(); }

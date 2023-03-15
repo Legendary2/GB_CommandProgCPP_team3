@@ -2,31 +2,33 @@
 
 HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
                          QWidget *pwgt)
-    : QWidget(pwgt), hboxLayout(new QHBoxLayout) {
-  QPushButton *pressBack = new QPushButton("Back", this);
-  QPushButton *pressForward = new QPushButton("Forward", this);
-  QPushButton *pressHome = new QPushButton("Home", this);
-  QTextBrowser *txtBrowser = new QTextBrowser(this);
+    : QWidget(pwgt)
+    , hboxLayout(new QHBoxLayout)
+{
+    QPushButton *pressBack = new QPushButton("Back", this);
+    QPushButton *pressForward = new QPushButton("Forward", this);
+    QPushButton *pressHome = new QPushButton("Home", this);
+    QTextBrowser *txtBrowser = new QTextBrowser(this);
 
-  connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
-  connect(pressForward, SIGNAL(clicked(bool)), txtBrowser, SLOT(forward()));
-  connect(pressHome, SIGNAL(clicked(bool)), txtBrowser, SLOT(home()));
-  connect(txtBrowser, SIGNAL(backwardAvailable(bool)), pressBack,
-          SLOT(setEnabled(bool)));
-  connect(txtBrowser, SIGNAL(forwardAvailable(bool)), pressForward,
-          SLOT(setEnabled(bool)));
+    connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
+    connect(pressForward, SIGNAL(clicked(bool)), txtBrowser, SLOT(forward()));
+    connect(pressHome, SIGNAL(clicked(bool)), txtBrowser, SLOT(home()));
+    connect(txtBrowser, SIGNAL(backwardAvailable(bool)), pressBack,
+            SLOT(setEnabled(bool)));
+    connect(txtBrowser, SIGNAL(forwardAvailable(bool)), pressForward,
+            SLOT(setEnabled(bool)));
 
-  txtBrowser->setSearchPaths(QStringList() << strPath);
-  txtBrowser->setSource(QString(strFileName));
+    txtBrowser->setSearchPaths(QStringList() << strPath);
+    txtBrowser->setSource(QString(strFileName));
 
-  QVBoxLayout *vboxLayout = new QVBoxLayout(this);
+    QVBoxLayout *vboxLayout = new QVBoxLayout(this);
 
-  hboxLayout->addWidget(pressBack);
-  hboxLayout->addWidget(pressForward);
-  hboxLayout->addWidget(pressHome);
-  vboxLayout->addLayout(hboxLayout);
-  vboxLayout->addWidget(txtBrowser);
-  setLayout(vboxLayout);
+    hboxLayout->addWidget(pressBack);
+    hboxLayout->addWidget(pressForward);
+    hboxLayout->addWidget(pressHome);
+    vboxLayout->addLayout(hboxLayout);
+    vboxLayout->addWidget(txtBrowser);
+    setLayout(vboxLayout);
 }
 
 HelpBrowser::~HelpBrowser() { delete hboxLayout; }
