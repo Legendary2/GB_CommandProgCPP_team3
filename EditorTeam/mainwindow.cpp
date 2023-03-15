@@ -460,7 +460,8 @@ bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
         return charFormatFirst.fontStrikeOut() ==
                charFormatSecond.fontStrikeOut();
     case FontFeature::FontFamily:
-        return charFormatFirst.font() == charFormatSecond.font();
+        return charFormatFirst.font().family() ==
+               charFormatSecond.font().family();
     case FontFeature::Italic:
         return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
     case FontFeature::Underlined:
