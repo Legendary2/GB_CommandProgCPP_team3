@@ -647,7 +647,15 @@ void MainWindow::onOpen() {
     {
         newDataLoaded = true;
         changeFileMenuAccess(srcHandler->getSourceName(), false, true, true);
-        textEdit->setPlainText(srcHandler->getData());
+        QFileInfo qfi(srcHandler->getSourceName());
+        if (qfi.suffix() == "tha")
+        {
+            textEdit->setHtml(srcHandler->getData());
+        }
+        else
+        {
+            textEdit->setPlainText(srcHandler->getData());
+        }
         saveAction->setEnabled(false);
         isTextModified = false;
         copyTextFormatAction->setEnabled(true);

@@ -4,64 +4,65 @@
 #include "const_strings.h"
 #include <QComboBox>
 #include <QDialog>
-#include <QFormLayout> //
+#include <QFormLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
 #include <QSettings>
 
-class SettingsKeeper : public QDialog {
-  Q_OBJECT
+class SettingsKeeper : public QDialog
+{
+    Q_OBJECT
 
-public:
-  explicit SettingsKeeper(QWidget *parent = nullptr);
-  ~SettingsKeeper();
+  public:
+    explicit SettingsKeeper(QWidget *parent = nullptr);
+    ~SettingsKeeper();
 
-  const QString &getLang() const;
-  const QString &getStyle() const;
+    const QString &getLang() const;
+    const QString &getStyle() const;
 
-  void retranslateGUI();
+    void retranslateGUI();
 
-private:
-  QString lang;
-  QString style;
+  private:
+    QString lang;
+    QString style;
 
-  QSettings settings;
+    QSettings settings;
 
-  void save();
-  void load();
+    void save();
+    void load();
 
-  void setLangAndStyle();
+    void setLangAndStyle();
 
-  QComboBox *langComboBox;
-  QComboBox *styleComboBox;
+    QComboBox *langComboBox;
+    QComboBox *styleComboBox;
 
-  QComboBox *keyBindActionComboBox;
-  QComboBox *keyBindModComboBox;
-  QComboBox *keyBindKeyComboBox;
+    QComboBox *keyBindActionComboBox;
+    QComboBox *keyBindModComboBox;
+    QComboBox *keyBindKeyComboBox;
 
-  QLabel *langLabel;
-  QLabel *styleLabel;
+    QLabel *langLabel;
+    QLabel *styleLabel;
 
-  QLabel *keyBindActionLabel;
-  QLabel *keyBindModLabel;
-  QLabel *keyBindKeyLabel;
+    QLabel *keyBindActionLabel;
+    QLabel *keyBindModLabel;
+    QLabel *keyBindKeyLabel;
 
-  QPushButton *okButton;
-  QPushButton *applyButton;
-  QPushButton *cancelButton;
+    QPushButton *okButton;
+    QPushButton *applyButton;
+    QPushButton *cancelButton;
 
-  virtual void showEvent(QShowEvent *) override;
+    virtual void showEvent(QShowEvent *) override;
 
-  QFormLayout *formLayout;
-  QHBoxLayout *hboxLayout;
+    QFormLayout *formLayout;
+    QHBoxLayout *hboxLayout;
 
-  QGroupBox *keyBindsGroupBox;
+    QGroupBox *keyBindsGroupBox;
 
-signals:
-  void applyButtonClicked();
-  void cancelButtonClicked();
-  void okButtonClicked();
+  signals:
+    void applyButtonClicked();
+    void cancelButtonClicked();
+    void okButtonClicked();
 };
 
 #endif // SETTINGSKEEPER_H
