@@ -29,7 +29,8 @@ void FileHandler::delTempDir() {
   qd.removeRecursively();
 }
 
-bool FileHandler::open() {
+bool FileHandler::open()
+{
 
   QFile file;
   QString filePath = QFileDialog::getOpenFileName(
@@ -63,7 +64,7 @@ bool FileHandler::open() {
     file.close();
   }
 
-  return true;
+    return true;
 }
 
 void FileHandler::close() {
@@ -94,7 +95,7 @@ bool FileHandler::save(const QString &inputStr) {
     }
   }
 
-  return true;
+    return true;
 }
 
 bool FileHandler::saveAs(const QString &inputStr) {

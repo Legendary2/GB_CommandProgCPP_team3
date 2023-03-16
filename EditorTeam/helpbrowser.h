@@ -4,11 +4,12 @@
 #include <QApplication>
 #include <QtWidgets>
 
-class HelpBrowser : public QWidget {
-  Q_OBJECT
+class HelpBrowser : public QWidget
+{
+    Q_OBJECT
 
-private:
-  QHBoxLayout *hboxLayout;
+  private:
+    QHBoxLayout *hboxLayout;
 
   QPushButton *pressBack;
   QPushButton *pressForward;

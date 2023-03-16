@@ -4,9 +4,10 @@
 #include <QLabel>
 #include <QLineEdit>
 
-void SettingsKeeper::save() {
-  settings.setValue(LANG_STR, lang);
-  settings.setValue(STYLE_STR, style);
+void SettingsKeeper::save()
+{
+    settings.setValue(LANG_STR, lang);
+    settings.setValue(STYLE_STR, style);
 }
 
 void SettingsKeeper::load() {
@@ -26,7 +27,7 @@ void SettingsKeeper::showEvent(QShowEvent *event) {
   langComboBox->setCurrentText(lang);
   styleComboBox->setCurrentIndex(style);
 
-  QDialog::showEvent(event);
+    QDialog::showEvent(event);
 }
 
 SettingsKeeper::SettingsKeeper(QWidget *parent)
@@ -34,35 +35,39 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
       langComboBox(new QComboBox(this)), styleComboBox(new QComboBox(this)),
       langLabel(new QLabel(this)), styleLabel(new QLabel(this)),
       okButton(new QPushButton(QIcon(okIconPath), NULL, this)),
-      applyButton(new QPushButton(QIcon(okIconPath), NULL, this)),
+      applyButton(new QPushButton(NULL, this)),
       cancelButton(new QPushButton(QIcon(cancelIconPath), NULL, this)),
       formLayout(new QFormLayout), hboxLayout(new QHBoxLayout) {
 
-  QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
-  langComboBox->addItem(QIcon(russiaIconPath), RUS_LANG_STR);
-  langComboBox->addItem(QIcon(usaIconPath), ENG_LANG_STR);
+    langComboBox->addItem(QIcon(russiaIconPath), RUS_LANG_STR);
+    langComboBox->addItem(QIcon(usaIconPath), ENG_LANG_STR);
 
   styleComboBox->addItem(QIcon(whiteStyleIconPath), NULL);
   styleComboBox->addItem(QIcon(greyStyleIconPath), NULL);
 
-  load();
+    load();
 
-  formLayout->addRow(langLabel, langComboBox);
-  formLayout->addRow(styleLabel, styleComboBox);
+    formLayout->addRow(langLabel, langComboBox);
+    formLayout->addRow(styleLabel, styleComboBox);
 
-  connect(applyButton, &QPushButton::clicked, [&]() {
-    setLangAndStyle();
-    emit applyButtonClicked();
-  });
+    connect(applyButton, &QPushButton::clicked,
+            [&]()
+            {
+                setLangAndStyle();
+                emit applyButtonClicked();
+            });
 
-  connect(cancelButton, &QPushButton::clicked,
-          [&]() { emit cancelButtonClicked(); });
+    connect(cancelButton, &QPushButton::clicked,
+            [&]() { emit cancelButtonClicked(); });
 
-  connect(okButton, &QPushButton::clicked, [&]() {
-    setLangAndStyle();
-    emit okButtonClicked();
-  });
+    connect(okButton, &QPushButton::clicked,
+            [&]()
+            {
+                setLangAndStyle();
+                emit okButtonClicked();
+            });
 
   hboxLayout->addWidget(applyButton);
   hboxLayout->addWidget(cancelButton);
@@ -72,10 +77,11 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   mainLayout->addLayout(hboxLayout);
 }
 
-SettingsKeeper::~SettingsKeeper() {
-  save();
-  delete hboxLayout;
-  delete formLayout;
+SettingsKeeper::~SettingsKeeper()
+{
+    save();
+    delete hboxLayout;
+    delete formLayout;
 }
 
 const QString &SettingsKeeper::getLang() const { return lang; }

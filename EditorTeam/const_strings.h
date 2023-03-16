@@ -207,7 +207,6 @@ static const char *STYLE_STR{"Style"};
 // Setttings Search dialog GUI
 static const QString SEARCHFORM_TITLE{
     QT_TRANSLATE_NOOP("SearchDialog", "Search text")};
-
 // Особенности шрифта
 enum class FontFeature {
   DoesntMatter,

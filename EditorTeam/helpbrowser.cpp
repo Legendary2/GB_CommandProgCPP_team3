@@ -14,17 +14,17 @@ HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
   connect(txtBrowser, SIGNAL(forwardAvailable(bool)), pressForward,
           SLOT(setEnabled(bool)));
 
-  txtBrowser->setSearchPaths(QStringList() << strPath);
-  txtBrowser->setSource(QString(strFileName));
+    txtBrowser->setSearchPaths(QStringList() << strPath);
+    txtBrowser->setSource(QString(strFileName));
 
-  QVBoxLayout *vboxLayout = new QVBoxLayout(this);
+    QVBoxLayout *vboxLayout = new QVBoxLayout(this);
 
-  hboxLayout->addWidget(pressBack);
-  hboxLayout->addWidget(pressForward);
-  hboxLayout->addWidget(pressHome);
-  vboxLayout->addLayout(hboxLayout);
-  vboxLayout->addWidget(txtBrowser);
-  setLayout(vboxLayout);
+    hboxLayout->addWidget(pressBack);
+    hboxLayout->addWidget(pressForward);
+    hboxLayout->addWidget(pressHome);
+    vboxLayout->addLayout(hboxLayout);
+    vboxLayout->addWidget(txtBrowser);
+    setLayout(vboxLayout);
 }
 
 HelpBrowser::~HelpBrowser() { delete hboxLayout; }

@@ -5,6 +5,8 @@
 #include "helpbrowser.h"
 #include "searchform.h"
 #include "searchhighlight.h"
+#include "searchform.h"
+#include "searchhighlight.h"
 #include "settingskeeper.h"
 #include <QDockWidget>
 #include <QFileSystemModel>
@@ -15,24 +17,27 @@
 #include <QTextEdit>
 #include <QTranslator>
 #include <QTreeWidget>
+#include <QTreeWidget>
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
-  Q_OBJECT
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
-public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+  public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
-private:
-  Ui::MainWindow *ui;
+  private:
+    Ui::MainWindow *ui;
 
-  QBoxLayout *boxLayout;
+    QBoxLayout *boxLayout;
 
   // Указатель на диалоговое окно настроек
   SettingsKeeper *settingsKeeper;
@@ -41,32 +46,33 @@ private:
   SearchForm *searchForm;
   SearchHighLight *searchHighLight;
 
-  /* Флаг "Содержимое textEdit изменено?" */
-  bool isTextModified = false;
+    /* Флаг "Содержимое textEdit изменено?" */
+    bool isTextModified = false;
 
-  /*! GubaydullinRG В textEdit загружен новый документ? */
-  bool newDataLoaded;
+    /*! GubaydullinRG В textEdit загружен новый документ? */
+    bool newDataLoaded;
 
-  // Указатель на текущий редактируемый файл
-  QSharedPointer<IDevHandler<QString>> srcHandler;
+    // Указатель на текущий редактируемый файл
+    QSharedPointer<IDevHandler<QString>> srcHandler;
 
-  QSharedPointer<HelpBrowser> hb;
+    QSharedPointer<HelpBrowser> hb;
 
-  // Тулбар главной панели
-  QToolBar *mainToolBar;
+    // Тулбар главной панели
+    QToolBar *mainToolBar;
 
-  // Пункты меню
-  QMenu *fileMenu;
-  QMenu *editMenu;
-  QMenu *formatMenu; // Добавил, чтобы было куда меню делать
-  QMenu *settingsMenu;
-  QMenu *questionMenu;
+    // Пункты меню
+    QMenu *fileMenu;
+    QMenu *editMenu;
+    QMenu *formatMenu; // Добавил, чтобы было куда меню делать
+    QMenu *settingsMenu;
+    QMenu *questionMenu;
+    QMenu *treeMenu;
 
-  // Вспомогательные методы для выноса части
-  // кода за пределы конструктора
-  void createAction(QAction **, const QString &, void (MainWindow::*)());
-  void createActions();
-  void createMenus();
+    // Вспомогательные методы для выноса части
+    // кода за пределы конструктора
+    void createAction(QAction **, const QString &, void (MainWindow::*)());
+    void createActions();
+    void createMenus();
 
   // Интернационализация приложения
   QTranslator *translator;
@@ -80,22 +86,22 @@ private:
   // Функция для закрытия программы через крестик
   void closeEvent(QCloseEvent *) override;
 
-  /*! GubaydullinRG Переменная, хранящая скопированный функцией
-   * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
-   * onApplyTextFormat() */
-  QTextCharFormat copiedTxtFormat;
+    /*! GubaydullinRG Переменная, хранящая скопированный функцией
+     * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
+     * onApplyTextFormat() */
+    QTextCharFormat copiedTxtFormat;
 
-  /*! GubaydullinRG
-      Включение/отключение доступности элементов меню */
-  void changeFileMenuAccess(const QString &, bool, bool, bool);
-  void changePopupMenuAccess();
+    /*! GubaydullinRG
+        Включение/отключение доступности элементов меню */
+    void changeFileMenuAccess(const QString &, bool, bool, bool);
+    void changePopupMenuAccess();
 
-  const std::optional<QTextCharFormat>
-  getCurrentCharFormat(const FontFeature) const;
-  bool fontFeatureEquals(const QTextCharFormat &, const QTextCharFormat &,
-                         const FontFeature) const;
+    const std::optional<QTextCharFormat>
+    getCurrentCharFormat(const FontFeature) const;
+    bool fontFeatureEquals(const QTextCharFormat &, const QTextCharFormat &,
+                           const FontFeature) const;
 
-  bool textChangedWarning(); // Окно предупреждения
+    bool textChangedWarning(); // Окно предупреждения
 
   /*! GubaydullinRG
   Контекстное для textEdit меню */
@@ -143,23 +149,33 @@ private:
   // Элементы подменю 'Settings'
   QAction *settingsAction;
 
-  // Поле для размещения редактируемого текста
-  QTextEdit *textEdit;
-  QString lastFilename;
+    // Поле для размещения редактируемого текста
+    QTextEdit *textEdit;
+    QString lastFilename;
 
-  // Объект хранит в себе скопированный формат текста
-  QTextCharFormat textFormat;
+    // Объект хранит в себе скопированный формат текста
+    QTextCharFormat textFormat;
 
-  // Элементы подменю '?'
-  QAction *helpAction;
-  QAction *aboutAction;
+    // Элементы подменю '?'
+    QAction *helpAction;
+    QAction *aboutAction;
 
-  // popup
-  QWidgetAction *popupWidgetAction;
-  QAction *copyAction;
-  QAction *cutAction;
-  QAction *pasteAction;
-  QAction *selectAllAction;
+    // Элементы древа каталогов
+    QString currentFile, teamPath;
+    QFileSystemModel *dirModel;
+    QPushButton *FindTreeButton;
+    QTextEdit *infoText;
+    QLabel *statusLabel;
+    QLineEdit *searchTreeEdit;
+    QTreeView *treeView;
+    QDockWidget *viewWidget;
+
+    // popup
+    QWidgetAction *popupWidgetAction;
+    QAction *copyAction;
+    QAction *cutAction;
+    QAction *pasteAction;
+    QAction *selectAllAction;
 
 private slots:
   // Основные функции приложения
@@ -194,12 +210,12 @@ private slots:
   void onTextColorFormat();
   void onSelectionChanged();
 
-  /*! GubaydullinRG
-  // Слот действий на случай изменения
-  // содержимого textEdit */
-  void onTextModified();
+    /*! GubaydullinRG
+    // Слот действий на случай изменения
+    // содержимого textEdit */
+    void onTextModified();
 
-  void setMainToolBar();
+    void setMainToolBar();
 
   /*! GubaydullinRG
   Показ контекстного меню (popupMenu) в textEdit
