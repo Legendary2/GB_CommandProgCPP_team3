@@ -3,11 +3,18 @@
 
 #include "filehandler.h"
 #include "helpbrowser.h"
+#include "searchform.h"
+#include "searchhighlight.h"
 #include "settingskeeper.h"
+#include <QDockWidget>
+#include <QFileSystemModel>
+#include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
+#include <QTreeWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,6 +36,10 @@ private:
 
   // Указатель на диалоговое окно настроек
   SettingsKeeper *settingsKeeper;
+
+  // Указатель на окно поиска
+  SearchForm *searchForm;
+  SearchHighLight *searchHighLight;
 
   /* Флаг "Содержимое textEdit изменено?" */
   bool isTextModified = false;
@@ -66,6 +77,9 @@ private:
   void retranslateGUI();
   bool titleHasCertainString(bool) const;
 
+  // Функция для закрытия программы через крестик
+  void closeEvent(QCloseEvent *) override;
+
   /*! GubaydullinRG Переменная, хранящая скопированный функцией
    * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
    * onApplyTextFormat() */
@@ -87,19 +101,30 @@ private:
   Контекстное для textEdit меню */
   QMenu *popupMenu;
   QComboBox *fontSizeComboBox;
+  QComboBox *fontSizeComboBox2;
+  QComboBox *fontFamiliesComboBox;
   QLabel *fontSizeLabel;
   void inflatePopupMenu();
 
   // Элементы подменю 'File'
   QAction *newAction;
   QAction *openAction;
+  // LyashenkoAN----------------------------------------
+  // File open read
+  QAction *openForRead;
+  //---------------------------------------------------
   QAction *closeAction;
   QAction *saveAction;
   QAction *saveAsAction;
+  //-----------------------------------
+  // LyashenkoAN save pdf
+  QAction *savePdfAction;
+  //-----------------------------------
   QAction *printAction;
   QAction *exitAction;
 
   // Элементы подменю 'Edit'
+  QAction *searchTextAction;
   QAction *copyTextFormatAction;
   QAction *applyTextFormatAction;
   QAction *alignTextRightAction;
@@ -112,6 +137,8 @@ private:
   QAction *underlineTextFormatAction;
   QAction *boldTextFormatAction;
   QAction *italicTextFormatAction;
+  QAction *highlightTextFormatAction;
+  QAction *textColorFormatAction;
 
   // Элементы подменю 'Settings'
   QAction *settingsAction;
@@ -149,7 +176,6 @@ private slots:
   void onAlignTextLeft();
   void onAlignTextCenter();
   void onSwitchFont();
-  void onChangeKeyBind();
   void onChangeStyle();
   void onHelp();
   void onAbout();
@@ -161,6 +187,12 @@ private slots:
   void onSettingsApplyClicked();
   void onSettingsCancelClicked();
   void onSettingsOkClicked();
+  void onSearchText();
+  void onSearchFormButtonClicked(QString);
+  void clearHighLight();
+  void onHighlightTextFormat();
+  void onTextColorFormat();
+  void onSelectionChanged();
 
   /*! GubaydullinRG
   // Слот действий на случай изменения
@@ -174,11 +206,20 @@ private slots:
   и реакция на выбор элемента в popupComboBox */
   void onPopupMenuCalled(QPoint);
   void onPopupComboBoxIndexChanged(int);
+  void onfontSizeComboBoxChanged(int);
+  void onfontFamiliesComboBoxChanged(int);
 
   void onCopy();
   void onCut();
   void onPaste();
   void onSelectAll();
+  // LyashenkoAN----------------------------------------
+  // File open read
+  void openFileToRead();
+  //---------------------------------------------------
+
+  // LyashenkoAN Сохранить в формате *.pdf
+  void onSavePdf();
 };
 
 #endif // MAINWINDOW_H

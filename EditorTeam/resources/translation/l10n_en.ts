@@ -4,38 +4,44 @@
 <context>
     <name>FileHandler</name>
     <message>
-        <location filename="filehandler.cpp" line="12"/>
+        <location filename="filehandler.cpp" line="36"/>
         <source>Open Document</source>
         <translation>Open Document</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="13"/>
-        <location filename="filehandler.cpp" line="65"/>
-        <source>All files (*) ;; Plain text files (*.txt) ;; XML files (*.xml) ;; CPP files (*.cpp) ;; Header files (*.h *.hpp) ;; SHELL files (*.sh) ;; CONF files (*.conf) ;; INI files (*.ini)</source>
-        <translation>All files (*) ;; Plain text files (*.txt) ;; XML files (*.xml) ;; CPP files (*.cpp) ;; Header files (*.h *.hpp) ;; SHELL files (*.sh) ;; CONF files (*.conf) ;; INI files (*.ini)</translation>
+        <location filename="filehandler.cpp" line="37"/>
+        <source>All files (*) ;; THare files (*.tha) ;; Plain text files (*.txt)</source>
+        <translation>All files (*) ;; THare files (*.tha) ;; Plain text files (*.txt)</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="28"/>
+        <location filename="filehandler.cpp" line="51"/>
+        <location filename="filehandler.cpp" line="241"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="28"/>
+        <location filename="filehandler.cpp" line="51"/>
+        <location filename="filehandler.cpp" line="241"/>
         <source>The file is not readable</source>
         <translation>The file is not readable</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="64"/>
-        <source>Save file as </source>
-        <translation>Save file as </translation>
+        <location filename="filehandler.cpp" line="102"/>
+        <source>Save as</source>
+        <translation>Save as</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="85"/>
+        <location filename="filehandler.cpp" line="105"/>
+        <source>THare files (*.tha);;Plain text files (*.txt);;All files (*)</source>
+        <translation>THare files (*.tha);;Plain text files (*.txt);;All files (*)</translation>
+    </message>
+    <message>
+        <location filename="filehandler.cpp" line="142"/>
         <source>Can&apos;t save file</source>
         <translation>Can&apos;t save file</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="86"/>
+        <location filename="filehandler.cpp" line="143"/>
         <source>Cannot save file </source>
         <translation>Cannot save file </translation>
     </message>
@@ -43,22 +49,22 @@
 <context>
     <name>HelpBrowser</name>
     <message>
-        <location filename="helpbrowser.cpp" line="6"/>
+        <location filename="helpbrowser.cpp" line="33"/>
         <source>Back</source>
         <translation>Back</translation>
     </message>
     <message>
-        <location filename="helpbrowser.cpp" line="7"/>
+        <location filename="helpbrowser.cpp" line="34"/>
         <source>Forward</source>
         <translation>Forward</translation>
     </message>
     <message>
-        <location filename="helpbrowser.cpp" line="8"/>
+        <location filename="helpbrowser.cpp" line="35"/>
         <source>Home</source>
         <translation>Home</translation>
     </message>
     <message>
-        <location filename="helpbrowser.cpp" line="31"/>
+        <location filename="helpbrowser.cpp" line="37"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
@@ -71,281 +77,319 @@
         <translation>MainWindow</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="8"/>
+        <location filename="const_strings.h" line="19"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="9"/>
+        <location filename="const_strings.h" line="20"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edit</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="10"/>
+        <location filename="const_strings.h" line="21"/>
         <source>&amp;Format</source>
         <translation>&amp;Format</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="12"/>
+        <location filename="const_strings.h" line="23"/>
         <source>&amp;Settings</source>
         <translation>&amp;Settings</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="13"/>
+        <location filename="const_strings.h" line="24"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="17"/>
+        <location filename="const_strings.h" line="28"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="18"/>
+        <location filename="const_strings.h" line="29"/>
         <source>Create new file</source>
         <translation>Create new file</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="20"/>
+        <location filename="const_strings.h" line="31"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="21"/>
+        <location filename="const_strings.h" line="32"/>
         <source>Open a file</source>
         <translation>Open a file</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="23"/>
+        <location filename="const_strings.h" line="34"/>
+        <location filename="const_strings.h" line="35"/>
+        <source>Open file read only</source>
+        <translation>Open file read only</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="37"/>
         <source>Close</source>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="24"/>
+        <location filename="const_strings.h" line="38"/>
         <source>Close a file</source>
         <translation>Close a file</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="26"/>
+        <location filename="const_strings.h" line="40"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="27"/>
+        <location filename="const_strings.h" line="41"/>
         <source>Save file</source>
         <translation>Save file</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="29"/>
+        <location filename="const_strings.h" line="43"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="30"/>
+        <location filename="const_strings.h" line="44"/>
         <source>Save file as</source>
         <translation>Save file as</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="32"/>
-        <location filename="mainwindow.cpp" line="423"/>
+        <location filename="const_strings.h" line="47"/>
+        <location filename="const_strings.h" line="48"/>
+        <source>Save as PDF</source>
+        <translation>Save as PDF</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="50"/>
+        <location filename="mainwindow.cpp" line="494"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="33"/>
+        <location filename="const_strings.h" line="51"/>
         <source>Print file</source>
         <translation>Print file</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="35"/>
+        <location filename="const_strings.h" line="53"/>
         <source>Exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="36"/>
+        <location filename="const_strings.h" line="54"/>
         <source>Exit application</source>
         <translation>Exit application</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="40"/>
-        <location filename="const_strings.h" line="41"/>
+        <location filename="const_strings.h" line="58"/>
+        <location filename="const_strings.h" line="59"/>
+        <source>Search text</source>
+        <translation>Search text</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="61"/>
+        <location filename="const_strings.h" line="62"/>
         <source>Copy text format</source>
         <translation>Copy text format</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="44"/>
-        <location filename="const_strings.h" line="45"/>
+        <location filename="const_strings.h" line="65"/>
+        <location filename="const_strings.h" line="66"/>
         <source>Apply text format</source>
         <translation>Apply text format</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="47"/>
-        <location filename="const_strings.h" line="48"/>
+        <location filename="const_strings.h" line="68"/>
+        <location filename="const_strings.h" line="69"/>
         <source>Align text right</source>
         <translation>Align text right</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="50"/>
-        <location filename="const_strings.h" line="51"/>
+        <location filename="const_strings.h" line="71"/>
+        <location filename="const_strings.h" line="72"/>
         <source>Align text left</source>
         <translation>Align text left</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="54"/>
-        <location filename="const_strings.h" line="55"/>
+        <location filename="const_strings.h" line="75"/>
+        <location filename="const_strings.h" line="76"/>
         <source>Align text center</source>
         <translation>Align text center</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="57"/>
-        <location filename="const_strings.h" line="58"/>
+        <location filename="const_strings.h" line="78"/>
+        <location filename="const_strings.h" line="79"/>
         <source>Switch font</source>
         <translation>Switch font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="63"/>
+        <location filename="const_strings.h" line="84"/>
         <source>Crossed/normal font</source>
         <oldsource>Crossed/normal text</oldsource>
         <translation>Crossed/normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="64"/>
+        <location filename="const_strings.h" line="85"/>
         <source>Switch between crossed and normal font</source>
         <translation>Switch between crossed and normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="68"/>
+        <location filename="const_strings.h" line="89"/>
         <source>Underline/normal font</source>
         <translation>Underline/normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="69"/>
+        <location filename="const_strings.h" line="90"/>
         <source>Switch between underline and normal font</source>
         <translation>Switch between underline and normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="72"/>
+        <location filename="const_strings.h" line="93"/>
         <source>Bold/normal font</source>
         <translation>Bold/normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="73"/>
+        <location filename="const_strings.h" line="94"/>
         <source>Switch between bold and normal font</source>
         <translation>Switch between bold and normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="76"/>
+        <location filename="const_strings.h" line="97"/>
         <source>Italic/normal font</source>
         <translation>Italic/normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="77"/>
+        <location filename="const_strings.h" line="98"/>
         <source>Switch between italic and normal font</source>
         <translation>Switch between italic and normal font</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="82"/>
+        <location filename="const_strings.h" line="102"/>
+        <source>Highlight text</source>
+        <translation>Highlight text</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="103"/>
+        <source>Text background color</source>
+        <translation>Text background color</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="106"/>
+        <source>Text color</source>
+        <translation>Text color</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="107"/>
+        <source>Choose text color</source>
+        <translation>Choose text color</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="111"/>
         <source>Settings management</source>
         <translation>Settings management</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="83"/>
+        <location filename="const_strings.h" line="112"/>
         <source>Change app settings</source>
         <translation>Change app settings</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="95"/>
+        <location filename="const_strings.h" line="124"/>
         <source>Copy</source>
         <translation>Copy</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="96"/>
+        <location filename="const_strings.h" line="125"/>
         <source>Copy selected text to clipboard</source>
         <translation>Copy selected text to clipboard</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="98"/>
+        <location filename="const_strings.h" line="127"/>
         <source>Cut</source>
         <translation>Cut</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="99"/>
+        <location filename="const_strings.h" line="128"/>
         <source>Cut selected text to clipboard</source>
         <translation>Cut selected text to clipboard</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="101"/>
+        <location filename="const_strings.h" line="130"/>
         <source>Paste</source>
         <translation>Paste</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="102"/>
+        <location filename="const_strings.h" line="131"/>
         <source>Paste from clipboard</source>
         <translation>Paste from clipboard</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="104"/>
+        <location filename="const_strings.h" line="133"/>
         <source>Select all</source>
         <translation>Select all</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="105"/>
+        <location filename="const_strings.h" line="134"/>
         <source>Select all text</source>
         <translation>Select all text</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="113"/>
+        <location filename="const_strings.h" line="142"/>
         <source>New document*</source>
         <translation>New document*</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="115"/>
+        <location filename="const_strings.h" line="144"/>
         <source>No file opened</source>
         <translation>No file opened</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="87"/>
+        <location filename="const_strings.h" line="116"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="88"/>
+        <location filename="const_strings.h" line="117"/>
         <source>Show application manual</source>
         <translation>Show application manual</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="90"/>
+        <location filename="const_strings.h" line="119"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="91"/>
+        <location filename="const_strings.h" line="120"/>
         <source>Short info about application</source>
         <translation>Short info about application</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="402"/>
+        <location filename="mainwindow.cpp" line="473"/>
         <source>has been saved.</source>
         <translation>has been saved.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="406"/>
-        <location filename="mainwindow.cpp" line="417"/>
+        <location filename="mainwindow.cpp" line="477"/>
+        <location filename="mainwindow.cpp" line="488"/>
         <source>Can&apos;t save file.</source>
         <translation>Can&apos;t save file.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="412"/>
+        <location filename="mainwindow.cpp" line="483"/>
         <source>File saved as </source>
         <translation>File saved as </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="551"/>
+        <location filename="mainwindow.cpp" line="632"/>
         <source>About THare</source>
         <translation>About THare</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="553"/>
+        <location filename="mainwindow.cpp" line="634"/>
         <source>THare v 0.5.0 
 
 GB_CommandProgCPP_team3
@@ -362,100 +406,127 @@ GB_CommandProgCPP_team3
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="584"/>
+        <location filename="mainwindow.cpp" line="669"/>
         <source>Unsaved data could be lost</source>
         <translation>Unsaved data could be lost</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="585"/>
+        <location filename="mainwindow.cpp" line="670"/>
         <source>Do you want to save changes?</source>
         <translation>Do you want to save changes?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="586"/>
+        <location filename="mainwindow.cpp" line="671"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="672"/>
         <source>No</source>
         <translation>No</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1040"/>
+        <location filename="mainwindow.cpp" line="1044"/>
+        <source>No matches found</source>
+        <translation>No matches found</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1043"/>
+        <source>Results</source>
+        <translation>Results</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1049"/>
+        <source> matches found</source>
+        <translation> matches found</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1121"/>
+        <source>Save *.pdf</source>
+        <translation>Save *.pdf</translation>
+    </message>
+</context>
+<context>
+    <name>SearchDialog</name>
+    <message>
+        <location filename="const_strings.h" line="209"/>
+        <source>Search text</source>
+        <translation>Search text</translation>
+    </message>
+</context>
+<context>
+    <name>SearchForm</name>
+    <message>
+        <location filename="searchform.cpp" line="48"/>
+        <source>Search text</source>
+        <translation>Search text</translation>
+    </message>
+    <message>
+        <location filename="searchform.cpp" line="49"/>
+        <source>Search</source>
+        <translation>Search</translation>
+    </message>
+    <message>
+        <location filename="searchform.cpp" line="50"/>
+        <source>case insensitive</source>
+        <translation>case insensitive</translation>
     </message>
 </context>
 <context>
     <name>SettingsKeeper</name>
     <message>
-        <location filename="settingskeeper.cpp" line="98"/>
+        <location filename="settingskeeper.cpp" line="86"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="99"/>
+        <location filename="settingskeeper.cpp" line="87"/>
         <source>Style</source>
         <translation>Style</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="101"/>
+        <location filename="settingskeeper.cpp" line="89"/>
         <source>Light theme</source>
         <translation>Light theme</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="102"/>
+        <location filename="settingskeeper.cpp" line="90"/>
         <source>Dark theme</source>
         <translation>Dark theme</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="104"/>
-        <source>Key binds:</source>
-        <translation>Key binds:</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="106"/>
-        <source>Action</source>
-        <translation>Action</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="107"/>
-        <source>Mod</source>
-        <translation>Mod</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="108"/>
-        <source>Key</source>
-        <translation>Key</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="110"/>
+        <location filename="settingskeeper.cpp" line="92"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="111"/>
+        <location filename="settingskeeper.cpp" line="93"/>
         <source>Apply changes and close dialog</source>
         <translation>Apply changes and close dialog</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="113"/>
+        <location filename="settingskeeper.cpp" line="95"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="114"/>
+        <location filename="settingskeeper.cpp" line="96"/>
         <source>Apply changes</source>
         <translation>Apply changes</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="116"/>
+        <location filename="settingskeeper.cpp" line="98"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="117"/>
+        <location filename="settingskeeper.cpp" line="99"/>
         <source>Discard changes and close dialog</source>
         <translation>Discard changes and close dialog</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="119"/>
+        <location filename="settingskeeper.cpp" line="101"/>
         <source>Settings management</source>
         <translation>Settings management</translation>
     </message>

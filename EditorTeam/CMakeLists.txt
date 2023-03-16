@@ -11,6 +11,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_custom_target(copy_arch_debug ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/arch ${CMAKE_CURRENT_BINARY_DIR}/arch
+)
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
@@ -20,14 +24,18 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-	    helpbrowser.cpp
-	    helpbrowser.h
-	    const_strings.h
+        helpbrowser.cpp
+        helpbrowser.h
+        const_strings.h
         idevhandler.h
         filehandler.h
         filehandler.cpp
-                settingskeeper.cpp
-                settingskeeper.h
+        settingskeeper.cpp
+        settingskeeper.h
+        searchform.h
+        searchform.cpp
+        searchhighlight.h
+        searchhighlight.cpp
 )
 
 set(TS_SRC_FILES

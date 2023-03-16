@@ -32,16 +32,11 @@ void SettingsKeeper::showEvent(QShowEvent *event) {
 SettingsKeeper::SettingsKeeper(QWidget *parent)
     : QDialog(parent), settings(SETTINGS_STORAGE),
       langComboBox(new QComboBox(this)), styleComboBox(new QComboBox(this)),
-      keyBindActionComboBox(new QComboBox(this)),
-      keyBindModComboBox(new QComboBox(this)),
-      keyBindKeyComboBox(new QComboBox(this)), langLabel(new QLabel(this)),
-      styleLabel(new QLabel(this)), keyBindActionLabel(new QLabel(this)),
-      keyBindModLabel(new QLabel(this)), keyBindKeyLabel(new QLabel(this)),
+      langLabel(new QLabel(this)), styleLabel(new QLabel(this)),
       okButton(new QPushButton(QIcon(okIconPath), NULL, this)),
       applyButton(new QPushButton(QIcon(okIconPath), NULL, this)),
       cancelButton(new QPushButton(QIcon(cancelIconPath), NULL, this)),
-      formLayout(new QFormLayout), hboxLayout(new QHBoxLayout),
-      keyBindsGroupBox(new QGroupBox(this)) {
+      formLayout(new QFormLayout), hboxLayout(new QHBoxLayout) {
 
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
@@ -73,14 +68,7 @@ SettingsKeeper::SettingsKeeper(QWidget *parent)
   hboxLayout->addWidget(cancelButton);
   hboxLayout->addWidget(okButton);
 
-  QFormLayout *keyBindLayout = new QFormLayout(keyBindsGroupBox);
-
-  keyBindLayout->addRow(keyBindActionLabel, keyBindActionComboBox);
-  keyBindLayout->addRow(keyBindModLabel, keyBindModComboBox);
-  keyBindLayout->addRow(keyBindKeyLabel, keyBindKeyComboBox);
-
   mainLayout->addLayout(formLayout);
-  mainLayout->addWidget(keyBindsGroupBox);
   mainLayout->addLayout(hboxLayout);
 }
 
@@ -100,12 +88,6 @@ void SettingsKeeper::retranslateGUI() {
 
   styleComboBox->setItemText(0, tr("Light theme"));
   styleComboBox->setItemText(1, tr("Dark theme"));
-
-  keyBindsGroupBox->setTitle(tr("Key binds:"));
-
-  keyBindActionLabel->setText(tr("Action"));
-  keyBindModLabel->setText(tr("Mod"));
-  keyBindKeyLabel->setText(tr("Key"));
 
   okButton->setText(tr("OK"));
   okButton->setToolTip(tr("Apply changes and close dialog"));

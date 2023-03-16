@@ -36,16 +36,8 @@ private:
   QComboBox *langComboBox;
   QComboBox *styleComboBox;
 
-  QComboBox *keyBindActionComboBox;
-  QComboBox *keyBindModComboBox;
-  QComboBox *keyBindKeyComboBox;
-
   QLabel *langLabel;
   QLabel *styleLabel;
-
-  QLabel *keyBindActionLabel;
-  QLabel *keyBindModLabel;
-  QLabel *keyBindKeyLabel;
 
   QPushButton *okButton;
   QPushButton *applyButton;
@@ -55,8 +47,6 @@ private:
 
   QFormLayout *formLayout;
   QHBoxLayout *hboxLayout;
-
-  QGroupBox *keyBindsGroupBox;
 
 signals:
   void applyButtonClicked();

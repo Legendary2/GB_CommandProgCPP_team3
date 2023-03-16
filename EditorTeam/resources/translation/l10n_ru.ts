@@ -4,38 +4,44 @@
 <context>
     <name>FileHandler</name>
     <message>
-        <location filename="filehandler.cpp" line="12"/>
+        <location filename="filehandler.cpp" line="36"/>
         <source>Open Document</source>
         <translation>Открыть документ</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="13"/>
-        <location filename="filehandler.cpp" line="65"/>
-        <source>All files (*) ;; Plain text files (*.txt) ;; XML files (*.xml) ;; CPP files (*.cpp) ;; Header files (*.h *.hpp) ;; SHELL files (*.sh) ;; CONF files (*.conf) ;; INI files (*.ini)</source>
-        <translation>Все файлы (*) ;; Простые текстовые файлы (*.txt) ;; XML файлы (*.xml) ;; CPP файлы (*.cpp) ;; Заголовочные файлы (*.h *.hpp) ;; SHELL файлы (*.sh) ;; CONF файлы (*.conf) ;; INI файлы (*.ini)</translation>
+        <location filename="filehandler.cpp" line="37"/>
+        <source>All files (*) ;; THare files (*.tha) ;; Plain text files (*.txt)</source>
+        <translation>Все файлы (*) ;; Файлы THare (*.tha) ;; Текстовые файлы (*.txt)</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="28"/>
+        <location filename="filehandler.cpp" line="51"/>
+        <location filename="filehandler.cpp" line="241"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="28"/>
+        <location filename="filehandler.cpp" line="51"/>
+        <location filename="filehandler.cpp" line="241"/>
         <source>The file is not readable</source>
         <translation>Файл недоступен для чтения</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="64"/>
-        <source>Save file as </source>
-        <translation>Сохранить файл как</translation>
+        <location filename="filehandler.cpp" line="102"/>
+        <source>Save as</source>
+        <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="85"/>
+        <location filename="filehandler.cpp" line="105"/>
+        <source>THare files (*.tha);;Plain text files (*.txt);;All files (*)</source>
+        <translation>Все файлы (*) ;; Файлы THare (*.tha) ;; Текстовые файлы (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="filehandler.cpp" line="142"/>
         <source>Can&apos;t save file</source>
         <translation>Не могу сохранить файл</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="86"/>
+        <location filename="filehandler.cpp" line="143"/>
         <source>Cannot save file </source>
         <translation>Не могу сохранить файл</translation>
     </message>
@@ -43,22 +49,22 @@
 <context>
     <name>HelpBrowser</name>
     <message>
-        <location filename="helpbrowser.cpp" line="6"/>
+        <location filename="helpbrowser.cpp" line="33"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="helpbrowser.cpp" line="7"/>
+        <location filename="helpbrowser.cpp" line="34"/>
         <source>Forward</source>
         <translation>Вперёд</translation>
     </message>
     <message>
-        <location filename="helpbrowser.cpp" line="8"/>
+        <location filename="helpbrowser.cpp" line="35"/>
         <source>Home</source>
         <translation>Домой</translation>
     </message>
     <message>
-        <location filename="helpbrowser.cpp" line="31"/>
+        <location filename="helpbrowser.cpp" line="37"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
@@ -71,281 +77,319 @@
         <translation>THare</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="8"/>
+        <location filename="const_strings.h" line="19"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="9"/>
+        <location filename="const_strings.h" line="20"/>
         <source>&amp;Edit</source>
         <translation>&amp;Правка</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="10"/>
+        <location filename="const_strings.h" line="21"/>
         <source>&amp;Format</source>
         <translation>&amp;Формат</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="12"/>
+        <location filename="const_strings.h" line="23"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="13"/>
+        <location filename="const_strings.h" line="24"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="17"/>
+        <location filename="const_strings.h" line="28"/>
         <source>New</source>
         <translation>Новый</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="18"/>
+        <location filename="const_strings.h" line="29"/>
         <source>Create new file</source>
         <translation>Создать новый файл</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="20"/>
+        <location filename="const_strings.h" line="31"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="21"/>
+        <location filename="const_strings.h" line="32"/>
         <source>Open a file</source>
         <translation>Открыть файл</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="23"/>
+        <location filename="const_strings.h" line="34"/>
+        <location filename="const_strings.h" line="35"/>
+        <source>Open file read only</source>
+        <translation>Открыть файл только для чтения</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="37"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="24"/>
+        <location filename="const_strings.h" line="38"/>
         <source>Close a file</source>
         <translation>Закрыть файл</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="26"/>
+        <location filename="const_strings.h" line="40"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="27"/>
+        <location filename="const_strings.h" line="41"/>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="29"/>
+        <location filename="const_strings.h" line="43"/>
         <source>Save as</source>
         <translation>Сохранить как</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="30"/>
+        <location filename="const_strings.h" line="44"/>
         <source>Save file as</source>
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="32"/>
-        <location filename="mainwindow.cpp" line="423"/>
+        <location filename="const_strings.h" line="47"/>
+        <location filename="const_strings.h" line="48"/>
+        <source>Save as PDF</source>
+        <translation>Сохранить как PDF</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="50"/>
+        <location filename="mainwindow.cpp" line="494"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="33"/>
+        <location filename="const_strings.h" line="51"/>
         <source>Print file</source>
         <translation>Отправить файл на печать</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="35"/>
+        <location filename="const_strings.h" line="53"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="36"/>
+        <location filename="const_strings.h" line="54"/>
         <source>Exit application</source>
         <translation>Выход из приложения</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="40"/>
-        <location filename="const_strings.h" line="41"/>
+        <location filename="const_strings.h" line="58"/>
+        <location filename="const_strings.h" line="59"/>
+        <source>Search text</source>
+        <translation>Найти текст</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="61"/>
+        <location filename="const_strings.h" line="62"/>
         <source>Copy text format</source>
         <translation>Скопировать формат текста</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="44"/>
-        <location filename="const_strings.h" line="45"/>
+        <location filename="const_strings.h" line="65"/>
+        <location filename="const_strings.h" line="66"/>
         <source>Apply text format</source>
         <translation>Применить формат текста</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="47"/>
-        <location filename="const_strings.h" line="48"/>
+        <location filename="const_strings.h" line="68"/>
+        <location filename="const_strings.h" line="69"/>
         <source>Align text right</source>
         <translation>Выровнять по правому краю</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="50"/>
-        <location filename="const_strings.h" line="51"/>
+        <location filename="const_strings.h" line="71"/>
+        <location filename="const_strings.h" line="72"/>
         <source>Align text left</source>
         <translation>Выровнять по левому краю</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="54"/>
-        <location filename="const_strings.h" line="55"/>
+        <location filename="const_strings.h" line="75"/>
+        <location filename="const_strings.h" line="76"/>
         <source>Align text center</source>
         <translation>Выровнять по центру</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="57"/>
-        <location filename="const_strings.h" line="58"/>
+        <location filename="const_strings.h" line="78"/>
+        <location filename="const_strings.h" line="79"/>
         <source>Switch font</source>
         <translation>Сменить шрифт</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="63"/>
+        <location filename="const_strings.h" line="84"/>
         <source>Crossed/normal font</source>
         <oldsource>Crossed/normal text</oldsource>
         <translation>Зачёркнутый/обычный шрифт</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="64"/>
+        <location filename="const_strings.h" line="85"/>
         <source>Switch between crossed and normal font</source>
         <translation>Переключиться между зачёркнутым и обычным шрифтом</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="68"/>
+        <location filename="const_strings.h" line="89"/>
         <source>Underline/normal font</source>
         <translation>Подчёркнутый/обычный шрифт</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="69"/>
+        <location filename="const_strings.h" line="90"/>
         <source>Switch between underline and normal font</source>
         <translation>Переключиться между подчёркнутым и обычным шрифтом</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="72"/>
+        <location filename="const_strings.h" line="93"/>
         <source>Bold/normal font</source>
         <translation>Жирный/обычный шрифт</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="73"/>
+        <location filename="const_strings.h" line="94"/>
         <source>Switch between bold and normal font</source>
         <translation>Переключиться между жирным и обычным шрифтом</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="76"/>
+        <location filename="const_strings.h" line="97"/>
         <source>Italic/normal font</source>
         <translation>Наклонный/обычный шрифт</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="77"/>
+        <location filename="const_strings.h" line="98"/>
         <source>Switch between italic and normal font</source>
         <translation>Переключиться между наклонным и обычным шрифтом</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="82"/>
+        <location filename="const_strings.h" line="102"/>
+        <source>Highlight text</source>
+        <translation>Подсветить текст</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="103"/>
+        <source>Text background color</source>
+        <translation>Цвет фона текста</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="106"/>
+        <source>Text color</source>
+        <translation>Цвет текста</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="107"/>
+        <source>Choose text color</source>
+        <translation>Выбрать цвет текста</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="111"/>
         <source>Settings management</source>
         <translation>Управление настройками</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="83"/>
+        <location filename="const_strings.h" line="112"/>
         <source>Change app settings</source>
         <translation>Поменять настройки приложения</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="95"/>
+        <location filename="const_strings.h" line="124"/>
         <source>Copy</source>
         <translation>Скопировать</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="96"/>
+        <location filename="const_strings.h" line="125"/>
         <source>Copy selected text to clipboard</source>
         <translation>Скопировать выделенный текст</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="98"/>
+        <location filename="const_strings.h" line="127"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="99"/>
+        <location filename="const_strings.h" line="128"/>
         <source>Cut selected text to clipboard</source>
         <translation>Вырезать выделенный текст</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="101"/>
+        <location filename="const_strings.h" line="130"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="102"/>
+        <location filename="const_strings.h" line="131"/>
         <source>Paste from clipboard</source>
         <translation>Вставить из буфера обмена</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="104"/>
+        <location filename="const_strings.h" line="133"/>
         <source>Select all</source>
         <translation>Выделить всё</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="105"/>
+        <location filename="const_strings.h" line="134"/>
         <source>Select all text</source>
         <translation>Выделить весь текст</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="113"/>
+        <location filename="const_strings.h" line="142"/>
         <source>New document*</source>
         <translation>Новый документ*</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="115"/>
+        <location filename="const_strings.h" line="144"/>
         <source>No file opened</source>
         <translation>Нет открытых файлов</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="87"/>
+        <location filename="const_strings.h" line="116"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="88"/>
+        <location filename="const_strings.h" line="117"/>
         <source>Show application manual</source>
         <translation>Показать инструкцию к приложению</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="90"/>
+        <location filename="const_strings.h" line="119"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="91"/>
+        <location filename="const_strings.h" line="120"/>
         <source>Short info about application</source>
         <translation>Краткая информация о программе</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="402"/>
+        <location filename="mainwindow.cpp" line="473"/>
         <source>has been saved.</source>
         <translation>сохранён.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="406"/>
-        <location filename="mainwindow.cpp" line="417"/>
+        <location filename="mainwindow.cpp" line="477"/>
+        <location filename="mainwindow.cpp" line="488"/>
         <source>Can&apos;t save file.</source>
         <translation>Не могу сохранить файл.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="412"/>
+        <location filename="mainwindow.cpp" line="483"/>
         <source>File saved as </source>
         <translation>Файл сохранён как</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="551"/>
+        <location filename="mainwindow.cpp" line="632"/>
         <source>About THare</source>
         <translation>О THare</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="553"/>
+        <location filename="mainwindow.cpp" line="634"/>
         <source>THare v 0.5.0 
 
 GB_CommandProgCPP_team3
@@ -362,100 +406,127 @@ GB_CommandProgCPP_team3
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="584"/>
+        <location filename="mainwindow.cpp" line="669"/>
         <source>Unsaved data could be lost</source>
         <translation>Возможна утрата несохранённых данных</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="585"/>
+        <location filename="mainwindow.cpp" line="670"/>
         <source>Do you want to save changes?</source>
         <translation>Хотите сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="586"/>
+        <location filename="mainwindow.cpp" line="671"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="672"/>
         <source>No</source>
         <translation>Нет</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1040"/>
+        <location filename="mainwindow.cpp" line="1044"/>
+        <source>No matches found</source>
+        <translation>Совпадений не найдено</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1043"/>
+        <source>Results</source>
+        <translation>Результат</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1049"/>
+        <source> matches found</source>
+        <translation> совпадений найдено</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1121"/>
+        <source>Save *.pdf</source>
+        <translation>Сохранить в *.pdf</translation>
+    </message>
+</context>
+<context>
+    <name>SearchDialog</name>
+    <message>
+        <location filename="const_strings.h" line="209"/>
+        <source>Search text</source>
+        <translation>Поиск текста</translation>
+    </message>
+</context>
+<context>
+    <name>SearchForm</name>
+    <message>
+        <location filename="searchform.cpp" line="48"/>
+        <source>Search text</source>
+        <translation>Поиск текста</translation>
+    </message>
+    <message>
+        <location filename="searchform.cpp" line="49"/>
+        <source>Search</source>
+        <translation>Поиск</translation>
+    </message>
+    <message>
+        <location filename="searchform.cpp" line="50"/>
+        <source>case insensitive</source>
+        <translation>не учитывать регистр</translation>
     </message>
 </context>
 <context>
     <name>SettingsKeeper</name>
     <message>
-        <location filename="settingskeeper.cpp" line="98"/>
+        <location filename="settingskeeper.cpp" line="86"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="99"/>
+        <location filename="settingskeeper.cpp" line="87"/>
         <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="101"/>
+        <location filename="settingskeeper.cpp" line="89"/>
         <source>Light theme</source>
         <translation>Светлая тема</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="102"/>
+        <location filename="settingskeeper.cpp" line="90"/>
         <source>Dark theme</source>
         <translation>Тёмная тема</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="104"/>
-        <source>Key binds:</source>
-        <translation>Привязка клавиш:</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="106"/>
-        <source>Action</source>
-        <translation>Действие</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="107"/>
-        <source>Mod</source>
-        <translation>Модификатор</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="108"/>
-        <source>Key</source>
-        <translation>Ключ</translation>
-    </message>
-    <message>
-        <location filename="settingskeeper.cpp" line="110"/>
+        <location filename="settingskeeper.cpp" line="92"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="111"/>
+        <location filename="settingskeeper.cpp" line="93"/>
         <source>Apply changes and close dialog</source>
         <translation>Применить изменения и закрыть</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="113"/>
+        <location filename="settingskeeper.cpp" line="95"/>
         <source>Apply</source>
         <translation>Применить</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="114"/>
+        <location filename="settingskeeper.cpp" line="96"/>
         <source>Apply changes</source>
         <translation>Применить изменения</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="116"/>
+        <location filename="settingskeeper.cpp" line="98"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="117"/>
+        <location filename="settingskeeper.cpp" line="99"/>
         <source>Discard changes and close dialog</source>
         <translation>Отменить изменения и закрыть</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="119"/>
+        <location filename="settingskeeper.cpp" line="101"/>
         <source>Settings management</source>
         <translation>Управление настройками</translation>
     </message>
