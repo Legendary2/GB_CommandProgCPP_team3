@@ -6,6 +6,16 @@
 #include <QPair>
 #include <QString>
 
+static const int DEFAULT_FONT_SIZE = 12;
+static const QString DEFAULT_FONT_FAMILY = "Sans Serif";
+static const int MIN_VALUE_VALIDATOR_FONTS_SIZE = 4;
+static const int MAX_VALUE_VALIDATOR_FONTS_SIZE = 200;
+
+static const int MIN_VALUE_FONTS_SIZE = 8;
+static const int MAX_VALUE_FONTS_SIZE = 50;
+
+static const int STEP_FONT_SIZE = 2;
+
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
 static const char *FORMAT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Format")};
@@ -73,7 +83,7 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
 // 'Format' - menu actions constants
 static const QPair<const char *, const char *>
     CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
-        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal text"),
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between crossed and normal font")};
 static const QPair<const char *, const char *>

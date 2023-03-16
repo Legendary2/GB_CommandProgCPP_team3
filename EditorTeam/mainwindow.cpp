@@ -2,6 +2,7 @@
 #include "searchform.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
+#include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPrintDialog>
@@ -10,7 +11,6 @@
 #include <QStyle>
 #include <QTextBlockFormat>
 #include <QTextCursor>
-#include <QColorDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,6 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Добавление поля для размещения редактируемого текста
     textEdit = new QTextEdit(this);
+
+    QFont qf;
+    qf.setPointSize(DEFAULT_FONT_SIZE);
+    qf.setFamily(DEFAULT_FONT_FAMILY);
+    textEdit->setFont(qf);
+
     boxLayout->addWidget(textEdit, 0);
     ui->centralwidget->setLayout(boxLayout);
 /*
@@ -79,6 +85,11 @@ MainWindow::MainWindow(QWidget *parent)
     слота onTextModified() */
     connect(textEdit, SIGNAL(textChanged()), this, SLOT(onTextModified()));
 
+    connect(textEdit, &QTextEdit::selectionChanged, this,
+            &MainWindow::onSelectionChanged);
+    connect(textEdit, &QTextEdit::cursorPositionChanged, this,
+            &MainWindow::onSelectionChanged);
+
     connect(settingsKeeper, SIGNAL(applyButtonClicked()), this,
             SLOT(onSettingsApplyClicked()));
     connect(settingsKeeper, SIGNAL(cancelButtonClicked()), this,
@@ -100,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(textEdit, &QTextEdit::cursorPositionChanged, this,
             &MainWindow::clearHighLight);
+    this->resize(860, 600);
 }
 
 MainWindow::~MainWindow()
@@ -151,19 +163,19 @@ void MainWindow::createActions() {
     createAction(&switchFontAction, switchFontIconPath,
                  &MainWindow::onSwitchFont);
 
-  // 'Format'
-  createAction(&underlineTextFormatAction, underlineTextFormatIconPath,
-               &MainWindow::onUnderlineTextFormat);
-  createAction(&crossedTextFormatAction, crossedTextFormatIconPath,
-               &::MainWindow::onCrossedTextFormat);
-  createAction(&boldTextFormatAction, boldTextFormatIconPath,
-               &MainWindow::onBoldTextFormat);
-  createAction(&italicTextFormatAction, italicTextFormatIconPath,
-               &MainWindow::onItalicTextFormat);
-  createAction(&highlightTextFormatAction, highlightStyleIconPath,
-               &MainWindow::onHighlightTextFormat);
-  createAction(&textColorFormatAction, textColorFormatIconPath,
-               &MainWindow::onTextColorFormat);
+    // 'Format'
+    createAction(&underlineTextFormatAction, underlineTextFormatIconPath,
+                 &MainWindow::onUnderlineTextFormat);
+    createAction(&crossedTextFormatAction, crossedTextFormatIconPath,
+                 &::MainWindow::onCrossedTextFormat);
+    createAction(&boldTextFormatAction, boldTextFormatIconPath,
+                 &MainWindow::onBoldTextFormat);
+    createAction(&italicTextFormatAction, italicTextFormatIconPath,
+                 &MainWindow::onItalicTextFormat);
+    createAction(&highlightTextFormatAction, highlightStyleIconPath,
+                 &MainWindow::onHighlightTextFormat);
+    createAction(&textColorFormatAction, textColorFormatIconPath,
+                 &MainWindow::onTextColorFormat);
 
     // 'Settings'
     createAction(&changeKeyBindAction, keyBindsIconPath,
@@ -227,15 +239,15 @@ void MainWindow::createMenus() {
     editMenu->addSeparator();
     editMenu->addAction(switchFontAction);
 
-  // 'Format'
-  formatMenu = new QMenu(this);
-  menuBar()->addMenu(formatMenu);
-  formatMenu->addAction(underlineTextFormatAction);
-  formatMenu->addAction(crossedTextFormatAction);
-  formatMenu->addAction(boldTextFormatAction);
-  formatMenu->addAction(italicTextFormatAction);
-  formatMenu->addAction(highlightTextFormatAction);
-  formatMenu->addAction(textColorFormatAction);
+    // 'Format'
+    formatMenu = new QMenu(this);
+    menuBar()->addMenu(formatMenu);
+    formatMenu->addAction(underlineTextFormatAction);
+    formatMenu->addAction(crossedTextFormatAction);
+    formatMenu->addAction(boldTextFormatAction);
+    formatMenu->addAction(italicTextFormatAction);
+    formatMenu->addAction(highlightTextFormatAction);
+    formatMenu->addAction(textColorFormatAction);
 
     // 'Settings'
     settingsMenu = new QMenu(this);
@@ -297,18 +309,18 @@ void MainWindow::retranslateActions() {
                       ALIGN_TEXT_CENTER_ACTION_STR_PAIR);
     retranslateAction(&switchFontAction, SWITCH_FONT_ACTION_STR_PAIR);
 
-  // 'Format'
-  retranslateAction(&underlineTextFormatAction,
-                    UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
-  retranslateAction(&crossedTextFormatAction,
-                    CROSSED_TEXT_FORMAT_ACTION_STR_PAIR);
-  retranslateAction(&boldTextFormatAction, BOLD_TEXT_FORMAT_ACTION_STR_PAIR);
-  retranslateAction(&italicTextFormatAction,
-                    ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
-  retranslateAction(&highlightTextFormatAction,
-                    HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR);
-  retranslateAction(&textColorFormatAction,
-                    TEXT_COLOR_FORMAT_ACTION_STR_PAIR);
+    // 'Format'
+    retranslateAction(&underlineTextFormatAction,
+                      UNDERLINE_TEXT_FORMAT_ACTION_STR_PAIR);
+    retranslateAction(&crossedTextFormatAction,
+                      CROSSED_TEXT_FORMAT_ACTION_STR_PAIR);
+    retranslateAction(&boldTextFormatAction, BOLD_TEXT_FORMAT_ACTION_STR_PAIR);
+    retranslateAction(&italicTextFormatAction,
+                      ITALIC_TEXT_FORMAT_ACTION_STR_PAIR);
+    retranslateAction(&highlightTextFormatAction,
+                      HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR);
+    retranslateAction(&textColorFormatAction,
+                      TEXT_COLOR_FORMAT_ACTION_STR_PAIR);
 
     // 'Settings'
     retranslateAction(&changeKeyBindAction, CHANGE_KEY_BIND_ACTION_STR_PAIR);
@@ -456,35 +468,41 @@ bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
     switch (fontFeature)
     {
 
-  case FontFeature::DoesntMatter:
-    return charFormatFirst == charFormatSecond;
-  case FontFeature::Bold:
-    return charFormatFirst.fontWeight() == charFormatSecond.fontWeight();
-  case FontFeature::Crossed:
-    return charFormatFirst.fontStrikeOut() == charFormatSecond.fontStrikeOut();
-  case FontFeature::FontFamily:
-    return charFormatFirst.font() == charFormatSecond.font();
-  case FontFeature::Italic:
-    return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
-  case FontFeature::Underlined:
-    return charFormatFirst.fontUnderline() == charFormatSecond.fontUnderline();
-  case FontFeature::Size:
-    return charFormatFirst.fontPointSize() == charFormatSecond.fontPointSize();
-  case FontFeature::Highlight:
-    return charFormatFirst.background().color() == charFormatSecond.background().color();
-  case FontFeature::ColoredText:
-      return charFormatFirst.foreground().color() == charFormatSecond.foreground().color();
-  default:
-    return false;
-  }
+    case FontFeature::DoesntMatter:
+        return charFormatFirst == charFormatSecond;
+    case FontFeature::Bold:
+        return charFormatFirst.fontWeight() == charFormatSecond.fontWeight();
+    case FontFeature::Crossed:
+        return charFormatFirst.fontStrikeOut() ==
+               charFormatSecond.fontStrikeOut();
+    case FontFeature::FontFamily:
+        return charFormatFirst.font().family() ==
+               charFormatSecond.font().family();
+    case FontFeature::Italic:
+        return charFormatFirst.fontItalic() == charFormatSecond.fontItalic();
+    case FontFeature::Underlined:
+        return charFormatFirst.fontUnderline() ==
+               charFormatSecond.fontUnderline();
+    case FontFeature::Size:
+        return charFormatFirst.fontPointSize() ==
+               charFormatSecond.fontPointSize();
+    case FontFeature::Highlight:
+        return charFormatFirst.background().color() ==
+               charFormatSecond.background().color();
+    case FontFeature::ColoredText:
+        return charFormatFirst.foreground().color() ==
+               charFormatSecond.foreground().color();
+    default:
+        return false;
+    }
 
     return false;
 }
 
 void MainWindow::onSave()
 {
-    if (srcHandler->save(textEdit->toPlainText()))
-    {
+    if (srcHandler->save(textEdit->toHtml()))
+    { // Поменял toPlainText() на toHtml()
         isTextModified = false;
 
         ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
@@ -498,8 +516,8 @@ void MainWindow::onSave()
 
 void MainWindow::onSaveAs()
 {
-    if (srcHandler->saveAs(textEdit->toPlainText()))
-    {
+    if (srcHandler->saveAs(textEdit->toHtml()))
+    { // Поменял toPlainText() на toHtml()
         isTextModified = false;
         ui->statusbar->showMessage(tr("File saved as ") +
                                    srcHandler->getSourceName());
@@ -517,7 +535,7 @@ void MainWindow::onPrint()
     dlg.setWindowTitle(tr("Print"));
     if (dlg.exec() != QDialog::Accepted)
         return;
-    QString printStr = textEdit->toPlainText();
+    // QString printStr = textEdit->toPlainText(); // Это здесь без надобности
     textEdit->print(&printer);
 }
 
@@ -723,22 +741,23 @@ bool MainWindow::textChangedWarning()
     }
 }
 
-void MainWindow::onCrossedTextFormat() {
-  std::optional<QTextCharFormat> charFormatStorage =
-          getCurrentCharFormat(FontFeature::Crossed);
+void MainWindow::onCrossedTextFormat()
+{
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Crossed);
 
     QTextCharFormat charFormat;
 
-    if(charFormatStorage.has_value() &&
-            charFormatStorage.value().fontStrikeOut())
+    if (charFormatStorage.has_value() &&
+        charFormatStorage.value().fontStrikeOut())
         charFormat.setFontStrikeOut(false);
     else
         charFormat.setFontStrikeOut(true);
 
     if (textEdit->textCursor().hasSelection())
-    textEdit->textCursor().mergeCharFormat(charFormat);
+        textEdit->textCursor().mergeCharFormat(charFormat);
     else
-    textEdit->mergeCurrentCharFormat(charFormat);
+        textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::inflatePopupMenu()
@@ -812,17 +831,17 @@ void MainWindow::onBoldTextFormat()
         charFormat.setFontWeight(QFont::Normal);
     else
         charFormat.setFontWeight(QFont::Bold);
-        
-  if (textEdit->textCursor().hasSelection())
-    textEdit->textCursor().mergeCharFormat(charFormat);
-  else
-    textEdit->mergeCurrentCharFormat(charFormat);
+
+    if (textEdit->textCursor().hasSelection())
+        textEdit->textCursor().mergeCharFormat(charFormat);
+    else
+        textEdit->mergeCurrentCharFormat(charFormat);
 }
 
 void MainWindow::onItalicTextFormat()
 {
-  std::optional<QTextCharFormat> charFormatStorage =
-      getCurrentCharFormat(FontFeature::Italic);
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Italic);
 
     QTextCharFormat charFormat;
 
@@ -859,33 +878,37 @@ void MainWindow::onHighlightTextFormat()
     QColor color;
     QBrush hlBrush = Qt::white;
 
-// Проверяем направление выделения и отличия в цвете
+    // Проверяем направление выделения и отличия в цвете
     std::optional<QTextCharFormat> charFormatStorage =
-            getCurrentCharFormat(FontFeature::Highlight);
+        getCurrentCharFormat(FontFeature::Highlight);
 
     if (charFormatStorage.has_value())
         color = charFormatStorage->background().color();
     else
         hlBrush = Qt::black;
 
-// Определяем цвет кисти для палитры диалога
-    if (textEdit->textCursor().hasSelection()) {
+    // Определяем цвет кисти для палитры диалога
+    if (textEdit->textCursor().hasSelection())
+    {
         if (hlBrush == Qt::black)
             hlBrush = Qt::white;
-        else {
+        else
+        {
             if (color == Qt::black)
                 color = Qt::white;
 
             hlBrush = color;
         }
     }
-    else {
+    else
+    {
         hlBrush = textEdit->textCursor().charFormat().background().color();
     }
 
     QColor chosenColor = QColorDialog::getColor(hlBrush.color(), this);
-// Если цвет выбран, то красим фон текст
-    if (chosenColor.isValid()) {
+    // Если цвет выбран, то красим фон текст
+    if (chosenColor.isValid())
+    {
         charFormat.setBackground(chosenColor);
         if (textEdit->textCursor().hasSelection())
             textEdit->textCursor().mergeCharFormat(charFormat);
@@ -900,29 +923,34 @@ void MainWindow::onTextColorFormat()
     QColor color;
     QBrush brush = Qt::black; // Кисть для цвета текста
 
-// Проверяем направление выделения и отличия в цвете
+    // Проверяем направление выделения и отличия в цвете
     std::optional<QTextCharFormat> charFormatStorage =
-            getCurrentCharFormat(FontFeature::ColoredText);
+        getCurrentCharFormat(FontFeature::ColoredText);
 
-    if (charFormatStorage.has_value()) {
+    if (charFormatStorage.has_value())
+    {
         color = charFormatStorage->foreground().color();
     }
-    else {
+    else
+    {
         brush = Qt::white;
     }
 
-// Определяем цвет кисти для палитры диалога
-    if (textEdit->textCursor().hasSelection()) {
+    // Определяем цвет кисти для палитры диалога
+    if (textEdit->textCursor().hasSelection())
+    {
         if (brush != Qt::white)
             brush = color;
     }
-    else {
+    else
+    {
         brush = textEdit->textCursor().charFormat().foreground();
     }
 
     QColor chosenColor = QColorDialog::getColor(brush.color(), this);
-// Если цвет выбран, то красим текст
-    if (chosenColor.isValid()) {
+    // Если цвет выбран, то красим текст
+    if (chosenColor.isValid())
+    {
         charFormat.setForeground(chosenColor);
         if (textEdit->textCursor().hasSelection())
             textEdit->textCursor().mergeCharFormat(charFormat);
@@ -933,6 +961,40 @@ void MainWindow::onTextColorFormat()
 
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {
+    /* Создаем ComboBox для изменения размера шрифта */
+    fontSizeComboBox2 = new QComboBox(this);
+    fontSizeComboBox2->setEditable(true);
+    fontSizeComboBox2->setValidator(new QIntValidator(
+        MIN_VALUE_VALIDATOR_FONTS_SIZE, MAX_VALUE_VALIDATOR_FONTS_SIZE, this));
+    fontSizeComboBox2->view()->setAutoScroll(true);
+    for (int i = MIN_VALUE_FONTS_SIZE; i <= MAX_VALUE_FONTS_SIZE;
+         i += STEP_FONT_SIZE)
+    {
+        fontSizeComboBox2->addItem(QString::number(i));
+    }
+    fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
+    fontSizeComboBox2->setCurrentIndex(
+        fontSizeComboBox2->findText(QString::number(DEFAULT_FONT_SIZE)));
+    connect(fontSizeComboBox2, SIGNAL(currentIndexChanged(int)),
+            SLOT(onfontSizeComboBoxChanged(int)));
+
+    /* Создаем ComboBox для изменения шрифта */
+    fontFamiliesComboBox = new QComboBox(this);
+    fontFamiliesComboBox->setEditable(true);
+    fontFamiliesComboBox->lineEdit()->setReadOnly(true);
+    fontFamiliesComboBox->view()->setAutoScroll(true);
+    auto qsl = QFontDatabase::families();
+    for (auto i = 0; i < qsl.size(); i++)
+    {
+        fontFamiliesComboBox->addItem(qsl[i]);
+    }
+    fontFamiliesComboBox->setCurrentText(DEFAULT_FONT_FAMILY);
+    fontFamiliesComboBox->setCurrentIndex(
+        fontFamiliesComboBox->findText(DEFAULT_FONT_FAMILY));
+    connect(fontFamiliesComboBox, SIGNAL(currentIndexChanged(int)),
+            SLOT(onfontFamiliesComboBoxChanged(int)));
+
+    /* Создаем ToolBar */
     mainToolBar = addToolBar("");
     mainToolBar->setFloatable(false);
     mainToolBar->setMovable(false);
@@ -951,6 +1013,16 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
     mainToolBar->addAction(alignTextLeftAction);
     mainToolBar->addAction(alignTextCenterAction);
     mainToolBar->addAction(alignTextRightAction);
+    mainToolBar->addSeparator();
+    mainToolBar->addWidget(fontFamiliesComboBox);
+    mainToolBar->addWidget(fontSizeComboBox2);
+    mainToolBar->addAction(boldTextFormatAction);
+    mainToolBar->addAction(italicTextFormatAction);
+    mainToolBar->addAction(underlineTextFormatAction);
+    mainToolBar->addAction(crossedTextFormatAction);
+    mainToolBar->addSeparator();
+    mainToolBar->addAction(textColorFormatAction);
+    mainToolBar->addAction(highlightTextFormatAction);
 }
 
 void MainWindow::onPopupMenuCalled(QPoint pos)
@@ -1011,6 +1083,32 @@ void MainWindow::onPopupComboBoxIndexChanged(int /* index */)
     popupMenu->close();
 }
 
+void MainWindow::onfontSizeComboBoxChanged(int /* index */)
+{
+    QTextCharFormat textCharFormat;
+    textCharFormat.setFontPointSize(
+        fontSizeComboBox2->currentText().toDouble());
+    textEdit->textCursor().mergeCharFormat(textCharFormat);
+    if (!(textEdit->textCursor().hasSelection()))
+    {
+        textEdit->setFontPointSize(fontSizeComboBox2->currentText().toDouble());
+    }
+}
+
+void MainWindow::onfontFamiliesComboBoxChanged(int /* index */)
+{
+    QTextCharFormat textCharFormat;
+    QStringList temp;
+    temp.append(fontFamiliesComboBox->currentText());
+
+    textCharFormat.setFontFamilies(temp);
+    textEdit->textCursor().mergeCharFormat(textCharFormat);
+    if (!(textEdit->textCursor().hasSelection()))
+    {
+        textEdit->setFontFamily(fontFamiliesComboBox->currentText());
+    }
+}
+
 void MainWindow::onCopy() { textEdit->copy(); }
 
 void MainWindow::onCut() { textEdit->cut(); }
@@ -1059,6 +1157,54 @@ void MainWindow::onSearchFormButtonClicked(QString searchString)
     textEdit->blockSignals(false);
 }
 
+void MainWindow::onSelectionChanged()
+{
+    std::optional<QTextCharFormat> charFormatStorage =
+        getCurrentCharFormat(FontFeature::Size);
+
+    if (charFormatStorage.has_value())
+    {
+        QFont qf = charFormatStorage->font();
+        fontSizeComboBox2->setCurrentText(QString::number(qf.pointSize()));
+        fontSizeComboBox2->setCurrentIndex(
+            fontSizeComboBox2->findText(QString::number(qf.pointSize())));
+    }
+    else
+    {
+        fontSizeComboBox2->setCurrentText("");
+    }
+
+    charFormatStorage = getCurrentCharFormat(FontFeature::FontFamily);
+
+    if (charFormatStorage.has_value())
+    {
+        QFont qf = charFormatStorage->font();
+        fontFamiliesComboBox->setCurrentText(qf.family());
+        fontFamiliesComboBox->setCurrentIndex(
+            fontFamiliesComboBox->findText(qf.family()));
+    }
+    else
+    {
+        fontFamiliesComboBox->setCurrentText("");
+    }
+
+    if (textEdit->document()->characterCount() <= 1)
+    {
+        fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
+        fontSizeComboBox2->setCurrentIndex(
+            fontSizeComboBox2->findText(QString::number(DEFAULT_FONT_SIZE)));
+
+        fontFamiliesComboBox->setCurrentText(DEFAULT_FONT_FAMILY);
+        fontFamiliesComboBox->setCurrentIndex(
+            fontFamiliesComboBox->findText(DEFAULT_FONT_FAMILY));
+
+        QFont qf;
+        qf.setPointSize(DEFAULT_FONT_SIZE);
+        qf.setFamily(DEFAULT_FONT_FAMILY);
+        textEdit->setFont(qf);
+    }
+}
+
 void MainWindow::openFileToRead(){
 
     onClose();
@@ -1097,4 +1243,3 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event -> accept();
     qApp -> quit();
 }
-

@@ -105,6 +105,8 @@ class MainWindow : public QMainWindow
     Контекстное для textEdit меню */
     QMenu *popupMenu;
     QComboBox *fontSizeComboBox;
+    QComboBox *fontSizeComboBox2;
+    QComboBox *fontFamiliesComboBox;
     QLabel *fontSizeLabel;
     void inflatePopupMenu();
 
@@ -134,13 +136,13 @@ class MainWindow : public QMainWindow
     QAction *alignTextCenterAction;
     QAction *switchFontAction;
 
-  // Элементы подменю 'Format'
-  QAction *crossedTextFormatAction;
-  QAction *underlineTextFormatAction;
-  QAction *boldTextFormatAction;
-  QAction *italicTextFormatAction;
-  QAction *highlightTextFormatAction;
-  QAction *textColorFormatAction;
+    // Элементы подменю 'Format'
+    QAction *crossedTextFormatAction;
+    QAction *underlineTextFormatAction;
+    QAction *boldTextFormatAction;
+    QAction *italicTextFormatAction;
+    QAction *highlightTextFormatAction;
+    QAction *textColorFormatAction;
 
     // Элементы подменю 'Settings'
     // QAction *changeLangAction;
@@ -208,8 +210,9 @@ class MainWindow : public QMainWindow
     void onSearchText();
     void onSearchFormButtonClicked(QString);
     void clearHighLight();
-  void onHighlightTextFormat();
-  void onTextColorFormat();
+    void onHighlightTextFormat();
+    void onTextColorFormat();
+    void onSelectionChanged();
 
     /*! GubaydullinRG
     // Слот действий на случай изменения
@@ -223,6 +226,8 @@ class MainWindow : public QMainWindow
     и реакция на выбор элемента в popupComboBox */
     void onPopupMenuCalled(QPoint);
     void onPopupComboBoxIndexChanged(int);
+    void onfontSizeComboBoxChanged(int);
+    void onfontFamiliesComboBoxChanged(int);
 
   void onCopy();
   void onCut();
