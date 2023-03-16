@@ -1,9 +1,20 @@
 #ifndef CONST_STRINGS_H
 #define CONST_STRINGS_H
 
+#include <QBrush>
 #include <QMap>
 #include <QPair>
 #include <QString>
+
+static const int DEFAULT_FONT_SIZE = 12;
+static const QString DEFAULT_FONT_FAMILY = "Sans Serif";
+static const int MIN_VALUE_VALIDATOR_FONTS_SIZE = 4;
+static const int MAX_VALUE_VALIDATOR_FONTS_SIZE = 200;
+
+static const int MIN_VALUE_FONTS_SIZE = 8;
+static const int MAX_VALUE_FONTS_SIZE = 50;
+
+static const int STEP_FONT_SIZE = 2;
 
 static const char *FILE_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&File")};
 static const char *EDIT_MENU_STR{QT_TRANSLATE_NOOP("MainWindow", "&Edit")};
@@ -19,6 +30,9 @@ static const QPair<const char *, const char *> NEW_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> OPEN_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Open"),
     QT_TRANSLATE_NOOP("MainWindow", "Open a file")};
+static const QPair<const char *, const char *> OPEN_FILE_READ_ACTION_STR_PAIR{
+    "Open file read only", ""};
+    //QT_TRANSLATE_NOOP("MainWindow", "Open file read only")};
 static const QPair<const char *, const char *> CLOSE_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Close"),
     QT_TRANSLATE_NOOP("MainWindow", "Close a file")};
@@ -28,6 +42,11 @@ static const QPair<const char *, const char *> SAVE_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> SAVEAS_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Save as"),
     QT_TRANSLATE_NOOP("MainWindow", "Save file as")};
+//LyashenkoAn Save to PDF--------------------------------------------------
+static const QPair<const char *, const char *> SAVE_AS_PDF_ACTION_STR_PAIR{
+    "Save As PDF", ""};
+//    QT_TRANSLATE_NOOP("Save As PDF")};
+//--------------------------------------------------------------------------
 static const QPair<const char *, const char *> PRINT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Print"),
     QT_TRANSLATE_NOOP("MainWindow", "Print file")};
@@ -36,6 +55,10 @@ static const QPair<const char *, const char *> EXIT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Exit application")};
 
 // 'Edit' - menu actions constants
+
+static const QPair<const char *, const char *> SEARCH_TEXT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Search text"),
+    QT_TRANSLATE_NOOP("MainWindow", "Search text")};
 static const QPair<const char *, const char *> COPY_TEXT_FORMAT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Copy text format"),
     QT_TRANSLATE_NOOP("MainWindow", "Copy text format")};
@@ -60,7 +83,7 @@ static const QPair<const char *, const char *> SWITCH_FONT_ACTION_STR_PAIR{
 // 'Format' - menu actions constants
 static const QPair<const char *, const char *>
     CROSSED_TEXT_FORMAT_ACTION_STR_PAIR{
-        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal text"),
+        QT_TRANSLATE_NOOP("MainWindow", "Crossed/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between crossed and normal font")};
 static const QPair<const char *, const char *>
@@ -76,6 +99,13 @@ static const QPair<const char *, const char *>
         QT_TRANSLATE_NOOP("MainWindow", "Italic/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between italic and normal font")};
+static const QPair<const char *, const char *> HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR{
+    QT_TRANSLATE_NOOP("MainWindow", "Highlight text"),
+    QT_TRANSLATE_NOOP("MainWindow", "Text background color")};
+static const QPair<const char *, const char *>
+    TEXT_COLOR_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Text color"),
+        QT_TRANSLATE_NOOP("MainWindow", "Choose text color")};
 
 // 'Settings' - menu actions constants
 static const QPair<const char *, const char *> CHANGE_KEY_BIND_ACTION_STR_PAIR{
@@ -147,9 +177,17 @@ static const QString appIconPath{":/images/icon_128.png"};
 static const QString boldTextFormatIconPath{":/images/bold.png"};
 static const QString crossedTextFormatIconPath{":/images/crossed.png"};
 static const QString italicTextFormatIconPath{":/images/italic.png"};
+static const QString textColorFormatIconPath{":/images/text_color.png"};
 static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
+static const QString searchTextIconPath{":/images/search.png"};
+static const QString highlightStyleIconPath{":/images/text_background_color.png"};
+static const QString openReadOnly{":/images/open_read_only.png"};
+
+//LyashenkoAN "SAve to PDF
+static const QString savePdfIcon{":/images/save_to_pdf.png"};
+
 
 // Language
 static const QString RUS_LANG_STR{"ru_RU"};
@@ -193,16 +231,23 @@ static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
     QT_TRANSLATE_NOOP("SettingsDialog", "Cancel"),
     QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
 
+// Setttings Search dialog GUI
+static const QString SEARCHFORM_TITLE{
+    QT_TRANSLATE_NOOP("SearchDialog", "Search text")};
+
 // Особенности шрифта
-enum class FontFeature
-{
-    DoesntMatter,
-    Bold,
-    Crossed,
-    FontFamily,
-    Italic,
-    Size,
-    Underlined
+enum class FontFeature {
+  DoesntMatter,
+  Bold,
+  Crossed,
+  FontFamily,
+  Italic,
+  Size,
+  Highlight,
+  Underlined,
+  ColoredText
 };
+
+static const QBrush HIGHLIGHT_COLOR = QBrush("#a5a500");
 
 #endif // CONST_STRINGS_H
