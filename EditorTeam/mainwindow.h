@@ -81,6 +81,9 @@ class MainWindow : public QMainWindow
     void retranslateMenus();
     void retranslateGUI();
 
+    //Функция для закрытия программы через крестик
+    void closeEvent(QCloseEvent *) override;
+
     /*! GubaydullinRG Переменная, хранящая скопированный функцией
      * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
      * onApplyTextFormat() */
@@ -107,14 +110,22 @@ class MainWindow : public QMainWindow
     QLabel *fontSizeLabel;
     void inflatePopupMenu();
 
-    // Элементы подменю 'File'
-    QAction *newAction;
-    QAction *openAction;
-    QAction *closeAction;
-    QAction *saveAction;
-    QAction *saveAsAction;
-    QAction *printAction;
-    QAction *exitAction;
+  // Элементы подменю 'File'
+  QAction *newAction;
+  QAction *openAction;
+  //LyashenkoAN----------------------------------------
+  //File open read
+  QAction *openForRead;
+  //---------------------------------------------------
+  QAction *closeAction;
+  QAction *saveAction;
+  QAction *saveAsAction;
+  //-----------------------------------
+  //LyashenkoAN save pdf
+  QAction *savePdfAction;
+  //-----------------------------------
+  QAction *printAction;
+  QAction *exitAction;
 
     // Элементы подменю 'Edit'
     QAction *searchTextAction;
@@ -218,10 +229,20 @@ class MainWindow : public QMainWindow
     void onfontSizeComboBoxChanged(int);
     void onfontFamiliesComboBoxChanged(int);
 
-    void onCopy();
-    void onCut();
-    void onPaste();
-    void onSelectAll();
+  void onCopy();
+  void onCut();
+  void onPaste();
+  void onSelectAll();
+
+  //LyashenkoAN----------------------------------------
+  //File open read
+  void openFileToRead();
+  //---------------------------------------------------
+
+
+  //LyashenkoAN Сохранить в формате *.pdf
+  void onSavePdf();
+
 };
 
 #endif // MAINWINDOW_H
