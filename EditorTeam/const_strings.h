@@ -189,9 +189,20 @@ static const QString savePdfIcon{":/images/save_to_pdf.png"};
 static const QString RUS_LANG_STR{"ru_RU"};
 static const QString ENG_LANG_STR{"en_US"};
 
+/*
 static const QMap<QString, QString> LANGS_MAP{
     {RUS_LANG_STR, ":/translation/l10n_ru.qm"},
     {ENG_LANG_STR, ":/translation/l10n_en.qm"}};
+*/
+/*
+static const QMap<QString, QPair<QString, QString>> LANGS_MAP{
+    {RUS_LANG_STR, {":/translation/l10n_ru.qm", ":/translation/qt_ru.qm"}},
+    {ENG_LANG_STR, {":/translation/l10n_en.qm", ":/translation/qt_en.qm"}}};
+*/
+static const QMap<QString, QPair<QString, QString>> LANGS_MAP{
+    {RUS_LANG_STR, {":/translation/l10n_ru.qm", "qt_ru"}},
+    //{ENG_LANG_STR, {":/translation/l10n_en.qm", "qt_uk"}}};
+    {ENG_LANG_STR, {":/translation/l10n_en.qm", "qt_en"}}};
 
 // Theme
 static const QMap<int, QString> STYLES_MAP{{0, ":/themes/white.qss"},

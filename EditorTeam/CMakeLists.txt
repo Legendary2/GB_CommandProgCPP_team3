@@ -41,11 +41,16 @@ set(PROJECT_SOURCES
 set(TS_SRC_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_en.ts
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_ru.ts
-    )
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtmultimedia_ru.ts
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtbase_ru.ts
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qt_ru.ts)
 
 set(QM_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_en.qm
-        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_ru.qm)
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_ru.qm
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtmultimedia_ru.qm
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtbase_ru.qm
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qt_ru.qm)
 
 set(RESOURCES 
 	${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.qrc)

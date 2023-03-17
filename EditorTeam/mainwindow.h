@@ -71,6 +71,7 @@ private:
 
   // Интернационализация приложения
   QTranslator *translator;
+  QTranslator *standardTranslator;
   virtual void changeEvent(QEvent *) override;
   void retranslateAction(QAction **, const QPair<const char *, const char *> &);
   void retranslateActions();

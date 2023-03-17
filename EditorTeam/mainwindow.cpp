@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
       hb(QSharedPointer<HelpBrowser>(
           new HelpBrowser(":/helpfiles", "index.htm"))),
       searchForm(new SearchForm(this)), translator(new QTranslator(this)),
-      popupMenu(new QMenu(this)) {
+      standardTranslator(new QTranslator(this)), popupMenu(new QMenu(this)) {
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -320,9 +320,22 @@ void MainWindow::retranslateMenus() {
 
 void MainWindow::retranslateGUI() {
 
-  std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
+  // std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
+  QPair<QString, QString> translatorPair = LANGS_MAP[settingsKeeper->getLang()];
+  /*
+  std::ignore = translator->load(translatorPair.first);
+  std::ignore = standardTranslator->load(translatorPair.second);
+*/
+
+  qDebug() << "our transl: " << translator->load(translatorPair.first);
+  //  if (translatorPair.second == "qt_ru")
+  qDebug() << "standard transl: "
+           << standardTranslator->load(translatorPair.second, ":/translation");
+  // else
+  //  qDebug() << "standard transl: " << standardTranslator->load("en_US");
 
   QApplication::installTranslator(translator);
+  QApplication::installTranslator(standardTranslator);
 
   retranslateMenus();
   retranslateActions();
@@ -333,9 +346,7 @@ void MainWindow::retranslateGUI() {
     setWindowTitle(QString(tr(NO_FILE_OPENED_STR)));
 
   settingsKeeper->retranslateGUI();
-
   hb->retranslateGUI();
-
   searchForm->retranslateGUI();
 }
 
@@ -346,12 +357,12 @@ bool MainWindow::titleHasCertainString(bool newDoc) const {
   const char *inputStr = newDoc ? NEW_DOC_STR : NO_FILE_OPENED_STR;
 
   QTranslator localRUTranslator;
-  if (!localRUTranslator.load(LANGS_MAP[RUS_LANG_STR]))
+  if (!localRUTranslator.load(LANGS_MAP[RUS_LANG_STR].first))
     return false;
   QString testStrRU = localRUTranslator.translate("MainWindow", inputStr);
 
   QTranslator localENTranslator;
-  if (!localENTranslator.load(LANGS_MAP[ENG_LANG_STR]))
+  if (!localENTranslator.load(LANGS_MAP[ENG_LANG_STR].first))
     return false;
   QString testStrEN = localENTranslator.translate("MainWindow", inputStr);
 
