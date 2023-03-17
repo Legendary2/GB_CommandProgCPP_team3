@@ -21,8 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
       hb(QSharedPointer<HelpBrowser>(
           new HelpBrowser(":/helpfiles", "index.htm"))),
       searchForm(new SearchForm(this)), translator(new QTranslator(this)),
-      popupMenu(new QMenu(this)), fontSizeLabel(new QLabel(this)),
-      fontSizeComboBox(new QComboBox(this)) {
+      popupMenu(new QMenu(this)) {
   ui->setupUi(this);
 
   // Заполнение главного меню
@@ -333,8 +332,6 @@ void MainWindow::retranslateGUI() {
   if (titleHasCertainString(false))
     setWindowTitle(QString(tr(NO_FILE_OPENED_STR)));
 
-  fontSizeLabel->setText(tr(POPUP_FONT_SIZE_STR));
-
   settingsKeeper->retranslateGUI();
 
   hb->retranslateGUI();
@@ -390,10 +387,8 @@ void MainWindow::changePopupMenuAccess() {
 
   if (textEdit->document()->isEmpty()) {
     selectAllAction->setEnabled(false);
-    popupWidgetAction->setEnabled(false);
   } else {
     selectAllAction->setEnabled(true);
-    popupWidgetAction->setEnabled(true);
   }
 }
 
@@ -718,37 +713,11 @@ void MainWindow::inflatePopupMenu() {
   connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
           SLOT(onPopupMenuCalled(QPoint)));
 
-  popupWidgetAction = new QWidgetAction(popupMenu);
-
-  QWidget *fontSizeWidget = new QWidget(popupMenu);
-
-  QHBoxLayout *fontSizeLayout = new QHBoxLayout(popupMenu);
-
-  for (int i = 10; i <= 50; i += 10)
-    fontSizeComboBox->addItem(QString::number(i));
-
-  fontSizeComboBox->setEditable(true);
-
-  fontSizeComboBox->setValidator(new QRegularExpressionValidator(
-      QRegularExpression("^([8-9]|[1-4]\\d|50)$"), popupMenu));
-
-  connect(fontSizeComboBox, SIGNAL(currentIndexChanged(int)),
-          SLOT(onPopupComboBoxIndexChanged(int)));
-
-  fontSizeLayout->addWidget(fontSizeLabel);
-  fontSizeLayout->addWidget(fontSizeComboBox);
-
-  fontSizeWidget->setLayout(fontSizeLayout);
-
-  popupWidgetAction->setDefaultWidget(fontSizeWidget);
-
   popupMenu->addAction(copyAction);
   popupMenu->addAction(cutAction);
   popupMenu->addAction(pasteAction);
   popupMenu->addSeparator();
   popupMenu->addAction(selectAllAction);
-  popupMenu->addSeparator();
-  popupMenu->addAction(popupWidgetAction);
 }
 
 void MainWindow::onUnderlineTextFormat() {
@@ -894,19 +863,19 @@ void MainWindow::onTextColorFormat() {
 void MainWindow::setMainToolBar() // Установка настроек и иконок тулбара
 {
   /* Создаем ComboBox для изменения размера шрифта */
-  fontSizeComboBox2 = new QComboBox(this);
-  fontSizeComboBox2->setEditable(true);
-  fontSizeComboBox2->setValidator(new QIntValidator(
+  fontSizeComboBox = new QComboBox(this);
+  fontSizeComboBox->setEditable(true);
+  fontSizeComboBox->setValidator(new QIntValidator(
       MIN_VALUE_VALIDATOR_FONTS_SIZE, MAX_VALUE_VALIDATOR_FONTS_SIZE, this));
-  fontSizeComboBox2->view()->setAutoScroll(true);
+  fontSizeComboBox->view()->setAutoScroll(true);
   for (int i = MIN_VALUE_FONTS_SIZE; i <= MAX_VALUE_FONTS_SIZE;
        i += STEP_FONT_SIZE) {
-    fontSizeComboBox2->addItem(QString::number(i));
+    fontSizeComboBox->addItem(QString::number(i));
   }
-  fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
-  fontSizeComboBox2->setCurrentIndex(
-      fontSizeComboBox2->findText(QString::number(DEFAULT_FONT_SIZE)));
-  connect(fontSizeComboBox2, SIGNAL(currentIndexChanged(int)),
+  fontSizeComboBox->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
+  fontSizeComboBox->setCurrentIndex(
+      fontSizeComboBox->findText(QString::number(DEFAULT_FONT_SIZE)));
+  connect(fontSizeComboBox, SIGNAL(currentIndexChanged(int)),
           SLOT(onfontSizeComboBoxChanged(int)));
 
   /* Создаем ComboBox для изменения шрифта */
@@ -945,7 +914,7 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
   mainToolBar->addAction(alignTextRightAction);
   mainToolBar->addSeparator();
   mainToolBar->addWidget(fontFamiliesComboBox);
-  mainToolBar->addWidget(fontSizeComboBox2);
+  mainToolBar->addWidget(fontSizeComboBox);
   mainToolBar->addAction(boldTextFormatAction);
   mainToolBar->addAction(italicTextFormatAction);
   mainToolBar->addAction(underlineTextFormatAction);
@@ -956,60 +925,16 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
 }
 
 void MainWindow::onPopupMenuCalled(QPoint pos) {
-
-  QTextCharFormat charFormat;
-  QTextCursor formatsCheckCursor = textEdit->textCursor();
-  bool formatsDiffer{false};
-
-  if (textEdit->textCursor().selectionEnd() ==
-      textEdit->textCursor().position()) {
-    charFormat = textEdit->textCursor().charFormat();
-    while (formatsCheckCursor.position() >
-           textEdit->textCursor().selectionStart()) {
-      if (charFormat != formatsCheckCursor.charFormat()) {
-        formatsDiffer = true;
-        break;
-      }
-      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
-                                      QTextCursor::KeepAnchor);
-    }
-  } else {
-    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                    QTextCursor::KeepAnchor);
-    charFormat = formatsCheckCursor.charFormat();
-    while (formatsCheckCursor.position() <
-           textEdit->textCursor().selectionEnd()) {
-      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                      QTextCursor::KeepAnchor);
-      if (charFormat != formatsCheckCursor.charFormat()) {
-        formatsDiffer = true;
-        break;
-      }
-    }
-  }
-
-  fontSizeComboBox->setCurrentText(
-      formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
-
   changePopupMenuAccess();
   popupMenu->exec(mapToGlobal(pos));
 }
 
-void MainWindow::onPopupComboBoxIndexChanged(int /* index */) {
-
-  QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
-  textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
-  textEdit->textCursor().mergeCharFormat(textCharFormat);
-
-  popupMenu->close();
-}
-
 void MainWindow::onfontSizeComboBoxChanged(int /* index */) {
   QTextCharFormat textCharFormat;
-  textCharFormat.setFontPointSize(fontSizeComboBox2->currentText().toDouble());
+  textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
   textEdit->textCursor().mergeCharFormat(textCharFormat);
   if (!(textEdit->textCursor().hasSelection())) {
-    textEdit->setFontPointSize(fontSizeComboBox2->currentText().toDouble());
+    textEdit->setFontPointSize(fontSizeComboBox->currentText().toDouble());
   }
 }
 
@@ -1073,11 +998,11 @@ void MainWindow::onSelectionChanged() {
 
   if (charFormatStorage.has_value()) {
     QFont qf = charFormatStorage->font();
-    fontSizeComboBox2->setCurrentText(QString::number(qf.pointSize()));
-    fontSizeComboBox2->setCurrentIndex(
-        fontSizeComboBox2->findText(QString::number(qf.pointSize())));
+    fontSizeComboBox->setCurrentText(QString::number(qf.pointSize()));
+    fontSizeComboBox->setCurrentIndex(
+        fontSizeComboBox->findText(QString::number(qf.pointSize())));
   } else {
-    fontSizeComboBox2->setCurrentText("");
+    fontSizeComboBox->setCurrentText("");
   }
 
   charFormatStorage = getCurrentCharFormat(FontFeature::FontFamily);
@@ -1092,9 +1017,9 @@ void MainWindow::onSelectionChanged() {
   }
 
   if (textEdit->document()->characterCount() <= 1) {
-    fontSizeComboBox2->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
-    fontSizeComboBox2->setCurrentIndex(
-        fontSizeComboBox2->findText(QString::number(DEFAULT_FONT_SIZE)));
+    fontSizeComboBox->setCurrentText(QString::number(DEFAULT_FONT_SIZE));
+    fontSizeComboBox->setCurrentIndex(
+        fontSizeComboBox->findText(QString::number(DEFAULT_FONT_SIZE)));
 
     fontFamiliesComboBox->setCurrentText(DEFAULT_FONT_FAMILY);
     fontFamiliesComboBox->setCurrentIndex(
