@@ -5,7 +5,6 @@
 #include <QComboBox>
 #include <QDialog>
 #include <QFormLayout>
-#include <QFormLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
@@ -19,14 +18,14 @@ class SettingsKeeper : public QDialog
     explicit SettingsKeeper(QWidget *parent = nullptr);
     ~SettingsKeeper();
 
-  const QString &getLang() const;
-  const int getStyle() const;
+    const QString &getLang() const;
+    const int getStyle() const;
 
     void retranslateGUI();
 
-private:
-  QString lang;
-  int style;
+  private:
+    QString lang;
+    int style;
 
     QSettings settings;
 
@@ -35,11 +34,11 @@ private:
 
     void setLangAndStyle();
 
-  QComboBox *langComboBox;
-  QComboBox *styleComboBox;
+    QComboBox *langComboBox;
+    QComboBox *styleComboBox;
 
-  QLabel *langLabel;
-  QLabel *styleLabel;
+    QLabel *langLabel;
+    QLabel *styleLabel;
 
     QPushButton *okButton;
     QPushButton *applyButton;
@@ -50,10 +49,10 @@ private:
     QFormLayout *formLayout;
     QHBoxLayout *hboxLayout;
 
-signals:
-  void applyButtonClicked();
-  void cancelButtonClicked();
-  void okButtonClicked();
+  signals:
+    void applyButtonClicked();
+    void cancelButtonClicked();
+    void okButtonClicked();
 };
 
 #endif // SETTINGSKEEPER_H

@@ -208,16 +208,17 @@ static const char *STYLE_STR{"Style"};
 static const QString SEARCHFORM_TITLE{
     QT_TRANSLATE_NOOP("SearchDialog", "Search text")};
 // Особенности шрифта
-enum class FontFeature {
-  DoesntMatter,
-  Bold,
-  Crossed,
-  FontFamily,
-  Italic,
-  Size,
-  Highlight,
-  Underlined,
-  ColoredText
+enum class FontFeature
+{
+    DoesntMatter,
+    Bold,
+    Crossed,
+    FontFamily,
+    Italic,
+    Size,
+    Highlight,
+    Underlined,
+    ColoredText
 };
 
 static const QBrush HIGHLIGHT_COLOR = QBrush("#a5a500");

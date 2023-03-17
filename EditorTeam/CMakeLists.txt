@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(EditorTeam VERSION 0.2 LANGUAGES CXX)
+project(Thare VERSION 0.2 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -59,7 +59,7 @@ set_source_files_properties(${TS_SRC_FILES}
     PROPERTIES OUTPUT_LOCATION
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation)
 
-set(APP_NAME EditorTeam)
+set(APP_NAME Thare)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 

@@ -11,16 +11,17 @@ class HelpBrowser : public QWidget
   private:
     QHBoxLayout *hboxLayout;
 
-  QPushButton *pressBack;
-  QPushButton *pressForward;
-  QPushButton *pressHome;
+    QPushButton *pressBack;
+    QPushButton *pressForward;
+    QPushButton *pressHome;
+    QTextBrowser *txtBrowser;
 
-public:
-  HelpBrowser(const QString &strPath, const QString &strFileName,
-              QWidget *pwgt = 0);
-  ~HelpBrowser();
+  public:
+    HelpBrowser(const QString &strPath, QWidget *pwgt = 0);
+    ~HelpBrowser();
 
-  void retranslateGUI();
+    void retranslateGUI();
+    void setSource(QString &);
 };
 
 #endif // HELPBROWSER_H

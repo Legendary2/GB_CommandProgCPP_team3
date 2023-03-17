@@ -1,15 +1,15 @@
 <RCC>
     <qresource prefix="/">
-    <file>translation/l10n_ru.qm</file>
-    <file>translation/l10n_en.qm</file>
-	<file>translation/qtmultimedia_ru.qm</file>
-    	<file>translation/qtbase_ru.qm</file>
-	<file>translation/qt_ru.qm</file>
-	<file>translation/qtmultimedia_en.qm</file>
-    	<file>translation/qtbase_en.qm</file>
-	<file>translation/qt_en.qm</file>
-    <file>themes/white.qss</file>
-    <file>themes/grey.qss</file>
+        <file>translation/l10n_ru.qm</file>
+        <file>translation/l10n_en.qm</file>
+        <file>translation/qtmultimedia_ru.qm</file>
+        <file>translation/qtbase_ru.qm</file>
+        <file>translation/qt_ru.qm</file>
+        <file>translation/qtmultimedia_en.qm</file>
+        <file>translation/qtbase_en.qm</file>
+        <file>translation/qt_en.qm</file>
+        <file>themes/white.qss</file>
+        <file>themes/grey.qss</file>
         <file>images/app_icon.png</file>
         <file>images/icon_32.png</file>
         <file>images/icon_64.png</file>
@@ -45,17 +45,23 @@
         <file>images/underline.png</file>
         <file>images/usa.png</file>
         <file>images/white_style.png</file>
-	<file>images/search.png</file>
-	<file>images/open_read_only.png</file>
-	<file>images/save_to_pdf.png</file>
-	<file>images/save_to_pdf.png</file>
-        <file>helpfiles/index.htm</file>
-        <file>helpfiles/about.htm</file>
-        <file>helpfiles/edit.htm</file>
-        <file>helpfiles/files.htm</file>
-        <file>helpfiles/setting.htm</file>
+        <file>images/search.png</file>
+        <file>images/open_read_only.png</file>
+        <file>images/save_to_pdf.png</file>
+        <file>images/save_to_pdf.png</file>
         <file>images/text_background_color.png</file>
         <file>images/text_color.png</file>
-	<file>helpfiles/format.htm</file>
+        <file>helpfiles/index_ru.htm</file>
+        <file>helpfiles/about_ru.htm</file>
+        <file>helpfiles/edit_ru.htm</file>
+        <file>helpfiles/files_ru.htm</file>
+        <file>helpfiles/settings_ru.htm</file>
+        <file>helpfiles/format_ru.htm</file>
+        <file>helpfiles/index_en.htm</file>
+        <file>helpfiles/about_en.htm</file>
+        <file>helpfiles/edit_en.htm</file>
+        <file>helpfiles/files_en.htm</file>
+        <file>helpfiles/settings_en.htm</file>
+        <file>helpfiles/format_en.htm</file>
     </qresource>
 </RCC>

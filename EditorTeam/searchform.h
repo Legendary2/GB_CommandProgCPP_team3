@@ -3,27 +3,28 @@
 
 #include <QtWidgets>
 
-class SearchForm : public QDialog {
-  Q_OBJECT
-public:
-  explicit SearchForm(QWidget *parent = nullptr);
-  ~SearchForm();
+class SearchForm : public QDialog
+{
+    Q_OBJECT
+  public:
+    explicit SearchForm(QWidget *parent = nullptr);
+    ~SearchForm();
 
-  void clearForm();
-  void retranslateGUI();
-  bool isСaseInsensitive();
+    void clearForm();
+    void retranslateGUI();
+    bool isСaseInsensitive();
 
-signals:
-  void signalFromSearchText(QString);
+  signals:
+    void signalFromSearchText(QString);
 
-private:
-  QHBoxLayout *hboxLayout;
-  QPushButton *searchButton;
-  QCheckBox *registerSearch;
-  QLineEdit *stringSearch;
+  private:
+    QHBoxLayout *hboxLayout;
+    QPushButton *searchButton;
+    QCheckBox *registerSearch;
+    QLineEdit *stringSearch;
 
-private slots:
-  void onSearchClicked();
+  private slots:
+    void onSearchClicked();
 };
 
 #endif // SEARCHFORM_H
