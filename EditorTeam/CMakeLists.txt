@@ -57,17 +57,26 @@ set_source_files_properties(${TS_SRC_FILES}
 set(APP_NAME EditorTeam)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(
-        ${APP_NAME}
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-	${RESOURCES}
-    )
+
+    if(UNIX)
+            qt_add_executable(
+                ${APP_NAME}
+                MANUAL_FINALIZATION
+                ${PROJECT_SOURCES}
+                ${RESOURCES}
+            )
+    else()
+            qt_add_executable(
+                ${APP_NAME}
+                WIN32
+                MANUAL_FINALIZATION
+                ${PROJECT_SOURCES}
+                ${RESOURCES}
+            )
+    endif(UNIX)
+
 else()
-    add_executable(${APP_NAME} 
-       ${PROJECT_SOURCES}
-       ${RESOURCES}
-   )
+    message(FATAL_ERROR "THare supports QT6 only.")
 endif()
 
 qt_add_lrelease(${APP_NAME}
