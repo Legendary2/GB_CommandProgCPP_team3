@@ -158,14 +158,8 @@
         <translation>Сохранить файл как</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="47"/>
-        <location filename="const_strings.h" line="48"/>
-        <source>Save as PDF</source>
-        <translation>Сохранить как PDF</translation>
-    </message>
-    <message>
         <location filename="const_strings.h" line="50"/>
-        <location filename="mainwindow.cpp" line="515"/>
+        <location filename="mainwindow.cpp" line="507"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
@@ -353,6 +347,16 @@
         <translation>Помощь</translation>
     </message>
     <message>
+        <location filename="const_strings.h" line="47"/>
+        <source>Export to PDF</source>
+        <translation>Экспорт в PDF</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="48"/>
+        <source>Export to PDF format</source>
+        <translation>Экспортировать в PDF формат</translation>
+    </message>
+    <message>
         <location filename="const_strings.h" line="117"/>
         <source>Show application manual</source>
         <translation>Показать инструкцию к приложению</translation>
@@ -368,28 +372,33 @@
         <translation>Краткая информация о программе</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="494"/>
+        <location filename="mainwindow.cpp" line="486"/>
         <source>has been saved.</source>
         <translation>сохранён.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="498"/>
-        <location filename="mainwindow.cpp" line="509"/>
+        <location filename="mainwindow.cpp" line="490"/>
+        <location filename="mainwindow.cpp" line="501"/>
         <source>Can&apos;t save file.</source>
         <translation>Не могу сохранить файл.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="504"/>
+        <location filename="mainwindow.cpp" line="496"/>
         <source>File saved as </source>
         <translation>Файл сохранён как</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="653"/>
+        <location filename="mainwindow.cpp" line="566"/>
+        <source>Change font</source>
+        <translation>Сменить шрифт</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="647"/>
         <source>About THare</source>
         <translation>О THare</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="655"/>
+        <location filename="mainwindow.cpp" line="649"/>
         <source>THare v 1.0.0 
 
 Command N 3
@@ -406,43 +415,53 @@ Command N 3
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="690"/>
+        <location filename="mainwindow.cpp" line="684"/>
         <source>Unsaved data could be lost</source>
         <translation>Возможна утрата несохранённых данных</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="691"/>
+        <location filename="mainwindow.cpp" line="685"/>
         <source>Do you want to save changes?</source>
         <translation>Хотите сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="692"/>
+        <location filename="mainwindow.cpp" line="686"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="693"/>
+        <location filename="mainwindow.cpp" line="687"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="991"/>
-        <location filename="mainwindow.cpp" line="995"/>
+        <location filename="mainwindow.cpp" line="824"/>
+        <source>Highlight text format</source>
+        <translation>Сменить цвет фона текста</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="860"/>
+        <source>Change text color</source>
+        <translation>Сменить цвет текста</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="989"/>
+        <location filename="mainwindow.cpp" line="993"/>
         <source>No matches found</source>
         <translation>Совпадений не найдено</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="994"/>
+        <location filename="mainwindow.cpp" line="992"/>
         <source>Results</source>
         <translation>Результат</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1000"/>
+        <location filename="mainwindow.cpp" line="998"/>
         <source> matches found</source>
         <translation> совпадений найдено</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1072"/>
+        <location filename="mainwindow.cpp" line="1070"/>
         <source>Save *.pdf</source>
         <translation>Сохранить в *.pdf</translation>
     </message>
@@ -450,7 +469,7 @@ Command N 3
 <context>
     <name>SearchDialog</name>
     <message>
-        <location filename="const_strings.h" line="220"/>
+        <location filename="const_strings.h" line="209"/>
         <source>Search text</source>
         <translation>Поиск текста</translation>
     </message>

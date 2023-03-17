@@ -44,8 +44,8 @@ static const QPair<const char *, const char *> SAVEAS_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Save file as")};
 // LyashenkoAn Save to PDF--------------------------------------------------
 static const QPair<const char *, const char *> SAVE_AS_PDF_ACTION_STR_PAIR{
-    QT_TRANSLATE_NOOP("MainWindow", "Save as PDF"),
-    QT_TRANSLATE_NOOP("MainWindow", "Save as PDF")};
+    QT_TRANSLATE_NOOP("MainWindow", "Export to PDF"),
+    QT_TRANSLATE_NOOP("MainWindow", "Export to PDF format")};
 static const QPair<const char *, const char *> PRINT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Print"),
     QT_TRANSLATE_NOOP("MainWindow", "Print file")};

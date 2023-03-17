@@ -561,7 +561,9 @@ void MainWindow::onAlignTextCenter() {
 
 void MainWindow::onSwitchFont() {
   bool ok;
-  QFont font = QFontDialog::getFont(&ok, textEdit->currentFont());
+  QFont font =
+      QFontDialog::getFont(&ok, textEdit->currentFont(), this,
+                           tr("Change font"), QFontDialog::DontUseNativeDialog);
   if (ok) {
     QTextCharFormat charFormat;
     charFormat.setFont(font);
@@ -818,7 +820,9 @@ void MainWindow::onHighlightTextFormat() {
     hlBrush = textEdit->textCursor().charFormat().background().color();
   }
 
-  QColor chosenColor = QColorDialog::getColor(hlBrush.color(), this);
+  QColor chosenColor =
+      QColorDialog::getColor(hlBrush.color(), this, tr("Highlight text format"),
+                             QColorDialog::DontUseNativeDialog);
   // Если цвет выбран, то красим фон текст
   if (chosenColor.isValid()) {
     charFormat.setBackground(chosenColor);
@@ -852,7 +856,9 @@ void MainWindow::onTextColorFormat() {
     brush = textEdit->textCursor().charFormat().foreground();
   }
 
-  QColor chosenColor = QColorDialog::getColor(brush.color(), this);
+  QColor chosenColor =
+      QColorDialog::getColor(brush.color(), this, tr("Change text color"),
+                             QColorDialog::DontUseNativeDialog);
   // Если цвет выбран, то красим текст
   if (chosenColor.isValid()) {
     charFormat.setForeground(chosenColor);

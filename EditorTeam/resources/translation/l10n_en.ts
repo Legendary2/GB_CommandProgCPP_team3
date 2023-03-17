@@ -158,14 +158,8 @@
         <translation>Save file as</translation>
     </message>
     <message>
-        <location filename="const_strings.h" line="47"/>
-        <location filename="const_strings.h" line="48"/>
-        <source>Save as PDF</source>
-        <translation>Save as PDF</translation>
-    </message>
-    <message>
         <location filename="const_strings.h" line="50"/>
-        <location filename="mainwindow.cpp" line="515"/>
+        <location filename="mainwindow.cpp" line="507"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
@@ -353,6 +347,16 @@
         <translation>Help</translation>
     </message>
     <message>
+        <location filename="const_strings.h" line="47"/>
+        <source>Export to PDF</source>
+        <translation>Export to PDF</translation>
+    </message>
+    <message>
+        <location filename="const_strings.h" line="48"/>
+        <source>Export to PDF format</source>
+        <translation>Export to PDF format</translation>
+    </message>
+    <message>
         <location filename="const_strings.h" line="117"/>
         <source>Show application manual</source>
         <translation>Show application manual</translation>
@@ -368,28 +372,33 @@
         <translation>Short info about application</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="494"/>
+        <location filename="mainwindow.cpp" line="486"/>
         <source>has been saved.</source>
         <translation>has been saved.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="498"/>
-        <location filename="mainwindow.cpp" line="509"/>
+        <location filename="mainwindow.cpp" line="490"/>
+        <location filename="mainwindow.cpp" line="501"/>
         <source>Can&apos;t save file.</source>
         <translation>Can&apos;t save file.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="504"/>
+        <location filename="mainwindow.cpp" line="496"/>
         <source>File saved as </source>
         <translation>File saved as </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="653"/>
+        <location filename="mainwindow.cpp" line="566"/>
+        <source>Change font</source>
+        <translation>Change font</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="647"/>
         <source>About THare</source>
         <translation>About THare</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="655"/>
+        <location filename="mainwindow.cpp" line="649"/>
         <source>THare v 1.0.0 
 
 Command N 3
@@ -406,43 +415,53 @@ Command N 3
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="690"/>
+        <location filename="mainwindow.cpp" line="684"/>
         <source>Unsaved data could be lost</source>
         <translation>Unsaved data could be lost</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="691"/>
+        <location filename="mainwindow.cpp" line="685"/>
         <source>Do you want to save changes?</source>
         <translation>Do you want to save changes?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="692"/>
+        <location filename="mainwindow.cpp" line="686"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="693"/>
+        <location filename="mainwindow.cpp" line="687"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="991"/>
-        <location filename="mainwindow.cpp" line="995"/>
+        <location filename="mainwindow.cpp" line="824"/>
+        <source>Highlight text format</source>
+        <translation>Highlight text format</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="860"/>
+        <source>Change text color</source>
+        <translation>Change text color</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="989"/>
+        <location filename="mainwindow.cpp" line="993"/>
         <source>No matches found</source>
         <translation>No matches found</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="994"/>
+        <location filename="mainwindow.cpp" line="992"/>
         <source>Results</source>
         <translation>Results</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1000"/>
+        <location filename="mainwindow.cpp" line="998"/>
         <source> matches found</source>
         <translation> matches found</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1072"/>
+        <location filename="mainwindow.cpp" line="1070"/>
         <source>Save *.pdf</source>
         <translation>Save *.pdf</translation>
     </message>
@@ -450,7 +469,7 @@ Command N 3
 <context>
     <name>SearchDialog</name>
     <message>
-        <location filename="const_strings.h" line="220"/>
+        <location filename="const_strings.h" line="209"/>
         <source>Search text</source>
         <translation>Search text</translation>
     </message>
