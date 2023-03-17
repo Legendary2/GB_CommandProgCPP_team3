@@ -1,15 +1,13 @@
 #include "helpbrowser.h"
 
-HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
-                         QWidget *pwgt)
+HelpBrowser::HelpBrowser(const QString &strPath, QWidget *pwgt)
     : QWidget(pwgt)
     , hboxLayout(new QHBoxLayout)
+    , pressBack(new QPushButton(this))
+    , pressForward(new QPushButton(this))
+    , pressHome(new QPushButton(this))
 {
-    QPushButton *pressBack = new QPushButton("Back", this);
-    QPushButton *pressForward = new QPushButton("Forward", this);
-    QPushButton *pressHome = new QPushButton("Home", this);
-    QTextBrowser *txtBrowser = new QTextBrowser(this);
-
+    txtBrowser = new QTextBrowser(this);
     connect(pressBack, SIGNAL(clicked(bool)), txtBrowser, SLOT(backward()));
     connect(pressForward, SIGNAL(clicked(bool)), txtBrowser, SLOT(forward()));
     connect(pressHome, SIGNAL(clicked(bool)), txtBrowser, SLOT(home()));
@@ -19,7 +17,6 @@ HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
             SLOT(setEnabled(bool)));
 
     txtBrowser->setSearchPaths(QStringList() << strPath);
-    txtBrowser->setSource(QString(strFileName));
 
     QVBoxLayout *vboxLayout = new QVBoxLayout(this);
 
@@ -29,6 +26,21 @@ HelpBrowser::HelpBrowser(const QString &strPath, const QString &strFileName,
     vboxLayout->addLayout(hboxLayout);
     vboxLayout->addWidget(txtBrowser);
     setLayout(vboxLayout);
+    setWindowIcon(QIcon(":/images/icon_64.png"));
 }
 
 HelpBrowser::~HelpBrowser() { delete hboxLayout; }
+
+void HelpBrowser::retranslateGUI()
+{
+    pressBack->setText(tr("Back"));
+    pressForward->setText(tr("Forward"));
+    pressHome->setText(tr("Home"));
+
+    setWindowTitle(tr("Help"));
+}
+
+void HelpBrowser::setSource(QString &source)
+{
+    txtBrowser->setSource(QString(source));
+}

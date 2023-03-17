@@ -6,7 +6,6 @@
 #include "searchform.h"
 #include "searchhighlight.h"
 #include "settingskeeper.h"
-#include <QComboBox>
 #include <QDockWidget>
 #include <QFileSystemModel>
 #include <QLabel>
@@ -74,14 +73,16 @@ class MainWindow : public QMainWindow
 
     // Интернационализация приложения
     QTranslator *translator;
+    QTranslator *standardTranslator;
     virtual void changeEvent(QEvent *) override;
     void retranslateAction(QAction **,
                            const QPair<const char *, const char *> &);
     void retranslateActions();
     void retranslateMenus();
     void retranslateGUI();
+    bool titleHasCertainString(bool) const;
 
-    //Функция для закрытия программы через крестик
+    // Функция для закрытия программы через крестик
     void closeEvent(QCloseEvent *) override;
 
     /*! GubaydullinRG Переменная, хранящая скопированный функцией
@@ -105,27 +106,25 @@ class MainWindow : public QMainWindow
     Контекстное для textEdit меню */
     QMenu *popupMenu;
     QComboBox *fontSizeComboBox;
-    QComboBox *fontSizeComboBox2;
     QComboBox *fontFamiliesComboBox;
-    QLabel *fontSizeLabel;
     void inflatePopupMenu();
 
-  // Элементы подменю 'File'
-  QAction *newAction;
-  QAction *openAction;
-  //LyashenkoAN----------------------------------------
-  //File open read
-  QAction *openForRead;
-  //---------------------------------------------------
-  QAction *closeAction;
-  QAction *saveAction;
-  QAction *saveAsAction;
-  //-----------------------------------
-  //LyashenkoAN save pdf
-  QAction *savePdfAction;
-  //-----------------------------------
-  QAction *printAction;
-  QAction *exitAction;
+    // Элементы подменю 'File'
+    QAction *newAction;
+    QAction *openAction;
+    // LyashenkoAN----------------------------------------
+    // File open read
+    QAction *openForRead;
+    //---------------------------------------------------
+    QAction *closeAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
+    //-----------------------------------
+    // LyashenkoAN save pdf
+    QAction *savePdfAction;
+    //-----------------------------------
+    QAction *printAction;
+    QAction *exitAction;
 
     // Элементы подменю 'Edit'
     QAction *searchTextAction;
@@ -145,8 +144,6 @@ class MainWindow : public QMainWindow
     QAction *textColorFormatAction;
 
     // Элементы подменю 'Settings'
-    // QAction *changeLangAction;
-    QAction *changeKeyBindAction;
     QAction *settingsAction;
 
     // Поле для размещения редактируемого текста
@@ -171,14 +168,10 @@ class MainWindow : public QMainWindow
     QDockWidget *viewWidget;
 
     // popup
-    QWidgetAction *popupWidgetAction;
     QAction *copyAction;
     QAction *cutAction;
     QAction *pasteAction;
     QAction *selectAllAction;
-
-    //Добавление Label для вывода пути к файлу
-    QLabel *myLabel;
 
   private slots:
     // Основные функции приложения
@@ -195,7 +188,6 @@ class MainWindow : public QMainWindow
     void onAlignTextLeft();
     void onAlignTextCenter();
     void onSwitchFont();
-    void onChangeKeyBind();
     void onChangeStyle();
     void onHelp();
     void onAbout();
@@ -225,24 +217,20 @@ class MainWindow : public QMainWindow
     Показ контекстного меню (popupMenu) в textEdit
     и реакция на выбор элемента в popupComboBox */
     void onPopupMenuCalled(QPoint);
-    void onPopupComboBoxIndexChanged(int);
     void onfontSizeComboBoxChanged(int);
     void onfontFamiliesComboBoxChanged(int);
 
-  void onCopy();
-  void onCut();
-  void onPaste();
-  void onSelectAll();
+    void onCopy();
+    void onCut();
+    void onPaste();
+    void onSelectAll();
+    // LyashenkoAN----------------------------------------
+    // File open read
+    void openFileToRead();
+    //---------------------------------------------------
 
-  //LyashenkoAN----------------------------------------
-  //File open read
-  void openFileToRead();
-  //---------------------------------------------------
-
-
-  //LyashenkoAN Сохранить в формате *.pdf
-  void onSavePdf();
-
+    // LyashenkoAN Сохранить в формате *.pdf
+    void onSavePdf();
 };
 
 #endif // MAINWINDOW_H

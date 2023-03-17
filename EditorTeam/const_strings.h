@@ -31,8 +31,8 @@ static const QPair<const char *, const char *> OPEN_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Open"),
     QT_TRANSLATE_NOOP("MainWindow", "Open a file")};
 static const QPair<const char *, const char *> OPEN_FILE_READ_ACTION_STR_PAIR{
-    "Open file read only", ""};
-    //QT_TRANSLATE_NOOP("MainWindow", "Open file read only")};
+    QT_TRANSLATE_NOOP("MainWindow", "Open file read only"),
+    QT_TRANSLATE_NOOP("MainWindow", "Open file read only")};
 static const QPair<const char *, const char *> CLOSE_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Close"),
     QT_TRANSLATE_NOOP("MainWindow", "Close a file")};
@@ -42,11 +42,10 @@ static const QPair<const char *, const char *> SAVE_ACTION_STR_PAIR{
 static const QPair<const char *, const char *> SAVEAS_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Save as"),
     QT_TRANSLATE_NOOP("MainWindow", "Save file as")};
-//LyashenkoAn Save to PDF--------------------------------------------------
+// LyashenkoAn Save to PDF--------------------------------------------------
 static const QPair<const char *, const char *> SAVE_AS_PDF_ACTION_STR_PAIR{
-    "Save As PDF", ""};
-//    QT_TRANSLATE_NOOP("Save As PDF")};
-//--------------------------------------------------------------------------
+    QT_TRANSLATE_NOOP("MainWindow", "Export to PDF"),
+    QT_TRANSLATE_NOOP("MainWindow", "Export to PDF format")};
 static const QPair<const char *, const char *> PRINT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Print"),
     QT_TRANSLATE_NOOP("MainWindow", "Print file")};
@@ -55,7 +54,6 @@ static const QPair<const char *, const char *> EXIT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Exit application")};
 
 // 'Edit' - menu actions constants
-
 static const QPair<const char *, const char *> SEARCH_TEXT_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Search text"),
     QT_TRANSLATE_NOOP("MainWindow", "Search text")};
@@ -99,18 +97,16 @@ static const QPair<const char *, const char *>
         QT_TRANSLATE_NOOP("MainWindow", "Italic/normal font"),
         QT_TRANSLATE_NOOP("MainWindow",
                           "Switch between italic and normal font")};
-static const QPair<const char *, const char *> HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR{
-    QT_TRANSLATE_NOOP("MainWindow", "Highlight text"),
-    QT_TRANSLATE_NOOP("MainWindow", "Text background color")};
+static const QPair<const char *, const char *>
+    HIGHLIGHT_TEXT_FORMAT_ACTION_STR_PAIR{
+        QT_TRANSLATE_NOOP("MainWindow", "Highlight text"),
+        QT_TRANSLATE_NOOP("MainWindow", "Text background color")};
 static const QPair<const char *, const char *>
     TEXT_COLOR_FORMAT_ACTION_STR_PAIR{
         QT_TRANSLATE_NOOP("MainWindow", "Text color"),
         QT_TRANSLATE_NOOP("MainWindow", "Choose text color")};
 
 // 'Settings' - menu actions constants
-static const QPair<const char *, const char *> CHANGE_KEY_BIND_ACTION_STR_PAIR{
-    QT_TRANSLATE_NOOP("MainWindow", "Key bindings"),
-    QT_TRANSLATE_NOOP("MainWindow", "Edit key bindings settings")};
 static const QPair<const char *, const char *> SETTINGS_ACTION_STR_PAIR{
     QT_TRANSLATE_NOOP("MainWindow", "Settings management"),
     QT_TRANSLATE_NOOP("MainWindow", "Change app settings")};
@@ -142,7 +138,8 @@ static const char *POPUP_FONT_SIZE_STR{
     QT_TRANSLATE_NOOP("MainWindow", "Choose font size from 8 to 50:"});
 
 // Window title constants
-static const char *NEW_DOC_STR{QT_TRANSLATE_NOOP("MainWindow", "New document")};
+static const char *NEW_DOC_STR{
+    QT_TRANSLATE_NOOP("MainWindow", "New document*")};
 static const char *NO_FILE_OPENED_STR{
     QT_TRANSLATE_NOOP("MainWindow", "No file opened")};
 
@@ -160,7 +157,6 @@ static const QString exitIconPath{":/images/exit.png"};
 static const QString greyStyleIconPath{":/images/grey_style.png"};
 static const QString switchFontIconPath{":/images/font.png"};
 static const QString helpIconPath{":/images/help.png"};
-static const QString keyBindsIconPath{":/images/keybinds.png"};
 static const QString newIconPath{":/images/new.png"};
 static const QString openIconPath{":/images/open.png"};
 static const QString okIconPath{":/images/ok.png"};
@@ -182,70 +178,47 @@ static const QString underlineTextFormatIconPath{":/images/underline.png"};
 static const QString usaIconPath{":/images/usa.png"};
 static const QString whiteStyleIconPath{":/images/white_style.png"};
 static const QString searchTextIconPath{":/images/search.png"};
-static const QString highlightStyleIconPath{":/images/text_background_color.png"};
+static const QString highlightStyleIconPath{
+    ":/images/text_background_color.png"};
 static const QString openReadOnly{":/images/open_read_only.png"};
 
-//LyashenkoAN "SAve to PDF
+// LyashenkoAN "SAve to PDF
 static const QString savePdfIcon{":/images/save_to_pdf.png"};
-
 
 // Language
 static const QString RUS_LANG_STR{"ru_RU"};
 static const QString ENG_LANG_STR{"en_US"};
 
-static const QMap<QString, QString> LANGS_MAP{
-    {RUS_LANG_STR, ":/translation/l10n_ru.qm"},
-    {ENG_LANG_STR, ":/translation/l10n_en.qm"}};
+static const QMap<QString, QPair<QString, QString>> LANGS_MAP{
+    {RUS_LANG_STR, {":/translation/l10n_ru.qm", "qt_ru"}},
+    {ENG_LANG_STR, {":/translation/l10n_en.qm", "qt_en"}}};
 
 // Theme
-static const QString WHITE_STYLE_STR{"white"};
-static const QString GRAY_STYLE_STR{"grey"};
-
-static const QMap<QString, QString> STYLES_MAP{
-    {WHITE_STYLE_STR, ":/themes/white.qss"},
-    {GRAY_STYLE_STR, ":/themes/grey.qss"}};
+static const QMap<int, QString> STYLES_MAP{{0, ":/themes/white.qss"},
+                                           {1, ":/themes/grey.qss"}};
 
 // Settings file name
 static const QString SETTINGS_STORAGE{"settings.conf"};
 
 // Setttings dialog GUI
-static const QString LANG_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Language")};
-static const QString STYLE_STR{QT_TRANSLATE_NOOP("SettingsDialog", "Style")};
-
-static const QString KEYBINDS_GROUPBOX_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Key binds:")};
-static const QString KEYBINDS_ACTION_LABEL_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Action")};
-static const QString KEYBINDS_MOD_LABEL_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Mod")};
-static const QString KEYBINDS_KEY_LABEL_STR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Key")};
-
-static const QPair<const char *, const char *> OK_SETTINGS_BTN_PAIR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "OK"),
-    QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes and close dialog")};
-static const QPair<const char *, const char *> APPLY_SETTINGS_BTN_PAIR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "APPLY"),
-    QT_TRANSLATE_NOOP("SettingsDialog", "Apply changes")};
-static const QPair<const char *, const char *> CANCEL_SETTINGS_BTN_PAIR{
-    QT_TRANSLATE_NOOP("SettingsDialog", "Cancel"),
-    QT_TRANSLATE_NOOP("SettingsDialog", "Discard changes and close dialog")};
+static const char *LANG_STR{"Language"};
+static const char *STYLE_STR{"Style"};
 
 // Setttings Search dialog GUI
 static const QString SEARCHFORM_TITLE{
     QT_TRANSLATE_NOOP("SearchDialog", "Search text")};
-
 // Особенности шрифта
-enum class FontFeature {
-  DoesntMatter,
-  Bold,
-  Crossed,
-  FontFamily,
-  Italic,
-  Size,
-  Highlight,
-  Underlined,
-  ColoredText
+enum class FontFeature
+{
+    DoesntMatter,
+    Bold,
+    Crossed,
+    FontFamily,
+    Italic,
+    Size,
+    Highlight,
+    Underlined,
+    ColoredText
 };
 
 static const QBrush HIGHLIGHT_COLOR = QBrush("#a5a500");

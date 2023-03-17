@@ -19,13 +19,13 @@ class SettingsKeeper : public QDialog
     ~SettingsKeeper();
 
     const QString &getLang() const;
-    const QString &getStyle() const;
+    const int getStyle() const;
 
     void retranslateGUI();
 
   private:
     QString lang;
-    QString style;
+    int style;
 
     QSettings settings;
 
@@ -37,16 +37,8 @@ class SettingsKeeper : public QDialog
     QComboBox *langComboBox;
     QComboBox *styleComboBox;
 
-    QComboBox *keyBindActionComboBox;
-    QComboBox *keyBindModComboBox;
-    QComboBox *keyBindKeyComboBox;
-
     QLabel *langLabel;
     QLabel *styleLabel;
-
-    QLabel *keyBindActionLabel;
-    QLabel *keyBindModLabel;
-    QLabel *keyBindKeyLabel;
 
     QPushButton *okButton;
     QPushButton *applyButton;
@@ -56,8 +48,6 @@ class SettingsKeeper : public QDialog
 
     QFormLayout *formLayout;
     QHBoxLayout *hboxLayout;
-
-    QGroupBox *keyBindsGroupBox;
 
   signals:
     void applyButtonClicked();

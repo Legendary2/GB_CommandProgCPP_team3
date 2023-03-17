@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
-project(EditorTeam VERSION 0.2 LANGUAGES CXX)
+project(THare VERSION 0.2 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -41,11 +41,16 @@ set(PROJECT_SOURCES
 set(TS_SRC_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_en.ts
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_ru.ts
-    )
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtmultimedia_ru.ts
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtbase_ru.ts
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qt_ru.ts)
 
 set(QM_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_en.qm
-        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_ru.qm)
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/l10n_ru.qm
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtmultimedia_ru.qm
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qtbase_ru.qm
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation/qt_ru.qm)
 
 set(RESOURCES 
 	${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.qrc)
@@ -54,20 +59,29 @@ set_source_files_properties(${TS_SRC_FILES}
     PROPERTIES OUTPUT_LOCATION
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/translation)
 
-set(APP_NAME EditorTeam)
+set(APP_NAME THare)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(
-        ${APP_NAME}
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-	${RESOURCES}
-    )
+
+    if(UNIX)
+            qt_add_executable(
+                ${APP_NAME}
+                MANUAL_FINALIZATION
+                ${PROJECT_SOURCES}
+                ${RESOURCES}
+            )
+    else()
+            qt_add_executable(
+                ${APP_NAME}
+                WIN32
+                MANUAL_FINALIZATION
+                ${PROJECT_SOURCES}
+                ${RESOURCES}
+            )
+    endif(UNIX)
+
 else()
-    add_executable(${APP_NAME} 
-       ${PROJECT_SOURCES}
-       ${RESOURCES}
-   )
+    message(FATAL_ERROR "THare supports QT6 only.")
 endif()
 
 qt_add_lrelease(${APP_NAME}

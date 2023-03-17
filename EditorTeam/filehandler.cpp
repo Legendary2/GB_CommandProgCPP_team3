@@ -132,12 +132,12 @@ bool FileHandler::save(const QString &inputStr)
 bool FileHandler::saveAs(const QString &inputStr)
 {
     QString filePath;
-    QFileDialog dialog(this, "Save someting",
+    QFileDialog dialog(this, tr("Save as"),
                        fileInfo.path().isEmpty() ? QDir::homePath()
                                                  : fileInfo.path(),
-                       "THare files (*.tha);;"
-                       "Plain text files (*.txt);;"
-                       "All files (*)");
+                       tr("THare files (*.tha);;"
+                          "Plain text files (*.txt);;"
+                          "All files (*)"));
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     if (dialog.exec())
     {
