@@ -7,7 +7,7 @@
 *.lai
 *.so
 *.so.*
-*.dll
+#*.dll
 *.dylib
 
 # Qt-es
@@ -29,7 +29,15 @@ ui_*.h
 *.jsc
 Makefile*
 *build-*
+#############################
+#Все бинарные словари перевода
 *.qm 
+#за исключением:
+!EditorTeam/resources/translation/qtbase_en.qm
+!EditorTeam/resources/translation/qtmultimedia_en.qm
+!EditorTeam/resources/translation/qt_en.qm
+#
+#############################
 *.prl
 
 # Qt unit tests

@@ -3,172 +3,234 @@
 
 #include "filehandler.h"
 #include "helpbrowser.h"
+#include "searchform.h"
+#include "searchhighlight.h"
+#include "settingskeeper.h"
+#include <QDockWidget>
+#include <QFileSystemModel>
+#include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QSharedPointer>
 #include <QTextEdit>
 #include <QTranslator>
+#include <QTreeWidget>
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
-  Q_OBJECT
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
-public:
-  MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+  public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
-private:
-  Ui::MainWindow *ui;
+  private:
+    Ui::MainWindow *ui;
 
-  /* Флаг "Содержимое textEdit изменено?" */
-  bool isTextModified = false;
+    QBoxLayout *boxLayout;
 
-  /*! GubaydullinRG В textEdit загружен новый документ? */
-  bool newDataLoaded;
+    // Указатель на диалоговое окно настроек
+    SettingsKeeper *settingsKeeper;
 
-  // Указатель на текущий редактируемый файл
-  QSharedPointer<IDevHandler<QString>> srcHandler;
+    // Указатель на окно поиска
+    SearchForm *searchForm;
+    SearchHighLight *searchHighLight;
 
-  QSharedPointer<HelpBrowser> hb;
+    /* Флаг "Содержимое textEdit изменено?" */
+    bool isTextModified = false;
 
-  /*! KuznecovAG
-    Переменная для текущего стиля (пока только white и grey) */
-  QString currentStyle = "white";
-  // Тулбар главной панели
-  QToolBar *mainToolBar;
+    /*! GubaydullinRG В textEdit загружен новый документ? */
+    bool newDataLoaded;
 
-  // Пункты меню
-  QMenu *fileMenu;
-  QMenu *editMenu;
-  QMenu *formatMenu; // Добавил, чтобы было куда меню делать
-  QMenu *settingsMenu;
-  QMenu *questionMenu;
+    // Указатель на текущий редактируемый файл
+    QSharedPointer<IDevHandler<QString>> srcHandler;
 
-  // Вспомогательные методы для выноса части
-  // кода за пределы конструктора
-  void createAction(QAction **, const QString &, void (MainWindow::*)());
-  void createActions();
-  void createMenus();
+    QSharedPointer<HelpBrowser> hb;
 
-  // Интернационализация приложения
-  QTranslator *translator;
-  virtual void changeEvent(QEvent *) override;
-  void retranslateAction(QAction **, const QPair<const char *, const char *> &);
-  void retranslateActions();
-  void retranslateMenus();
-  void retranslateGUI();
+    // Тулбар главной панели
+    QToolBar *mainToolBar;
 
-  /*! GubaydullinRG Переменная, хранящая скопированный функцией
-   * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
-   * onApplyTextFormat() */
-  QTextCharFormat copiedTxtFormat;
+    // Пункты меню
+    QMenu *fileMenu;
+    QMenu *editMenu;
+    QMenu *formatMenu; // Добавил, чтобы было куда меню делать
+    QMenu *settingsMenu;
+    QMenu *questionMenu;
+    QMenu *treeMenu;
 
-  /*! GubaydullinRG
-      Включение/отключение доступности элементов меню */
-  void changeFileMenuAccess(const QString &, bool, bool, bool);
-  void changePopupMenuAccess();
+    // Вспомогательные методы для выноса части
+    // кода за пределы конструктора
+    void createAction(QAction **, const QString &, void (MainWindow::*)());
+    void createActions();
+    void createMenus();
 
-  bool textChangedWarning(); // Окно предупреждения
+    // Интернационализация приложения
+    QTranslator *translator;
+    QTranslator *standardTranslator;
+    virtual void changeEvent(QEvent *) override;
+    void retranslateAction(QAction **,
+                           const QPair<const char *, const char *> &);
+    void retranslateActions();
+    void retranslateMenus();
+    void retranslateGUI();
+    bool titleHasCertainString(bool) const;
 
-  /*! GubaydullinRG
-  Контекстное для textEdit меню */
-  QMenu *popupMenu;
-  QComboBox *fontSizeComboBox;
-  QLabel *fontSizeLabel;
-  void inflatePopupMenu();
+    // Функция для закрытия программы через крестик
+    void closeEvent(QCloseEvent *) override;
 
-  // Элементы подменю 'File'
-  QAction *newAction;
-  QAction *openAction;
-  QAction *closeAction;
-  QAction *saveAction;
-  QAction *saveAsAction;
-  QAction *printAction;
-  QAction *exitAction;
+    /*! GubaydullinRG Переменная, хранящая скопированный функцией
+     * onCopyTextFormat() формат выделенного фрагмента текста для передачи его в
+     * onApplyTextFormat() */
+    QTextCharFormat copiedTxtFormat;
 
-  // Элементы подменю 'Edit'
-  QAction *copyTextFormatAction;
-  QAction *applyTextFormatAction;
-  QAction *alignTextRightAction;
-  QAction *alignTextLeftAction;
-  QAction *alignTextCenterAction;
-  QAction *switchFontAction;
+    /*! GubaydullinRG
+        Включение/отключение доступности элементов меню */
+    void changeFileMenuAccess(const QString &, bool, bool, bool);
+    void changePopupMenuAccess();
 
-  // Элементы подменю 'Format'
-  QAction *crossedTextFormatAction;
-  QAction *underlineTextFormatAction;
-  QAction *boldTextFormatAction;
-  QAction *italicTextFormatAction;
+    const std::optional<QTextCharFormat>
+    getCurrentCharFormat(const FontFeature) const;
+    bool fontFeatureEquals(const QTextCharFormat &, const QTextCharFormat &,
+                           const FontFeature) const;
 
-  // Элементы подменю 'Settings'
-  QAction *changeLangAction;
-  QAction *changeKeyBindAction;
-  QAction *changeStyleAction;
+    bool textChangedWarning(); // Окно предупреждения
 
-  // Поле для размещения редактируемого текста
-  QTextEdit *textEdit;
-  QString lastFilename;
+    /*! GubaydullinRG
+    Контекстное для textEdit меню */
+    QMenu *popupMenu;
+    QComboBox *fontSizeComboBox;
+    QComboBox *fontFamiliesComboBox;
+    void inflatePopupMenu();
 
-  // Объект хранит в себе скопированный формат текста
-  QTextCharFormat textFormat;
+    // Элементы подменю 'File'
+    QAction *newAction;
+    QAction *openAction;
+    // LyashenkoAN----------------------------------------
+    // File open read
+    QAction *openForRead;
+    //---------------------------------------------------
+    QAction *closeAction;
+    QAction *saveAction;
+    QAction *saveAsAction;
+    //-----------------------------------
+    // LyashenkoAN save pdf
+    QAction *savePdfAction;
+    //-----------------------------------
+    QAction *printAction;
+    QAction *exitAction;
 
-  // Элементы подменю '?'
-  QAction *helpAction;
-  QAction *aboutAction;
+    // Элементы подменю 'Edit'
+    QAction *searchTextAction;
+    QAction *copyTextFormatAction;
+    QAction *applyTextFormatAction;
+    QAction *alignTextRightAction;
+    QAction *alignTextLeftAction;
+    QAction *alignTextCenterAction;
+    QAction *switchFontAction;
 
-  // popup
-  QWidgetAction *popupWidgetAction;
-  QAction *copyAction;
-  QAction *cutAction;
-  QAction *pasteAction;
-  QAction *selectAllAction;
+    // Элементы подменю 'Format'
+    QAction *crossedTextFormatAction;
+    QAction *underlineTextFormatAction;
+    QAction *boldTextFormatAction;
+    QAction *italicTextFormatAction;
+    QAction *highlightTextFormatAction;
+    QAction *textColorFormatAction;
 
-private slots:
-  // Основные функции приложения
-  void onNew();
-  void onOpen();
-  void onClose();
-  void onSave();
-  void onSaveAs();
-  void onPrint();
-  void onExit();
-  void onCopyTextFormat();
-  void onApplyTextFormat();
-  void onAlignTextRight();
-  void onAlignTextLeft();
-  void onAlignTextCenter();
-  void onSwitchFont();
-  void onChangeLang();
-  void onChangeKeyBind();
-  void onChangeStyle();
-  void onHelp();
-  void onAbout();
-  void onCrossedTextFormat();
-  void onUnderlineTextFormat();
-  void onBoldTextFormat();
-  void onItalicTextFormat();
+    // Элементы подменю 'Settings'
+    QAction *settingsAction;
 
-  /*! GubaydullinRG
-  // Слот действий на случай изменения
-  // содержимого textEdit */
-  void onTextModified();
+    // Поле для размещения редактируемого текста
+    QTextEdit *textEdit;
+    QString lastFilename;
 
-  void setMainToolBar();
+    // Объект хранит в себе скопированный формат текста
+    QTextCharFormat textFormat;
 
-  /*! GubaydullinRG
-  Показ контекстного меню (popupMenu) в textEdit
-  и реакция на выбор элемента в popupComboBox */
-  void onPopupMenuCalled(QPoint);
-  void onPopupComboBoxIndexChanged(int);
+    // Элементы подменю '?'
+    QAction *helpAction;
+    QAction *aboutAction;
 
-  void onCopy();
-  void onCut();
-  void onPaste();
-  void onSelectAll();
+    // Элементы древа каталогов
+    QString currentFile, teamPath;
+    QFileSystemModel *dirModel;
+    QPushButton *FindTreeButton;
+    QTextEdit *infoText;
+    QLabel *statusLabel;
+    QLineEdit *searchTreeEdit;
+    QTreeView *treeView;
+    QDockWidget *viewWidget;
+
+    // popup
+    QAction *copyAction;
+    QAction *cutAction;
+    QAction *pasteAction;
+    QAction *selectAllAction;
+
+  private slots:
+    // Основные функции приложения
+    void onNew();
+    void onOpen();
+    void onClose();
+    void onSave();
+    void onSaveAs();
+    void onPrint();
+    void onExit();
+    void onCopyTextFormat();
+    void onApplyTextFormat();
+    void onAlignTextRight();
+    void onAlignTextLeft();
+    void onAlignTextCenter();
+    void onSwitchFont();
+    void onChangeStyle();
+    void onHelp();
+    void onAbout();
+    void onCrossedTextFormat();
+    void onUnderlineTextFormat();
+    void onBoldTextFormat();
+    void onItalicTextFormat();
+    void onSettingsInvoke();
+    void onSettingsApplyClicked();
+    void onSettingsCancelClicked();
+    void onSettingsOkClicked();
+    void onSearchText();
+    void onSearchFormButtonClicked(QString);
+    void clearHighLight();
+    void onHighlightTextFormat();
+    void onTextColorFormat();
+    void onSelectionChanged();
+
+    /*! GubaydullinRG
+    // Слот действий на случай изменения
+    // содержимого textEdit */
+    void onTextModified();
+
+    void setMainToolBar();
+
+    /*! GubaydullinRG
+    Показ контекстного меню (popupMenu) в textEdit
+    и реакция на выбор элемента в popupComboBox */
+    void onPopupMenuCalled(QPoint);
+    void onfontSizeComboBoxChanged(int);
+    void onfontFamiliesComboBoxChanged(int);
+
+    void onCopy();
+    void onCut();
+    void onPaste();
+    void onSelectAll();
+    // LyashenkoAN----------------------------------------
+    // File open read
+    void openFileToRead();
+    //---------------------------------------------------
+
+    // LyashenkoAN Сохранить в формате *.pdf
+    void onSavePdf();
 };
 
 #endif // MAINWINDOW_H
