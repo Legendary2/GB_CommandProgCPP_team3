@@ -1,9 +1,7 @@
 #include "mainwindow.h"
 #include "searchform.h"
-#include "searchform.h"
 #include "ui_mainwindow.h"
 #include <QBoxLayout>
-#include <QColorDialog>
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -27,30 +25,30 @@ MainWindow::MainWindow(QWidget *parent)
       fontSizeComboBox(new QComboBox(this)) {
   ui->setupUi(this);
 
-    // Заполнение главного меню
-    createActions();
-    createMenus();
+  // Заполнение главного меню
+  createActions();
+  createMenus();
 
-    // Функция настроек и заполнения тулбара
-    setMainToolBar();
+  // Функция настроек и заполнения тулбара
+  setMainToolBar();
 
-    onSettingsApplyClicked();
+  onSettingsApplyClicked();
 
-    // Добавление поля для размещения редактируемого текста
-    textEdit = new QTextEdit(this);
+  // Добавление поля для размещения редактируемого текста
+  textEdit = new QTextEdit(this);
 
-    QFont qf;
-    qf.setPointSize(DEFAULT_FONT_SIZE);
-    qf.setFamily(DEFAULT_FONT_FAMILY);
-    textEdit->setFont(qf);
+  QFont qf;
+  qf.setPointSize(DEFAULT_FONT_SIZE);
+  qf.setFamily(DEFAULT_FONT_FAMILY);
+  textEdit->setFont(qf);
 
-    boxLayout->addWidget(textEdit, 0);
-    ui->centralwidget->setLayout(boxLayout);
-    /*! KuznecovAG
-    При сигнале от searchForm о нажатии кнопки вызывается слот
-    onSearchFormButtonClicked*/
-    connect(searchForm, &SearchForm::signalFromSearchText, this,
-            &MainWindow::onSearchFormButtonClicked);
+  boxLayout->addWidget(textEdit, 0);
+  ui->centralwidget->setLayout(boxLayout);
+  /*! KuznecovAG
+  При сигнале от searchForm о нажатии кнопки вызывается слот
+  onSearchFormButtonClicked*/
+  connect(searchForm, &SearchForm::signalFromSearchText, this,
+          &MainWindow::onSearchFormButtonClicked);
 
   /*! KuznecovAG
       При сигнале от searchForm о нажатии кнопки вызывается слот
@@ -75,9 +73,9 @@ MainWindow::MainWindow(QWidget *parent)
   connect(settingsKeeper, SIGNAL(okButtonClicked()), this,
           SLOT(onSettingsOkClicked()));
 
-    /*! GubaydullinRG
-          Заполнение контекстного меню для textEdit */
-    inflatePopupMenu();
+  /*! GubaydullinRG
+        Заполнение контекстного меню для textEdit */
+  inflatePopupMenu();
 
   /*! GubaydullinRG
    *  На старте приложения создаём пустой документ */
@@ -93,20 +91,18 @@ MainWindow::MainWindow(QWidget *parent)
   this->resize(860, 600);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-    delete boxLayout;
+MainWindow::~MainWindow() {
+  delete ui;
+  delete boxLayout;
 }
 
 void MainWindow::createAction(QAction **action, const QString &iconPath,
-                              void (MainWindow::*funcSlot)())
-{
-    *action = new QAction(this);
+                              void (MainWindow::*funcSlot)()) {
+  *action = new QAction(this);
 
-    (*action)->setIcon(QIcon(iconPath));
+  (*action)->setIcon(QIcon(iconPath));
 
-    connect(*action, &QAction::triggered, this, funcSlot);
+  connect(*action, &QAction::triggered, this, funcSlot);
 }
 
 void MainWindow::createActions() {
@@ -159,15 +155,15 @@ void MainWindow::createActions() {
   createAction(&settingsAction, settingsIconPath,
                &MainWindow::onSettingsInvoke);
 
-    // '?'
-    createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
-    createAction(&aboutAction, aboutIconPath, &MainWindow::onAbout);
+  // '?'
+  createAction(&helpAction, helpIconPath, &MainWindow::onHelp);
+  createAction(&aboutAction, aboutIconPath, &MainWindow::onAbout);
 
-    // popup menu
-    createAction(&copyAction, copyIconPath, &MainWindow::onCopy);
-    createAction(&cutAction, cutIconPath, &MainWindow::onCut);
-    createAction(&pasteAction, pasteIconPath, &MainWindow::onPaste);
-    createAction(&selectAllAction, selectAllIconPath, &MainWindow::onSelectAll);
+  // popup menu
+  createAction(&copyAction, copyIconPath, &MainWindow::onCopy);
+  createAction(&cutAction, cutIconPath, &MainWindow::onCut);
+  createAction(&pasteAction, pasteIconPath, &MainWindow::onPaste);
+  createAction(&selectAllAction, selectAllIconPath, &MainWindow::onSelectAll);
 }
 
 void MainWindow::createMenus() {
@@ -248,25 +244,22 @@ void MainWindow::createMenus() {
   aboutAction->setShortcut(QKeySequence("F11"));
   aboutAction->setShortcut(QKeySequence("F11"));
 
-    retranslateMenus();
+  retranslateMenus();
 }
 
-void MainWindow::changeEvent(QEvent *event)
-{
-    if (event->type() == QEvent::LanguageChange)
-    {
-        retranslateMenus();
-        retranslateActions();
-    }
-    QMainWindow::changeEvent(event);
+void MainWindow::changeEvent(QEvent *event) {
+  if (event->type() == QEvent::LanguageChange) {
+    retranslateMenus();
+    retranslateActions();
+  }
+  QMainWindow::changeEvent(event);
 }
 
 void MainWindow::retranslateAction(
-    QAction **action, const QPair<const char *, const char *> &strPair)
-{
-    (*action)->setText(tr(strPair.first));
+    QAction **action, const QPair<const char *, const char *> &strPair) {
+  (*action)->setText(tr(strPair.first));
 
-    (*action)->setStatusTip(tr(strPair.second));
+  (*action)->setStatusTip(tr(strPair.second));
 }
 
 void MainWindow::retranslateActions() {
@@ -307,35 +300,33 @@ void MainWindow::retranslateActions() {
   // 'Settings'
   retranslateAction(&settingsAction, SETTINGS_ACTION_STR_PAIR);
 
-    // '?'
-    retranslateAction(&helpAction, HELP_ACTION_STR_PAIR);
-    retranslateAction(&aboutAction, ABOUT_ACTION_STR_PAIR);
+  // '?'
+  retranslateAction(&helpAction, HELP_ACTION_STR_PAIR);
+  retranslateAction(&aboutAction, ABOUT_ACTION_STR_PAIR);
 
-    // popup
-    retranslateAction(&copyAction, COPY_ACTION_STR_PAIR);
-    retranslateAction(&cutAction, CUT_ACTION_STR_PAIR);
-    retranslateAction(&pasteAction, PASTE_ACTION_STR_PAIR);
-    retranslateAction(&selectAllAction, SELECT_ALL_ACTION_STR_PAIR);
+  // popup
+  retranslateAction(&copyAction, COPY_ACTION_STR_PAIR);
+  retranslateAction(&cutAction, CUT_ACTION_STR_PAIR);
+  retranslateAction(&pasteAction, PASTE_ACTION_STR_PAIR);
+  retranslateAction(&selectAllAction, SELECT_ALL_ACTION_STR_PAIR);
 }
 
-void MainWindow::retranslateMenus()
-{
-    fileMenu->setTitle(tr(FILE_MENU_STR));
-    editMenu->setTitle(tr(EDIT_MENU_STR));
-    formatMenu->setTitle(tr(FORMAT_MENU_STR));
-    settingsMenu->setTitle(tr(SETTINGS_MENU_STR));
-    questionMenu->setTitle(tr(QUESTION_MENU_STR));
+void MainWindow::retranslateMenus() {
+  fileMenu->setTitle(tr(FILE_MENU_STR));
+  editMenu->setTitle(tr(EDIT_MENU_STR));
+  formatMenu->setTitle(tr(FORMAT_MENU_STR));
+  settingsMenu->setTitle(tr(SETTINGS_MENU_STR));
+  questionMenu->setTitle(tr(QUESTION_MENU_STR));
 }
 
-void MainWindow::retranslateGUI()
-{
+void MainWindow::retranslateGUI() {
 
   std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
 
   QApplication::installTranslator(translator);
 
-    retranslateMenus();
-    retranslateActions();
+  retranslateMenus();
+  retranslateActions();
 
   if (titleHasCertainString(true))
     setWindowTitle(QString(tr(NEW_DOC_STR)));
@@ -372,111 +363,94 @@ bool MainWindow::titleHasCertainString(bool newDoc) const {
 
 void MainWindow::changeFileMenuAccess(const QString &winTitle,
                                       bool hideTextEdit, bool enableSaveAs,
-                                      bool enableClose)
-{
+                                      bool enableClose) {
 
-    QPair<bool, bool> cachedBoolStats{isTextModified, newDataLoaded};
+  QPair<bool, bool> cachedBoolStats{isTextModified, newDataLoaded};
 
-    setWindowTitle(winTitle);
+  setWindowTitle(winTitle);
 
-    textEdit->clear();
-    textEdit->setHidden(hideTextEdit);
+  textEdit->clear();
+  textEdit->setHidden(hideTextEdit);
 
-    saveAsAction->setEnabled(enableSaveAs);
-    closeAction->setEnabled(enableClose);
+  saveAsAction->setEnabled(enableSaveAs);
+  closeAction->setEnabled(enableClose);
 
-    isTextModified = cachedBoolStats.first;
-    newDataLoaded = cachedBoolStats.second;
+  isTextModified = cachedBoolStats.first;
+  newDataLoaded = cachedBoolStats.second;
 }
 
-void MainWindow::changePopupMenuAccess()
-{
-    if (textEdit->textCursor().hasSelection())
-    {
-        copyAction->setEnabled(true);
-        cutAction->setEnabled(true);
-    }
-    else
-    {
-        copyAction->setEnabled(false);
-        cutAction->setEnabled(false);
-    }
+void MainWindow::changePopupMenuAccess() {
+  if (textEdit->textCursor().hasSelection()) {
+    copyAction->setEnabled(true);
+    cutAction->setEnabled(true);
+  } else {
+    copyAction->setEnabled(false);
+    cutAction->setEnabled(false);
+  }
 
-    if (textEdit->document()->isEmpty())
-    {
-        selectAllAction->setEnabled(false);
-        popupWidgetAction->setEnabled(false);
-    }
-    else
-    {
-        selectAllAction->setEnabled(true);
-        popupWidgetAction->setEnabled(true);
-    }
+  if (textEdit->document()->isEmpty()) {
+    selectAllAction->setEnabled(false);
+    popupWidgetAction->setEnabled(false);
+  } else {
+    selectAllAction->setEnabled(true);
+    popupWidgetAction->setEnabled(true);
+  }
 }
 
 const std::optional<QTextCharFormat>
-MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const
-{
+MainWindow::getCurrentCharFormat(const FontFeature fontFeature) const {
 
-    QTextCursor formatsCheckCursor = textEdit->textCursor();
-    if (formatsCheckCursor.isNull() || textEdit->isHidden())
-    {
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  if (formatsCheckCursor.isNull() || textEdit->isHidden()) {
+    return std::nullopt;
+  }
+
+  if (!formatsCheckCursor.hasSelection())
+    return formatsCheckCursor.charFormat();
+
+  QTextCharFormat charFormat;
+
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+
+    charFormat = textEdit->textCursor().charFormat(); // a
+
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+
+      if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
+                             fontFeature))
         return std::nullopt;
+
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
     }
+  } else {
 
-    if (!formatsCheckCursor.hasSelection())
-        return formatsCheckCursor.charFormat();
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
 
-    QTextCharFormat charFormat;
+    charFormat = formatsCheckCursor.charFormat();
 
-    if (textEdit->textCursor().selectionEnd() ==
-        textEdit->textCursor().position())
-    {
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
 
-        charFormat = textEdit->textCursor().charFormat(); // a
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
 
-        while (formatsCheckCursor.position() >
-               textEdit->textCursor().selectionStart())
-        {
-
-            if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
-                                   fontFeature))
-                return std::nullopt;
-
-            formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
-                                            QTextCursor::KeepAnchor);
-        }
+      if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
+                             fontFeature))
+        return {std::nullopt};
     }
-    else
-    {
-
-        formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                        QTextCursor::KeepAnchor);
-
-        charFormat = formatsCheckCursor.charFormat();
-
-        while (formatsCheckCursor.position() <
-               textEdit->textCursor().selectionEnd())
-        {
-
-            formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                            QTextCursor::KeepAnchor);
-
-            if (!fontFeatureEquals(charFormat, formatsCheckCursor.charFormat(),
-                                   fontFeature))
-                return {std::nullopt};
-        }
-    }
-    return charFormat;
+  }
+  return charFormat;
 }
 
 bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
                                    const QTextCharFormat &charFormatSecond,
-                                   const FontFeature fontFeature) const
-{
+                                   const FontFeature fontFeature) const {
 
-    switch (fontFeature)
-    {
+  switch (fontFeature) {
 
   case FontFeature::DoesntMatter:
     return charFormatFirst == charFormatSecond;
@@ -503,20 +477,19 @@ bool MainWindow::fontFeatureEquals(const QTextCharFormat &charFormatFirst,
     return false;
   }
 
-    return false;
+  return false;
 }
 
 void MainWindow::onSave() {
   if (srcHandler->save(textEdit->toHtml())) {
     isTextModified = false;
 
-        ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
-                                   tr("has been saved."));
-        saveAction->setEnabled(false);
-        setWindowTitle(srcHandler->getSourceName());
-    }
-    else
-        ui->statusbar->showMessage(tr("Can't save file."));
+    ui->statusbar->showMessage(srcHandler->getSourceName() + " " +
+                               tr("has been saved."));
+    saveAction->setEnabled(false);
+    setWindowTitle(srcHandler->getSourceName());
+  } else
+    ui->statusbar->showMessage(tr("Can't save file."));
 }
 
 void MainWindow::onSaveAs() {
@@ -539,61 +512,53 @@ void MainWindow::onPrint() {
   textEdit->print(&printer);
 }
 
-void MainWindow::onExit()
-{
-    if (!textEdit->isHidden())
-        onClose();
-    QApplication::exit(0);
+void MainWindow::onExit() {
+  if (!textEdit->isHidden())
+    onClose();
+  QApplication::exit(0);
 }
 
-void MainWindow::onCopyTextFormat()
-{
-    std::optional<QTextCharFormat> charFormatStorage =
-        getCurrentCharFormat(FontFeature::DoesntMatter);
+void MainWindow::onCopyTextFormat() {
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::DoesntMatter);
 
-    if (charFormatStorage.has_value())
-    {
-        copiedTxtFormat = charFormatStorage.value();
-        applyTextFormatAction->setEnabled(true);
-    }
+  if (charFormatStorage.has_value()) {
+    copiedTxtFormat = charFormatStorage.value();
+    applyTextFormatAction->setEnabled(true);
+  }
 }
 
-void MainWindow::onApplyTextFormat()
-{
-    if (!copiedTxtFormat.isValid())
-    {
-        applyTextFormatAction->setEnabled(false);
-        return;
-    }
+void MainWindow::onApplyTextFormat() {
+  if (!copiedTxtFormat.isValid()) {
+    applyTextFormatAction->setEnabled(false);
+    return;
+  }
 
-    textEdit->textCursor().setCharFormat(copiedTxtFormat);
+  textEdit->textCursor().setCharFormat(copiedTxtFormat);
 }
 
-void MainWindow::onAlignTextRight()
-{
-    QTextCursor cursor = textEdit->textCursor();
-    QTextBlockFormat txtForm = cursor.blockFormat();
-    txtForm.setAlignment(Qt::AlignRight);
-    cursor.mergeBlockFormat(txtForm);
-    textEdit->setTextCursor(cursor);
+void MainWindow::onAlignTextRight() {
+  QTextCursor cursor = textEdit->textCursor();
+  QTextBlockFormat txtForm = cursor.blockFormat();
+  txtForm.setAlignment(Qt::AlignRight);
+  cursor.mergeBlockFormat(txtForm);
+  textEdit->setTextCursor(cursor);
 }
 
-void MainWindow::onAlignTextLeft()
-{
-    QTextCursor cursor = textEdit->textCursor();
-    QTextBlockFormat txtForm = cursor.blockFormat();
-    txtForm.setAlignment(Qt::AlignLeft);
-    cursor.mergeBlockFormat(txtForm);
-    textEdit->setTextCursor(cursor);
+void MainWindow::onAlignTextLeft() {
+  QTextCursor cursor = textEdit->textCursor();
+  QTextBlockFormat txtForm = cursor.blockFormat();
+  txtForm.setAlignment(Qt::AlignLeft);
+  cursor.mergeBlockFormat(txtForm);
+  textEdit->setTextCursor(cursor);
 }
 
-void MainWindow::onAlignTextCenter()
-{
-    QTextCursor center = textEdit->textCursor();
-    QTextBlockFormat textBlockFormat = center.blockFormat();
-    textBlockFormat.setAlignment(Qt::AlignCenter);
-    center.mergeBlockFormat(textBlockFormat);
-    textEdit->setTextCursor(center);
+void MainWindow::onAlignTextCenter() {
+  QTextCursor center = textEdit->textCursor();
+  QTextBlockFormat textBlockFormat = center.blockFormat();
+  textBlockFormat.setAlignment(Qt::AlignCenter);
+  center.mergeBlockFormat(textBlockFormat);
+  textEdit->setTextCursor(center);
 }
 
 void MainWindow::onSwitchFont() {
@@ -615,8 +580,8 @@ void MainWindow::onChangeStyle() {
   if (!qss.open(QIODevice::ReadOnly))
     return;
 
-    qApp->setStyleSheet(qss.readAll());
-    qss.close();
+  qApp->setStyleSheet(qss.readAll());
+  qss.close();
 }
 
 void MainWindow::onNew() {
@@ -660,11 +625,11 @@ void MainWindow::onClose() {
     }
   }
 
-    srcHandler->close();
-    saveAction->setEnabled(false);
+  srcHandler->close();
+  saveAction->setEnabled(false);
 
-    isTextModified = false;
-    newDataLoaded = false;
+  isTextModified = false;
+  newDataLoaded = false;
 
   changeFileMenuAccess(tr(NO_FILE_OPENED_STR), true, false, false);
   copyTextFormatAction->setEnabled(false);
@@ -677,25 +642,23 @@ void MainWindow::onHelp() {
   hb->show();
 }
 
-void MainWindow::onAbout()
-{
-    QMessageBox msgBox;
-    msgBox.setWindowTitle(tr("About THare"));
-    msgBox.setIconPixmap(appIconPath);
-    msgBox.setInformativeText(tr("THare v 0.5.0 \n\n"
-                                 "GB_CommandProgCPP_team3\n\n"
-                                 "© 2023 All rights reserved\n\n"));
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+void MainWindow::onAbout() {
+  QMessageBox msgBox;
+  msgBox.setWindowTitle(tr("About THare"));
+  msgBox.setIconPixmap(appIconPath);
+  msgBox.setInformativeText(tr("THare v 1.0.0 \n\n"
+                               "GB_CommandProgCPP_team3\n\n"
+                               "© 2023 All rights reserved\n\n"));
+  msgBox.setDefaultButton(QMessageBox::Ok);
+  msgBox.exec();
 }
 
 /*! GubaydullinRG
         Выполнение действий в случае изменения
         содержимого textEdit */
-void MainWindow::onTextModified()
-{
+void MainWindow::onTextModified() {
 
-    QString srcName{srcHandler->getSourceName()};
+  QString srcName{srcHandler->getSourceName()};
 
   if (!newDataLoaded) {
     if (srcName.isEmpty()) {
@@ -715,24 +678,20 @@ void MainWindow::onTextModified()
       : searchTextAction->setEnabled(false);
 }
 
-bool MainWindow::textChangedWarning()
-{
-    QMessageBox choice(this); // Создаём диалоговое окно
+bool MainWindow::textChangedWarning() {
+  QMessageBox choice(this); // Создаём диалоговое окно
 
-    choice.setWindowTitle(tr("Unsaved data could be lost"));
-    choice.setText(tr("Do you want to save changes?"));
-    choice.addButton(tr("Yes"), QMessageBox::YesRole);
-    choice.addButton(tr("No"), QMessageBox::NoRole);
+  choice.setWindowTitle(tr("Unsaved data could be lost"));
+  choice.setText(tr("Do you want to save changes?"));
+  choice.addButton(tr("Yes"), QMessageBox::YesRole);
+  choice.addButton(tr("No"), QMessageBox::NoRole);
 
-    if (choice.exec() == true)
-    {
-        return false;
-    }
-    else
-    {
-        choice.close();
-        return true;
-    }
+  if (choice.exec() == true) {
+    return false;
+  } else {
+    choice.close();
+    return true;
+  }
 }
 
 void MainWindow::onCrossedTextFormat() {
@@ -753,44 +712,43 @@ void MainWindow::onCrossedTextFormat() {
     textEdit->mergeCurrentCharFormat(charFormat);
 }
 
-void MainWindow::inflatePopupMenu()
-{
-    textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+void MainWindow::inflatePopupMenu() {
+  textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
-            SLOT(onPopupMenuCalled(QPoint)));
+  connect(textEdit, SIGNAL(customContextMenuRequested(QPoint)), this,
+          SLOT(onPopupMenuCalled(QPoint)));
 
-    popupWidgetAction = new QWidgetAction(popupMenu);
+  popupWidgetAction = new QWidgetAction(popupMenu);
 
-    QWidget *fontSizeWidget = new QWidget(popupMenu);
+  QWidget *fontSizeWidget = new QWidget(popupMenu);
 
-    QHBoxLayout *fontSizeLayout = new QHBoxLayout(popupMenu);
+  QHBoxLayout *fontSizeLayout = new QHBoxLayout(popupMenu);
 
-    for (int i = 10; i <= 50; i += 10)
-        fontSizeComboBox->addItem(QString::number(i));
+  for (int i = 10; i <= 50; i += 10)
+    fontSizeComboBox->addItem(QString::number(i));
 
-    fontSizeComboBox->setEditable(true);
+  fontSizeComboBox->setEditable(true);
 
-    fontSizeComboBox->setValidator(new QRegularExpressionValidator(
-        QRegularExpression("^([8-9]|[1-4]\\d|50)$"), popupMenu));
+  fontSizeComboBox->setValidator(new QRegularExpressionValidator(
+      QRegularExpression("^([8-9]|[1-4]\\d|50)$"), popupMenu));
 
-    connect(fontSizeComboBox, SIGNAL(currentIndexChanged(int)),
-            SLOT(onPopupComboBoxIndexChanged(int)));
+  connect(fontSizeComboBox, SIGNAL(currentIndexChanged(int)),
+          SLOT(onPopupComboBoxIndexChanged(int)));
 
-    fontSizeLayout->addWidget(fontSizeLabel);
-    fontSizeLayout->addWidget(fontSizeComboBox);
+  fontSizeLayout->addWidget(fontSizeLabel);
+  fontSizeLayout->addWidget(fontSizeComboBox);
 
-    fontSizeWidget->setLayout(fontSizeLayout);
+  fontSizeWidget->setLayout(fontSizeLayout);
 
-    popupWidgetAction->setDefaultWidget(fontSizeWidget);
+  popupWidgetAction->setDefaultWidget(fontSizeWidget);
 
-    popupMenu->addAction(copyAction);
-    popupMenu->addAction(cutAction);
-    popupMenu->addAction(pasteAction);
-    popupMenu->addSeparator();
-    popupMenu->addAction(selectAllAction);
-    popupMenu->addSeparator();
-    popupMenu->addAction(popupWidgetAction);
+  popupMenu->addAction(copyAction);
+  popupMenu->addAction(cutAction);
+  popupMenu->addAction(pasteAction);
+  popupMenu->addSeparator();
+  popupMenu->addAction(selectAllAction);
+  popupMenu->addSeparator();
+  popupMenu->addAction(popupWidgetAction);
 }
 
 void MainWindow::onUnderlineTextFormat() {
@@ -810,19 +768,18 @@ void MainWindow::onUnderlineTextFormat() {
     textEdit->mergeCurrentCharFormat(charFormat);
 }
 
-void MainWindow::onBoldTextFormat()
-{
+void MainWindow::onBoldTextFormat() {
 
-    std::optional<QTextCharFormat> charFormatStorage =
-        getCurrentCharFormat(FontFeature::Bold);
+  std::optional<QTextCharFormat> charFormatStorage =
+      getCurrentCharFormat(FontFeature::Bold);
 
-    QTextCharFormat charFormat;
+  QTextCharFormat charFormat;
 
-    if (charFormatStorage.has_value() &&
-        charFormatStorage.value().fontWeight() == QFont::Bold)
-        charFormat.setFontWeight(QFont::Normal);
-    else
-        charFormat.setFontWeight(QFont::Bold);
+  if (charFormatStorage.has_value() &&
+      charFormatStorage.value().fontWeight() == QFont::Bold)
+    charFormat.setFontWeight(QFont::Normal);
+  else
+    charFormat.setFontWeight(QFont::Bold);
 
   if (textEdit->textCursor().hasSelection())
     textEdit->textCursor().mergeCharFormat(charFormat);
@@ -849,18 +806,16 @@ void MainWindow::onItalicTextFormat() {
 
 void MainWindow::onSettingsInvoke() { settingsKeeper->exec(); }
 
-void MainWindow::onSettingsApplyClicked()
-{
-    retranslateGUI();
-    onChangeStyle();
+void MainWindow::onSettingsApplyClicked() {
+  retranslateGUI();
+  onChangeStyle();
 }
 
 void MainWindow::onSettingsCancelClicked() { settingsKeeper->hide(); }
 
-void MainWindow::onSettingsOkClicked()
-{
-    onSettingsApplyClicked();
-    onSettingsCancelClicked();
+void MainWindow::onSettingsOkClicked() {
+  onSettingsApplyClicked();
+  onSettingsCancelClicked();
 }
 
 void MainWindow::onHighlightTextFormat() {
@@ -1000,62 +955,53 @@ void MainWindow::setMainToolBar() // Установка настроек и ик
   mainToolBar->addAction(highlightTextFormatAction);
 }
 
-void MainWindow::onPopupMenuCalled(QPoint pos)
-{
+void MainWindow::onPopupMenuCalled(QPoint pos) {
 
-    QTextCharFormat charFormat;
-    QTextCursor formatsCheckCursor = textEdit->textCursor();
-    bool formatsDiffer{false};
+  QTextCharFormat charFormat;
+  QTextCursor formatsCheckCursor = textEdit->textCursor();
+  bool formatsDiffer{false};
 
-    if (textEdit->textCursor().selectionEnd() ==
-        textEdit->textCursor().position())
-    {
-        charFormat = textEdit->textCursor().charFormat();
-        while (formatsCheckCursor.position() >
-               textEdit->textCursor().selectionStart())
-        {
-            if (charFormat != formatsCheckCursor.charFormat())
-            {
-                formatsDiffer = true;
-                break;
-            }
-            formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
-                                            QTextCursor::KeepAnchor);
-        }
+  if (textEdit->textCursor().selectionEnd() ==
+      textEdit->textCursor().position()) {
+    charFormat = textEdit->textCursor().charFormat();
+    while (formatsCheckCursor.position() >
+           textEdit->textCursor().selectionStart()) {
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
+      formatsCheckCursor.movePosition(QTextCursor::PreviousCharacter,
+                                      QTextCursor::KeepAnchor);
     }
-    else
-    {
-        formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                        QTextCursor::KeepAnchor);
-        charFormat = formatsCheckCursor.charFormat();
-        while (formatsCheckCursor.position() <
-               textEdit->textCursor().selectionEnd())
-        {
-            formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
-                                            QTextCursor::KeepAnchor);
-            if (charFormat != formatsCheckCursor.charFormat())
-            {
-                formatsDiffer = true;
-                break;
-            }
-        }
+  } else {
+    formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor);
+    charFormat = formatsCheckCursor.charFormat();
+    while (formatsCheckCursor.position() <
+           textEdit->textCursor().selectionEnd()) {
+      formatsCheckCursor.movePosition(QTextCursor::NextCharacter,
+                                      QTextCursor::KeepAnchor);
+      if (charFormat != formatsCheckCursor.charFormat()) {
+        formatsDiffer = true;
+        break;
+      }
     }
+  }
 
-    fontSizeComboBox->setCurrentText(
-        formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
+  fontSizeComboBox->setCurrentText(
+      formatsDiffer ? "" : QString::number(charFormat.font().pointSize()));
 
-    changePopupMenuAccess();
-    popupMenu->exec(mapToGlobal(pos));
+  changePopupMenuAccess();
+  popupMenu->exec(mapToGlobal(pos));
 }
 
-void MainWindow::onPopupComboBoxIndexChanged(int /* index */)
-{
+void MainWindow::onPopupComboBoxIndexChanged(int /* index */) {
 
-    QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
-    textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
-    textEdit->textCursor().mergeCharFormat(textCharFormat);
+  QTextCharFormat textCharFormat = textEdit->textCursor().charFormat();
+  textCharFormat.setFontPointSize(fontSizeComboBox->currentText().toDouble());
+  textEdit->textCursor().mergeCharFormat(textCharFormat);
 
-    popupMenu->close();
+  popupMenu->close();
 }
 
 void MainWindow::onfontSizeComboBoxChanged(int /* index */) {
@@ -1083,10 +1029,9 @@ void MainWindow::onCopy() { textEdit->copy(); }
 
 void MainWindow::onCut() { textEdit->cut(); }
 
-void MainWindow::onPaste()
-{
-    if (textEdit->canPaste())
-        textEdit->paste();
+void MainWindow::onPaste() {
+  if (textEdit->canPaste())
+    textEdit->paste();
 }
 
 void MainWindow::onSelectAll() { textEdit->selectAll(); }
