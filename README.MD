@@ -16,7 +16,6 @@
 ### Linux Ubuntu 18.04:
 1. Qt v6.2.4 LTS.
 2. CMake v3.26.
-3. 7-zip
 
 ### Windows 10:
 1. Qt v6.2.4 LTS.
