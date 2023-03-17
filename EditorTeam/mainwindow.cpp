@@ -320,19 +320,11 @@ void MainWindow::retranslateMenus() {
 
 void MainWindow::retranslateGUI() {
 
-  // std::ignore = translator->load(LANGS_MAP[settingsKeeper->getLang()]);
   QPair<QString, QString> translatorPair = LANGS_MAP[settingsKeeper->getLang()];
-  /*
-  std::ignore = translator->load(translatorPair.first);
-  std::ignore = standardTranslator->load(translatorPair.second);
-*/
 
-  qDebug() << "our transl: " << translator->load(translatorPair.first);
-  //  if (translatorPair.second == "qt_ru")
-  qDebug() << "standard transl: "
-           << standardTranslator->load(translatorPair.second, ":/translation");
-  // else
-  //  qDebug() << "standard transl: " << standardTranslator->load("en_US");
+  std::ignore = translator->load(translatorPair.first);
+  std::ignore =
+      standardTranslator->load(translatorPair.second, ":/translation");
 
   QApplication::installTranslator(translator);
   QApplication::installTranslator(standardTranslator);
@@ -653,8 +645,8 @@ void MainWindow::onAbout() {
   msgBox.setWindowTitle(tr("About THare"));
   msgBox.setIconPixmap(appIconPath);
   msgBox.setInformativeText(tr("THare v 1.0.0 \n\n"
-                               "GB_CommandProgCPP_team3\n\n"
-                               "© 2023 All rights reserved\n\n"));
+                               "Command N 3\n\n"
+                               "© 2023 All rights reserved.\n\n"));
   msgBox.setDefaultButton(QMessageBox::Ok);
   msgBox.exec();
 }

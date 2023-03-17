@@ -4,44 +4,44 @@
 <context>
     <name>FileHandler</name>
     <message>
-        <location filename="filehandler.cpp" line="36"/>
+        <location filename="filehandler.cpp" line="37"/>
         <source>Open Document</source>
         <translation>Open Document</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="37"/>
+        <location filename="filehandler.cpp" line="38"/>
         <source>All files (*) ;; THare files (*.tha) ;; Plain text files (*.txt)</source>
         <translation>All files (*) ;; THare files (*.tha) ;; Plain text files (*.txt)</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="51"/>
-        <location filename="filehandler.cpp" line="241"/>
+        <location filename="filehandler.cpp" line="52"/>
+        <location filename="filehandler.cpp" line="242"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="51"/>
-        <location filename="filehandler.cpp" line="241"/>
+        <location filename="filehandler.cpp" line="52"/>
+        <location filename="filehandler.cpp" line="242"/>
         <source>The file is not readable</source>
         <translation>The file is not readable</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="102"/>
+        <location filename="filehandler.cpp" line="103"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="105"/>
+        <location filename="filehandler.cpp" line="106"/>
         <source>THare files (*.tha);;Plain text files (*.txt);;All files (*)</source>
         <translation>THare files (*.tha);;Plain text files (*.txt);;All files (*)</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="142"/>
+        <location filename="filehandler.cpp" line="143"/>
         <source>Can&apos;t save file</source>
         <translation>Can&apos;t save file</translation>
     </message>
     <message>
-        <location filename="filehandler.cpp" line="143"/>
+        <location filename="filehandler.cpp" line="144"/>
         <source>Cannot save file </source>
         <translation>Cannot save file </translation>
     </message>
@@ -165,7 +165,7 @@
     </message>
     <message>
         <location filename="const_strings.h" line="50"/>
-        <location filename="mainwindow.cpp" line="494"/>
+        <location filename="mainwindow.cpp" line="515"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
@@ -368,81 +368,81 @@
         <translation>Short info about application</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="473"/>
+        <location filename="mainwindow.cpp" line="494"/>
         <source>has been saved.</source>
         <translation>has been saved.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="477"/>
-        <location filename="mainwindow.cpp" line="488"/>
+        <location filename="mainwindow.cpp" line="498"/>
+        <location filename="mainwindow.cpp" line="509"/>
         <source>Can&apos;t save file.</source>
         <translation>Can&apos;t save file.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="483"/>
+        <location filename="mainwindow.cpp" line="504"/>
         <source>File saved as </source>
         <translation>File saved as </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="632"/>
+        <location filename="mainwindow.cpp" line="653"/>
         <source>About THare</source>
         <translation>About THare</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="634"/>
-        <source>THare v 0.5.0 
+        <location filename="mainwindow.cpp" line="655"/>
+        <source>THare v 1.0.0 
 
-GB_CommandProgCPP_team3
+Command N 3
 
-© 2023 All rights reserved
+© 2023 All rights reserved.
 
 </source>
-        <translation>THare v 0.5.0 
+        <translation>THare v 1.0.0 
 
-GB_CommandProgCPP_team3
+Command N 3
 
-© 2023 All rights reserved
+© 2023 All rights reserved.
 
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="669"/>
+        <location filename="mainwindow.cpp" line="690"/>
         <source>Unsaved data could be lost</source>
         <translation>Unsaved data could be lost</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="670"/>
+        <location filename="mainwindow.cpp" line="691"/>
         <source>Do you want to save changes?</source>
         <translation>Do you want to save changes?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="671"/>
+        <location filename="mainwindow.cpp" line="692"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="672"/>
+        <location filename="mainwindow.cpp" line="693"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1040"/>
-        <location filename="mainwindow.cpp" line="1044"/>
+        <location filename="mainwindow.cpp" line="991"/>
+        <location filename="mainwindow.cpp" line="995"/>
         <source>No matches found</source>
         <translation>No matches found</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1043"/>
+        <location filename="mainwindow.cpp" line="994"/>
         <source>Results</source>
         <translation>Results</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1049"/>
+        <location filename="mainwindow.cpp" line="1000"/>
         <source> matches found</source>
         <translation> matches found</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1121"/>
+        <location filename="mainwindow.cpp" line="1072"/>
         <source>Save *.pdf</source>
         <translation>Save *.pdf</translation>
     </message>
@@ -450,7 +450,7 @@ GB_CommandProgCPP_team3
 <context>
     <name>SearchDialog</name>
     <message>
-        <location filename="const_strings.h" line="209"/>
+        <location filename="const_strings.h" line="220"/>
         <source>Search text</source>
         <translation>Search text</translation>
     </message>
@@ -476,57 +476,57 @@ GB_CommandProgCPP_team3
 <context>
     <name>SettingsKeeper</name>
     <message>
-        <location filename="settingskeeper.cpp" line="86"/>
+        <location filename="settingskeeper.cpp" line="92"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="87"/>
+        <location filename="settingskeeper.cpp" line="93"/>
         <source>Style</source>
         <translation>Style</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="89"/>
+        <location filename="settingskeeper.cpp" line="95"/>
         <source>Light theme</source>
         <translation>Light theme</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="90"/>
+        <location filename="settingskeeper.cpp" line="96"/>
         <source>Dark theme</source>
         <translation>Dark theme</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="92"/>
+        <location filename="settingskeeper.cpp" line="98"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="93"/>
+        <location filename="settingskeeper.cpp" line="99"/>
         <source>Apply changes and close dialog</source>
         <translation>Apply changes and close dialog</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="95"/>
+        <location filename="settingskeeper.cpp" line="101"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="96"/>
+        <location filename="settingskeeper.cpp" line="102"/>
         <source>Apply changes</source>
         <translation>Apply changes</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="98"/>
+        <location filename="settingskeeper.cpp" line="104"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="99"/>
+        <location filename="settingskeeper.cpp" line="105"/>
         <source>Discard changes and close dialog</source>
         <translation>Discard changes and close dialog</translation>
     </message>
     <message>
-        <location filename="settingskeeper.cpp" line="101"/>
+        <location filename="settingskeeper.cpp" line="107"/>
         <source>Settings management</source>
         <translation>Settings management</translation>
     </message>

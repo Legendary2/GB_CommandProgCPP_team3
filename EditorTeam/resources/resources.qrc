@@ -2,19 +2,12 @@
     <qresource prefix="/">
     <file>translation/l10n_ru.qm</file>
     <file>translation/l10n_en.qm</file>
-    <file>translation/qtmultimedia_ru.qm</file>
-    <file>translation/qtbase_ru.qm</file>
+	<file>translation/qtmultimedia_ru.qm</file>
+    	<file>translation/qtbase_ru.qm</file>
 	<file>translation/qt_ru.qm</file>
 	<file>translation/qtmultimedia_en.qm</file>
-    <file>translation/qtbase_en.qm</file>
+    	<file>translation/qtbase_en.qm</file>
 	<file>translation/qt_en.qm</file>
-	<file>translation/qtconnectivity_en.qm</file>
-	<file>translation/qtdeclarative_en.qm</file>
-	<file>translation/qt_help_en.qm</file>
-	<file>translation/qtlocation_en.qm</file>
-	<file>translation/qtserialport_en.qm</file>
-	<file>translation/qtwebengine_en.qm</file>
-	<file>translation/qtwebsockets_en.qm</file>
     <file>themes/white.qss</file>
     <file>themes/grey.qss</file>
         <file>images/app_icon.png</file>
