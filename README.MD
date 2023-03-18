@@ -13,16 +13,19 @@
 # 1. Инструкция по развертыванию ПО "THare".
 ## 1.1 Требуемое ПО
 Для корректной сборки проекта на рабочей станции должно быть предуставновлено следующее ПО:
-### Linux Ubuntu 18.04:
+### Linux Ubuntu 22.04:
 1. Qt v6.2.4 LTS.
 2. CMake v3.26.
+3. 7-Zip
+4. Версия glibc выше 2.34
 
 ### Windows 10:
 1. Qt v6.2.4 LTS.
 2. CMake v3.26.
+3. 7-Zip
 
 ## 1.2 Установка ПО
-### Linux Ubuntu 18.04:
+### Linux Ubuntu 22.04:
 1. Qt v6.2.4 LTS
 
 https://docs.google.com/document/d/1kM6dwnTYJyXO_quz3wDepJl7CVUYDPrBvn453UYi1zo/edit
@@ -30,6 +33,10 @@ https://docs.google.com/document/d/1kM6dwnTYJyXO_quz3wDepJl7CVUYDPrBvn453UYi1zo/
 2. CMake
 
 https://cmake.org/install/
+
+3. 7-Zip
+
+https://7-zip.org/download.html
 
 ### Windows 10:
 1. Qt v6.2.4 LTS
@@ -39,6 +46,10 @@ https://rutracker.org/forum/viewtopic.php?t=6196654 (для доступа мо�
 2. CMake
 
 https://cmake.org/install/
+
+3. 7-Zip
+
+https://7-zip.org/download.html
 
 ## 1.3 Развертывание проекта
 ### Windows 10:
@@ -57,7 +68,7 @@ git clone (http репозитория, либо ssh(у кого настрое�
 
 1.3.4.1 Для проекта на `Windows` также может понадобится дополнительно скачать сборщик проекта [`Ninja`](https://drive.google.com/file/d/17m5o9hbwFz5loNbDy6oWGuOKzn1AGMfn/view?usp=share_link) и добавить его в директорию Qt. Затем необходимо добавить путь до файла .exe в переменную среды Windows `PATH`.
 
-### Linux Ubuntu 18.04:
+### Linux Ubuntu 22.04:
 
 Здесь будут приведены два способа: А) с использованием инструментов командной строки, а также Б) при помощи `IDE QtCreator`.
 
